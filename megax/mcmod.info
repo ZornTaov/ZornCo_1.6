@@ -1,0 +1,22 @@
+[
+{
+  "modid": "MegaX",
+  "name": "ZornCo MegaX",
+  "description": "Combines Megaman X with Minecraft! Allowing you to dash, wall-jump, and even create upgrades for your very own Reploid Suit!",
+  "version": "0.1",
+  "mcversion": "1.3.2",
+  "url": "",
+  "updateUrl": "",
+  "authors": [
+    "zorn_taov",
+    "floybin"
+  ],
+  "credits": "By zorn_taov and floybin",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

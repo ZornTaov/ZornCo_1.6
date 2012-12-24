@@ -1,0 +1,22 @@
+[
+{
+  "modid": "mod_FPS",
+  "name": "ZornCo FPS",
+  "description": "Find Position Servant\nGives a direction and distance to other players.",
+  "version": "0.1",
+  "mcversion": "1.3.2",
+  "url": "",
+  "updateUrl": "",
+  "authors": [
+    "zorn_taov",
+    "floybin"
+  ],
+  "credits": "By zorn_taov and floybin",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
