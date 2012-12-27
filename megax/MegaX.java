@@ -13,7 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.src.ModLoader;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
+import zornco.megax.blocks.BlockSpikes;
 import zornco.megax.blocks.BlockUpgradeStation;
 import zornco.megax.blocks.TileUpgradeStation;
 import zornco.megax.bullets.EntityBusterBullet;
@@ -85,19 +87,81 @@ public class MegaX {
 	public static Item megaX1BootsEnhanced;
 	
 	public static Block upgradeStation;
+	public static Block spikes;
+	
 	public static EventBus events;
 	public static EnumAction busterAction = new EnumHelper().addAction("buster");
 	public static EnumArmorMaterial enumMegaX1Armor = EnumHelper.addArmorMaterial("MegaX1Armor", 16, new int[]{2,7,6,3}, 20);
 	public static EnumArmorMaterial enumMegaX1ArmorEnhanced = EnumHelper.addArmorMaterial("MegaX1ArmorEnhanced", 20, new int[]{3,8,7,4}, 30);
-	public int metID;
+	private int metID;
+	
+	private int busterID;
+	private int weaponChipID;
+	private int healthBitID;
+	private int healthByteID;
+	//private int weaponBitID;
+	//private int weaponByteID;
+	//private int healthTankID;
+	//private int weaponTankID;
+	//private int extraManID;
+	private int blueReploidPlateID;
+	private int redReploidPlateID;
+	private int whiteReploidPlateID;
+	private int megaX1HelmID;
+	private int megaX1ChestID;
+	private int megaX1BeltID;
+	private int megaX1BootsID;
+	private int megaX1HelmEnhancedID;
+	private int megaX1ChestEnhancedID;
+	private int megaX1BeltEnhancedID;
+	private int megaX1BootsEnhancedID;
+
+	private int upgradeStationID;
+	private int spikesID;
+
+	public void loadConfig(FMLPreInitializationEvent event) {
+		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		
+		//Entites
+		int EntityId = 150;
+	    metID = config.get("Entities", "metool", EntityId++).getInt();
+	    
+		//Items
+		int itemID = 20000;
+		busterID = config.getItem(config.CATEGORY_ITEM,"X Buster", itemID++).getInt();
+		weaponChipID = config.getItem(config.CATEGORY_ITEM,"Wweapon Chips", itemID++).getInt();
+		healthBitID = config.getItem(config.CATEGORY_ITEM,"Health Bit", itemID++).getInt();
+		healthByteID = config.getItem(config.CATEGORY_ITEM,"Health Byte", itemID++).getInt();
+		//weaponBitID = config.getItem(config.CATEGORY_ITEM,"Weapon Bit", itemID++).getInt();
+		//weaponByteID = config.getItem(config.CATEGORY_ITEM,"Weapon Byte", itemID++).getInt();
+		//healthTankID = config.getItem(config.CATEGORY_ITEM,"Health Tank", itemID++).getInt();
+		//weaponTankID = config.getItem(config.CATEGORY_ITEM,"Weapon Tank", itemID++).getInt();
+		//extraManID = config.getItem(config.CATEGORY_ITEM,"Extra Man", itemID++).getInt();
+		blueReploidPlateID = config.getItem(config.CATEGORY_ITEM,"Blue Reploid Plate", itemID++).getInt();
+		redReploidPlateID = config.getItem(config.CATEGORY_ITEM,"Red Reploid Plate", itemID++).getInt();
+		whiteReploidPlateID = config.getItem(config.CATEGORY_ITEM,"White Reploid Plate", itemID++).getInt();
+		megaX1HelmID = config.getItem(config.CATEGORY_ITEM,"MegaX Helm", itemID++).getInt();
+		megaX1ChestID = config.getItem(config.CATEGORY_ITEM,"MegaX Chest", itemID++).getInt();
+		megaX1BeltID = config.getItem(config.CATEGORY_ITEM,"MegaX Belt", itemID++).getInt();
+		megaX1BootsID = config.getItem(config.CATEGORY_ITEM,"MegaX Boots", itemID++).getInt();
+		megaX1HelmEnhancedID = config.getItem(config.CATEGORY_ITEM,"MegaX1 Helm Enhanced", itemID++).getInt();
+		megaX1ChestEnhancedID = config.getItem(config.CATEGORY_ITEM,"MegaX1 Chest Enhanced", itemID++).getInt();
+		megaX1BeltEnhancedID = config.getItem(config.CATEGORY_ITEM,"MegaX1 Belt Enhanced", itemID++).getInt();
+		megaX1BootsEnhancedID = config.getItem(config.CATEGORY_ITEM,"MegaX1 Boots Enhanced", itemID++).getInt();
+		
+		//Blocks
+		int blockID = 2500;
+		upgradeStationID = config.get(config.CATEGORY_BLOCK,"Upgrade Station", blockID++).getInt();
+		spikesID = config.get(config.CATEGORY_BLOCK,"Metal Spikes", blockID++).getInt();
+	}
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
 		// Stub Method
 
+		loadConfig(event);
 		//RenderPlayerAPI.register("MegaX", MegaXRenderPlayerBase.class);
 		//ModelPlayerAPI.register("MegaX", MegaXModelPlayerBase.class);
-		metID = ModLoader.getUniqueEntityId();
 		//TODO: add in crafting bench to add weapon modules to the buster
 
 	}
@@ -108,42 +172,43 @@ public class MegaX {
 		//ServerPlayerAPI.register("MegaX", MegaXPlayerBaseServer.class);
 
 		/** Items **/
-		buster = new XBusterItem(4300, 1).setItemName("X Buster").setIconIndex(14).setFull3D();
+		buster = new XBusterItem(busterID, 1).setItemName("X Buster").setIconIndex(14).setFull3D();
 		// add weapon types
 		// Guts type weapon that would act like a macerator
 		// cut type weapon that act like shears
 		// fire type weapon that acts like flint and steel
 		// water type weapon that places a water(non-source) block
-		weaponChip = new ItemChip(4301).setItemName("chip").setIconIndex(13);
+		weaponChip = new ItemChip(weaponChipID).setItemName("chip").setIconIndex(13);
 		
-		healthBit = new ItemHPEnergy(4350, 0, 3, 0.5F).setPotionEffect(Potion.heal.id, 1, 0, 1.0F).setAlwaysEdible().setItemName("healthBit").setIconIndex(14).setMaxStackSize(1);
-		healthByte = new ItemHPEnergy(4351, 1, 8, 0.8F).setPotionEffect(Potion.heal.id, 1, 1, 1.0F).setAlwaysEdible().setItemName("healthByte").setIconIndex(15).setMaxStackSize(1);
-	    //weaponBit = new ItemWPEnergy(4352).setItemName("Weapon Bit").setIconIndex(30).setMaxStackSize(1);
-		//weaponByte = new ItemWPEnergy(4353).setItemName("Weapon Byte").setIconIndex(31).setMaxStackSize(1);
-		//healthTank = new ItemHPTank(4354).setItemName("Health Tank").setIconIndex(46).setMaxStackSize(1); //use EventBus to add to this, then use some other method to heal the player per heart
-		//weaponTank = new ItemWPTank(4355).setItemName("Weapon Tank").setIconIndex(47).setMaxStackSize(1);
-		//extraMan = new ItemLife(4356).setItemName("Extra Man").setIconIndex(62).setMaxStackSize(9); //possibly use ticker to instantly heal player?
+		healthBit = new ItemHPEnergy(healthBitID, 0, 3, 0.5F).setPotionEffect(Potion.heal.id, 1, 0, 1.0F).setAlwaysEdible().setItemName("healthBit").setIconIndex(14).setMaxStackSize(1);
+		healthByte = new ItemHPEnergy(healthByteID, 1, 8, 0.8F).setPotionEffect(Potion.heal.id, 1, 1, 1.0F).setAlwaysEdible().setItemName("healthByte").setIconIndex(15).setMaxStackSize(1);
+	    //weaponBit = new ItemWPEnergy(weaponBitID).setItemName("Weapon Bit").setIconIndex(30).setMaxStackSize(1);
+		//weaponByte = new ItemWPEnergy(weaponByteID).setItemName("Weapon Byte").setIconIndex(31).setMaxStackSize(1);
+		//healthTank = new ItemHPTank(healthTankID).setItemName("Health Tank").setIconIndex(46).setMaxStackSize(1); //use EventBus to add to this, then use some other method to heal the player per heart
+		//weaponTank = new ItemWPTank(weaponTankID).setItemName("Weapon Tank").setIconIndex(47).setMaxStackSize(1);
+		//extraMan = new ItemLife(extraManID).setItemName("Extra Man").setIconIndex(62).setMaxStackSize(9); //possibly use ticker to instantly heal player?
 		
-		blueReploidPlate = new ItemMegaXBase(4357).setItemName("blueReploidPlate").setIconIndex(16);
-		redReploidPlate = new ItemMegaXBase(4358).setItemName("redReploidPlate").setIconIndex(17);
-		whiteReploidPlate = new ItemMegaXBase(4359).setItemName("whiteReploidPlate").setIconIndex(18);
+		blueReploidPlate = new ItemMegaXBase(blueReploidPlateID).setItemName("blueReploidPlate").setIconIndex(16);
+		redReploidPlate = new ItemMegaXBase(redReploidPlateID).setItemName("redReploidPlate").setIconIndex(17);
+		whiteReploidPlate = new ItemMegaXBase(whiteReploidPlateID).setItemName("whiteReploidPlate").setIconIndex(18);
 
-		megaX1Helm = new ItemMegaX1Armor(4401, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),0).setItemName("MegaX1Helm").setIconIndex(32);
-		megaX1Chest = new ItemMegaX1Armor(4402, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),1).setItemName("MegaX1Chest").setIconIndex(48);
-		megaX1Belt = new ItemMegaX1Armor(4403, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),2).setItemName("MegaX1Belt").setIconIndex(64);
-		megaX1Boots = new ItemMegaX1Armor(4404, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),3).setItemName("MegaX1Boots").setIconIndex(80);
+		megaX1Helm = new ItemMegaX1Armor(megaX1HelmID, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),0).setItemName("MegaX1Helm").setIconIndex(32);
+		megaX1Chest = new ItemMegaX1Armor(megaX1ChestID, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),1).setItemName("MegaX1Chest").setIconIndex(48);
+		megaX1Belt = new ItemMegaX1Armor(megaX1BeltID, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),2).setItemName("MegaX1Belt").setIconIndex(64);
+		megaX1Boots = new ItemMegaX1Armor(megaX1BootsID, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),3).setItemName("MegaX1Boots").setIconIndex(80);
 
-		megaX1HelmEnhanced = new ItemMegaX1ArmorEnhanced(4405, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),0).setItemName("MegaX1HelmEnhanced").setIconIndex(34);
-		megaX1ChestEnhanced = new ItemMegaX1ArmorEnhanced(4406, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),1).setItemName("MegaX1ChestEnhanced").setIconIndex(50);
-		megaX1BeltEnhanced = new ItemMegaX1ArmorEnhanced(4407, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),2).setItemName("MegaX1BeltEnhanced").setIconIndex(66);
-		megaX1BootsEnhanced = new ItemMegaX1ArmorEnhanced(4408, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),3).setItemName("MegaX1BootsEnhanced").setIconIndex(82);
+		megaX1HelmEnhanced = new ItemMegaX1ArmorEnhanced(megaX1HelmEnhancedID, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),0).setItemName("MegaX1HelmEnhanced").setIconIndex(34);
+		megaX1ChestEnhanced = new ItemMegaX1ArmorEnhanced(megaX1ChestEnhancedID, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),1).setItemName("MegaX1ChestEnhanced").setIconIndex(50);
+		megaX1BeltEnhanced = new ItemMegaX1ArmorEnhanced(megaX1BeltEnhancedID, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),2).setItemName("MegaX1BeltEnhanced").setIconIndex(66);
+		megaX1BootsEnhanced = new ItemMegaX1ArmorEnhanced(megaX1BootsEnhancedID, enumMegaX1ArmorEnhanced, proxy.addArmor("MegaX1ArmorEnhanced"),3).setItemName("MegaX1BootsEnhanced").setIconIndex(82);
 
 		/** Blocks **/
-		upgradeStation = new BlockUpgradeStation(3200, false).setHardness(3.5F).setStepSound(new StepSound("stone", 1.0F, 1.5F)).setBlockName("upgradeStation").setRequiresSelfNotify();
-		//spikes = new BlockSpikes(3201).setBlockName("spikes");
+		upgradeStation = new BlockUpgradeStation(upgradeStationID, false).setHardness(3.5F).setStepSound(new StepSound("stone", 1.0F, 1.5F)).setBlockName("upgradeStation").setRequiresSelfNotify();
+		spikes = new BlockSpikes(spikesID).setBlockName("spikes").setHardness(3.5F);
 		
 		GameRegistry.registerBlock(upgradeStation, "upgradeStation");
 		GameRegistry.registerTileEntity(TileUpgradeStation.class, "tileupgradeStation");
+		GameRegistry.registerBlock(spikes, "spikes");
 
 		/** Names **/
 		LanguageRegistry.addName(buster, "X Buster");
@@ -158,10 +223,10 @@ public class MegaX {
 		LanguageRegistry.addName(redReploidPlate, "Red Reploid Plate");
 		LanguageRegistry.addName(whiteReploidPlate, "White Reploid Plate");
 
-		LanguageRegistry.addName(megaX1Helm, "MegaX1 Helm");
-		LanguageRegistry.addName(megaX1Chest, "MegaX1 Chest");
-		LanguageRegistry.addName(megaX1Belt, "MegaX1 Belt");
-		LanguageRegistry.addName(megaX1Boots, "MegaX1 Boots");
+		LanguageRegistry.addName(megaX1Helm, "MegaX Helm");
+		LanguageRegistry.addName(megaX1Chest, "MegaX Chest");
+		LanguageRegistry.addName(megaX1Belt, "MegaX Belt");
+		LanguageRegistry.addName(megaX1Boots, "MegaX Boots");
 
 		LanguageRegistry.addName(megaX1HelmEnhanced, "MegaX1 Helm Enhanced");
 		LanguageRegistry.addName(megaX1ChestEnhanced, "MegaX1 Chest Enhanced");
@@ -169,6 +234,7 @@ public class MegaX {
 		LanguageRegistry.addName(megaX1BootsEnhanced, "MegaX1 Boots Enhanced");
 
 		LanguageRegistry.addName(upgradeStation, "Upgrade Station");
+		LanguageRegistry.addName(spikes, "Metal Spikes");
 
 		LanguageRegistry.instance().addStringLocalization("entity.Met.name", "en_US", "Met");
 		LanguageRegistry.instance().addStringLocalization("death.bullet", "en_US", "Pewpew Dead!");
