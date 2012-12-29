@@ -44,8 +44,9 @@ public class EventBus
 		}*/
 		if(item.func_92014_d().itemID == MegaX.healthBit.shiftedIndex 
 				|| item.func_92014_d().itemID == MegaX.healthByte.shiftedIndex 
-				|| item.func_92014_d().itemID == MegaX.weaponBit.shiftedIndex 
-				|| item.func_92014_d().itemID == MegaX.weaponByte.shiftedIndex )
+				//|| item.func_92014_d().itemID == MegaX.weaponBit.shiftedIndex 
+				//|| item.func_92014_d().itemID == MegaX.weaponByte.shiftedIndex 
+				)
 		{
 			if ((event.entityLiving instanceof EntityPlayerMP) && (event.entityLiving.getHealth() == event.entityLiving.getMaxHealth()) && (!playerEnt.isSneaking()))
 			{
@@ -79,7 +80,7 @@ public class EventBus
 	}
 	public void processBit(EntityPlayerMP player, EntityItem item)
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 36; i++)
 		{
 			ItemStack is = player.inventory.getStackInSlot(i);
 
@@ -95,15 +96,17 @@ public class EventBus
 				}
 				if ((!ItemTank.getType(is).equals("HP")))
 					continue;
+				if (is.getItemDamage() == 0)
+					continue;
 				is.setItemDamage(is.getItemDamage() <= 0 ? 0 : is.getItemDamage() - item.func_92014_d().stackSize*bitSize(item));
 				break;
 			}
 		}
 	}
 	private int bitSize(EntityItem item) {
-		if(item.func_92014_d().itemID == MegaX.healthBit.shiftedIndex || item.func_92014_d().itemID == MegaX.weaponBit.shiftedIndex )
+		if(item.func_92014_d().itemID == MegaX.healthBit.shiftedIndex)// || item.func_92014_d().itemID == MegaX.weaponBit.shiftedIndex )
 			return 3;
-		else if(item.func_92014_d().itemID == MegaX.healthByte.shiftedIndex || item.func_92014_d().itemID == MegaX.weaponByte.shiftedIndex )
+		else if(item.func_92014_d().itemID == MegaX.healthByte.shiftedIndex)// || item.func_92014_d().itemID == MegaX.weaponByte.shiftedIndex )
 			return 6;
 		else 
 			return 0;

@@ -13,25 +13,20 @@ public class ItemTank extends ItemMegaXBase {
 		this.canRepair = false;
 	}
 
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World w, int x, int y, int z, int face, float par8, float par9, float par10)
+	public ItemStack onItemRightClick(ItemStack is, World w, EntityPlayer player)
 	{
-		if (!w.isRemote) {
 			//if playerHP is full, return false
 			//else heal player till full and remove difference from tank
-			if(player.getHealth() == player.getMaxHealth())
-				return false;
-			else
+			while(player.getHealth() != player.getMaxHealth())
 			{
-				int playerRemainingHP = player.getMaxHealth() - player.getHealth();
-				Integer itemMaxDmg = Integer.valueOf(getMaxDamage());
-				Integer charges = Integer.valueOf(itemMaxDmg.intValue() - is.getItemDamage());
-
-				Integer i = Integer.valueOf(is.getItemDamage() + playerRemainingHP	);
-				is.setItemDamage(i.intValue() >= itemMaxDmg ? itemMaxDmg : i.intValue());
+				if( is.getItemDamage() == is.getMaxDamage())
+					break;
+				is.setItemDamage(is.getItemDamage() + 1);
+				player.heal(1);
 			}
 
-		}
-		return false;
+		
+        return is;
 	}
 	public static void setType(ItemStack is, String t) {
 		NBTTagCompound tag = initTags(is);
