@@ -9,12 +9,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import zornco.megax.MegaX;
 import zornco.megax.blocks.TileUpgradeStation;
-import zornco.megax.bullets.EntityBulletBase;
-import zornco.megax.bullets.EntityBusterBullet;
-import zornco.megax.bullets.EntityMetBullet;
-import zornco.megax.client.bullets.RenderBulletBase;
-import zornco.megax.client.entities.*;
-import zornco.megax.client.items.busters.XBusterRender;
+import zornco.megax.bullets.*;
+import zornco.megax.client.renderers.*;
 import zornco.megax.core.CommonProxy;
 import zornco.megax.core.GuiIds;
 import zornco.megax.entities.*;
@@ -35,9 +31,15 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderInformation()
 	{
+	    MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png");
         RenderingRegistry.registerEntityRenderingHandler(EntityMet.class, new RenderMet(new ModelMet(), new ModelMetHat(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBusterBullet.class, new RenderBulletBase());  
-		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());  
+		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());
+		
+		MegaX.spikesRI = RenderingRegistry.getNextAvailableRenderId();
+
+	    RenderingRegistry.registerBlockHandler(new BlockSpikesRenderer());
+
 	}
 	@Override
 	public int addArmor(String path) {

@@ -1,6 +1,7 @@
 package zornco.megax.blocks;
 
 import static net.minecraftforge.common.ForgeDirection.*;
+import zornco.megax.MegaX;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -211,7 +212,7 @@ public class BlockSpikes extends Block {
      */
     public int getRenderType()
     {
-        return 13;
+        return MegaX.spikesRI;
     }
 
 }

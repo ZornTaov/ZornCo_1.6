@@ -1,4 +1,4 @@
-package zornco.megax.client.bullets;
+package zornco.megax.client.renderers;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;

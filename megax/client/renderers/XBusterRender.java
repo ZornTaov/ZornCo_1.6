@@ -1,4 +1,4 @@
-package zornco.megax.client.items.busters;
+package zornco.megax.client.renderers;
 
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.IItemRenderer;

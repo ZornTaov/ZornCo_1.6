@@ -4,7 +4,7 @@
 // Keep in mind that you still need to fill in some blanks
 // - ZeuX
 
-package zornco.megax.client.entities;
+package zornco.megax.client.renderers;
 
 import org.lwjgl.opengl.GL11;
 

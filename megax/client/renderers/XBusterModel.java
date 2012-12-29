@@ -1,4 +1,4 @@
-package zornco.megax.client.items.busters;
+package zornco.megax.client.renderers;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
