@@ -34,7 +34,7 @@ public class XBusterRender implements IItemRenderer
 		}
 		else return false;
 	}
-
+	
 	public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper) {
 
 		return false;

@@ -160,6 +160,10 @@ public class XBusterItem extends Item
 			return var3;
 		}
 	}
+	public int getColorFromDamage(int par1)
+	{
+		return par1;
+	}
 	/**
 	 * Return the color for the specified armor ItemStack.
 	 */

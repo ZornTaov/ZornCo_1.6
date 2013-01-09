@@ -1,5 +1,8 @@
 package zornco.megax.items;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import zornco.megax.sounds.Sounds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,24 +12,28 @@ public class ItemTank extends ItemMegaXBase {
 
 	public ItemTank(int par1) {
 		super(par1);
-		setMaxDamage(50);
+		setMaxDamage(30);
 		this.canRepair = false;
 	}
 
-	public ItemStack onItemRightClick(ItemStack is, World w, EntityPlayer player)
+	public ItemStack onItemRightClick(ItemStack is, World par2World, EntityPlayer player)
 	{
-			//if playerHP is full, return false
-			//else heal player till full and remove difference from tank
-			while(player.getHealth() != player.getMaxHealth())
-			{
-				if( is.getItemDamage() == is.getMaxDamage())
-					break;
-				is.setItemDamage(is.getItemDamage() + 1);
-				player.heal(1);
-			}
 
-		
-        return is;
+		if (!par2World.isRemote)
+		{
+		//if playerHP is full, return false
+		//else heal player till full and remove difference from tank
+		while(player.getHealth() != player.getMaxHealth())
+		{
+			if( is.getItemDamage() == is.getMaxDamage())
+				break;
+			par2World.playSoundAtEntity(player, Sounds.BYTE, 1.0F, 1.0F);
+			is.setItemDamage(is.getItemDamage() + 1);
+			player.heal(1);
+		}
+
+		}
+		return is;
 	}
 	public static void setType(ItemStack is, String t) {
 		NBTTagCompound tag = initTags(is);
@@ -42,7 +49,7 @@ public class ItemTank extends ItemMegaXBase {
 	{
 		return true;
 	}
-
+	
 	public static NBTTagCompound initTags(ItemStack stack) {
 		NBTTagCompound tag = stack.getTagCompound();
 

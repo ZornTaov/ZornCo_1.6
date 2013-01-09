@@ -128,7 +128,7 @@ public class MegaX {
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 
 		//Entites
-		int EntityId = 150;
+		int EntityId = EntityRegistry.findGlobalUniqueEntityId();
 		metID = config.get("Entities", "metool", EntityId++).getInt();
 
 		//Items
@@ -193,9 +193,9 @@ public class MegaX {
 		//weaponTank = new ItemTank(weaponTankID).setItemName("Weapon Tank").setIconIndex(47).setMaxStackSize(1);
 		//extraMan = new ItemLife(extraManID).setItemName("Extra Man").setIconIndex(62).setMaxStackSize(9); //possibly use ticker to instantly heal player?
 
-		blueReploidPlate = new ItemMegaXBase(blueReploidPlateID).setItemName("blueReploidPlate").setIconIndex(16);
-		redReploidPlate = new ItemMegaXBase(redReploidPlateID).setItemName("redReploidPlate").setIconIndex(17);
-		whiteReploidPlate = new ItemMegaXBase(whiteReploidPlateID).setItemName("whiteReploidPlate").setIconIndex(18);
+		blueReploidPlate = new ItemMegaXBase(blueReploidPlateID).setItemName("blueReploidPlate").setIconIndex(0);
+		redReploidPlate = new ItemMegaXBase(redReploidPlateID).setItemName("redReploidPlate").setIconIndex(1);
+		whiteReploidPlate = new ItemMegaXBase(whiteReploidPlateID).setItemName("whiteReploidPlate").setIconIndex(2);
 
 		megaX1Helm = new ItemMegaX1Armor(megaX1HelmID, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),0).setItemName("MegaX1Helm").setIconIndex(32);
 		megaX1Chest = new ItemMegaX1Armor(megaX1ChestID, enumMegaX1Armor, proxy.addArmor("MegaX1Armor"),1).setItemName("MegaX1Chest").setIconIndex(48);
@@ -259,7 +259,7 @@ public class MegaX {
 		GameRegistry.addShapelessRecipe(new ItemStack(whiteReploidPlate), 
 				new Object[]{ Item.diamond, blueReploidPlate } );
 
-		GameRegistry.addRecipe(new ItemStack(healthTank, 1, 40), 
+		GameRegistry.addRecipe(new ItemStack(healthTank, 1, 30), 
 				new Object[] { 
 			"ihi", "bHb", "bdb", 
 			Character.valueOf('i'), Item.ingotIron, 
@@ -290,9 +290,9 @@ public class MegaX {
 		EntityRegistry.registerGlobalEntityID(EntityMet.class, "Met", metID, 0xFFFF00, 0x0F0000);
 		EntityRegistry.registerModEntity(EntityMet.class, "Met", 2, this, 250, 5, false);
 		EntityRegistry.addSpawn("Met", 50, 3, 8, EnumCreatureType.monster, BiomeGenBase.beach);
-		EntityRegistry.registerGlobalEntityID(EntityBusterBullet.class, "lemonBullet", ModLoader.getUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityBusterBullet.class, "lemonBullet", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityBusterBullet.class, "lemonBullet", 1, this, 250, 1, true);
-		EntityRegistry.registerGlobalEntityID(EntityMetBullet.class, "metBullet", ModLoader.getUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityMetBullet.class, "metBullet", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityMetBullet.class, "metBullet", 1, this, 250, 1, true);
 	}
 

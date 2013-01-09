@@ -39,7 +39,7 @@ public class ItemHPEnergy extends ItemFood {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getTextureFile() {
-		return "/zornco/megax/textures/items.png";
+		return "/zornco/megax/textures/MegaXItemTextures.png";
 	}
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -54,7 +54,7 @@ public class ItemHPEnergy extends ItemFood {
 	 */
 	public int getIconFromDamageForRenderPass(int par1, int par2)
 	{
-		return par2 == 1 ? this.iconIndex + 1 : super.getIconFromDamageForRenderPass(par1, par2);
+		return (this.type == 2 || this.type == 3)?(par2 == 1 ? this.iconIndex + 1 : super.getIconFromDamageForRenderPass(par1, par2)):super.getIconFromDamageForRenderPass(par1, par2);
 	}
 
 	/**

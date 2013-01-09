@@ -20,7 +20,10 @@ public class ItemChip extends ItemMegaXBase {
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }
-
+    public String getTextureFile()
+	{
+		return "/zornco/megax/textures/MegaXItemTextures.png";
+	}
     @SideOnly(Side.CLIENT)
 
     /**
