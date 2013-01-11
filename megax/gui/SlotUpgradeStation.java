@@ -1,5 +1,8 @@
 package zornco.megax.gui;
 
+import zornco.megax.crafting.UpgradeStationRecipes;
+import zornco.megax.items.armors.ItemMegaXArmorBase;
+import zornco.megax.items.busters.XBusterItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +31,7 @@ public class SlotUpgradeStation extends Slot
      */
     public boolean isItemValid(ItemStack par1ItemStack)
     {
-        return false;
+    	return par1ItemStack != null && (par1ItemStack.getItem() instanceof ItemMegaXArmorBase || par1ItemStack.getItem() instanceof XBusterItem);
     }
 
     /**
@@ -47,7 +50,7 @@ public class SlotUpgradeStation extends Slot
 
     public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
     {
-        this.onCrafting(par2ItemStack);
+        //this.onCrafting(par2ItemStack);
         super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
     }
 
@@ -57,8 +60,8 @@ public class SlotUpgradeStation extends Slot
      */
     protected void onCrafting(ItemStack par1ItemStack, int par2)
     {
-        this.field_75228_b += par2;
-        this.onCrafting(par1ItemStack);
+        //this.field_75228_b += par2;
+       // this.onCrafting(par1ItemStack);
     }
 
     /**
@@ -71,7 +74,7 @@ public class SlotUpgradeStation extends Slot
         if (!this.thePlayer.worldObj.isRemote)
         {
             int var2 = this.field_75228_b;
-            float var3 = FurnaceRecipes.smelting().getExperience(par1ItemStack);
+            float var3 = UpgradeStationRecipes.smelting().getExperience(par1ItemStack);
             int var4;
 
             if (var3 == 0.0F)

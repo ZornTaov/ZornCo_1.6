@@ -9,14 +9,14 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler {
-	public static String ITEMS_PNG = "/tutorial/generic/items.png";
-	public static String BLOCK_PNG = "/tutorial/generic/block.png";
 
 	// Client stuff
 	public void registerRenderInformation () {
 		// Nothing here as this is the server side proxy
 	}
+	public void registerKeyBindingHandler() {
 
+    }
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
@@ -43,5 +43,12 @@ public class CommonProxy implements IGuiHandler {
 		default:
 			return null;
 		}
+	}
+	public void burst(World worldObj, double sx, double sy, double sz, float size)
+	  {
+	}
+	public void setKeyBinding(String name, int value) {
+		// TODO Auto-generated method stub
+		
 	}
 }

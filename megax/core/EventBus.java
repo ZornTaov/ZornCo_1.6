@@ -51,13 +51,6 @@ public class EventBus
 			if ((event.entityLiving instanceof EntityPlayerMP) && (event.entityLiving.getHealth() == event.entityLiving.getMaxHealth()) && (!playerEnt.isSneaking()))
 			{
 				processBit((EntityPlayerMP)event.entityLiving, item);
-				item.func_92014_d().stackSize = 0;
-				item.setDead();
-				return;
-			}
-			EntityPlayer player = (EntityPlayer)playerEnt;
-			if(!player.isSneaking())
-			{
 				ItemHPEnergy bit = (ItemHPEnergy) item.func_92014_d().getItem();
 				bit.applyEffect(playerEnt, item.func_92014_d().stackSize);
 				switch(bit.type)
@@ -71,6 +64,8 @@ public class EventBus
 				}
 				item.func_92014_d().stackSize = 0;
 				item.setDead();
+				playerEnt.worldObj.playSoundAtEntity(playerEnt, Sounds.BIT, 1.0F, 1.0F);
+				return;
 			}
 		}
 

@@ -4,6 +4,7 @@ package zornco.megax.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.client.ForgeHooksClient;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,12 +15,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiUpgradeStation extends GuiContainer
 {
-    private TileUpgradeStation furnaceInventory;
+    private TileUpgradeStation stationInventory;
 
     public GuiUpgradeStation(InventoryPlayer par1InventoryPlayer, TileUpgradeStation par2TileEntityFurnace)
     {
         super(new ContainerUpgradeStation(par1InventoryPlayer, par2TileEntityFurnace));
-        this.furnaceInventory = par2TileEntityFurnace;
+        this.stationInventory = par2TileEntityFurnace;
     }
 
     /**
@@ -36,21 +37,20 @@ public class GuiUpgradeStation extends GuiContainer
      */
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
-        int var4 = this.mc.renderEngine.getTexture("/gui/furnace.png");
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture(var4);
+        ForgeHooksClient.bindTexture("/zornco/megax/textures/UpgradeStation.png", 0);
         int var5 = (this.width - this.xSize) / 2;
         int var6 = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
         int var7;
 
-        if (this.furnaceInventory.isBurning())
+        if (this.stationInventory.hasCharge())
         {
-            var7 = this.furnaceInventory.getBurnTimeRemainingScaled(12);
+            var7 = this.stationInventory.getChargeRemainingScaled(12);
             this.drawTexturedModalRect(var5 + 56, var6 + 36 + 12 - var7, 176, 12 - var7, 14, var7 + 2);
         }
 
-        var7 = this.furnaceInventory.getCookProgressScaled(24);
+        var7 = this.stationInventory.getCookProgressScaled(24);
         this.drawTexturedModalRect(var5 + 79, var6 + 34, 176, 14, var7 + 1, 16);
     }
 }

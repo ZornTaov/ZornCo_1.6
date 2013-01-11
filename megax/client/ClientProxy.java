@@ -1,6 +1,7 @@
 package zornco.megax.client;
 
 
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.ModLoader;
@@ -10,9 +11,11 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import zornco.megax.MegaX;
 import zornco.megax.blocks.TileUpgradeStation;
 import zornco.megax.bullets.*;
+import zornco.megax.client.fx.BusterFX;
 import zornco.megax.client.renderers.*;
 import zornco.megax.core.CommonProxy;
 import zornco.megax.core.GuiIds;
+import zornco.megax.core.helper.KeyBindingHelper;
 import zornco.megax.entities.*;
 import zornco.megax.gui.ContainerUpgradeStation;
 import zornco.megax.gui.GuiUpgradeStation;
@@ -23,24 +26,35 @@ public class ClientProxy extends CommonProxy {
 	Sounds sounds;
 	public ClientProxy()
 	{
-		//MegaX.buster.setIconIndex(7);
-		//ModLoader.addName(MegaX.buster, "X Buster");
-		MinecraftForgeClient.registerItemRenderer(4300 + 256, new XBusterRender());
 		sounds = new Sounds();
 	}
 	@Override
 	public void registerRenderInformation()
 	{
-	    MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png");
-        RenderingRegistry.registerEntityRenderingHandler(EntityMet.class, new RenderMet(new ModelMet(), new ModelMetHat(), 0.5F));
+		MinecraftForgeClient.registerItemRenderer(MegaX.buster.shiftedIndex, new XBusterRender());
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png" );
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/UpgradeStation.png" );
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/burst.png" );
+		RenderingRegistry.registerEntityRenderingHandler(EntityMet.class, new RenderMet(new ModelMet(), new ModelMetHat(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBusterBullet.class, new RenderBulletBase());  
 		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());
-		
+
 		MegaX.spikesRI = RenderingRegistry.getNextAvailableRenderId();
 
-	    RenderingRegistry.registerBlockHandler(new BlockSpikesRenderer());
+		RenderingRegistry.registerBlockHandler(new BlockSpikesRenderer());
 
 	}
+	@Override
+    public void registerKeyBindingHandler() {
+
+        KeyBindingRegistry.registerKeyBinding(new KeyBindingHandler());
+    }
+	@Override
+    public void setKeyBinding(String name, int value) {
+
+        KeyBindingHelper.addKeyBinding(name, value);
+        KeyBindingHelper.addIsRepeating(false);
+    }
 	@Override
 	public int addArmor(String path) {
 		return RenderingRegistry.addNewArmourRendererPrefix(path);
@@ -62,4 +76,10 @@ public class ClientProxy extends CommonProxy {
 			return null;
 		}
 	}
+	public void burst(World worldObj, double sx, double sy, double sz, float size)
+	  {
+		BusterFX ef = new BusterFX(worldObj, sx, sy, sz, size);
+	    ModLoader.getMinecraftInstance().effectRenderer.addEffect(ef);
+	  }
+
 }

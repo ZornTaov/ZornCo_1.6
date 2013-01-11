@@ -14,8 +14,8 @@ public class Sounds {
 	public static String[] soundFiles = { "zornco/megax/sounds/bit.ogg", "zornco/megax/sounds/byte.ogg", "zornco/megax/sounds/chargeCont.ogg", "zornco/megax/sounds/chargeUp.ogg" };
 	public static final String BIT = "zornco.megax.sounds.bit";
 	public static final String BYTE = "zornco.megax.sounds.byte";
-	public static final String CHARGEUP = "zornco.megax.sounds.chargeCont";
-	public static final String CHARGECONT = "zornco.megax.sounds.chargeUp";
+	public static final String CHARGEUP = "zornco.megax.sounds.chargeUp";
+	public static final String CHARGECONT = "zornco.megax.sounds.chargeCont";
 	
 	public Sounds()
 	{
@@ -35,5 +35,6 @@ public class Sounds {
 				FMLCommonHandler.instance().getFMLLogger().log(Level.WARNING, "Failed loading sound file: " + soundFile);
 			}
 		}
+		System.out.println("MegaX Sounds Loaded!");
 	} 
 }

@@ -2,7 +2,9 @@ package zornco.megax.items.busters;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,10 +14,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import zornco.megax.MegaX;
 import zornco.megax.bullets.EntityBusterBullet;
+import zornco.megax.item.IKeyBound;
+import zornco.megax.sounds.Sounds;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class XBusterItem extends Item
+public class XBusterItem extends Item implements IKeyBound
 {
 	int c;
 	private Minecraft mc;
@@ -58,25 +62,35 @@ public class XBusterItem extends Item
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
 		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
-//		par3EntityPlayer.setEating(false);
 		return par1ItemStack;
 	}
 	public int ticksCharged = 0;
 	public boolean stopCount = false;
-	@SideOnly(Side.CLIENT)
-    @Override
+	@Override
 	/**
-     * Called each tick while using an item.
-     * @param stack The Item being used
-     * @param player The Player using the item
-     * @param count The amount of time in tick the item has been used for continuously
-     */
-    public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) 
-    {
-    	if(player.isEating())
-    		System.out.println(count);
-    		player.setEating(false);
-    }
+	 * Called each tick while using an item.
+	 * @param stack The Item being used
+	 * @param player The Player using the item
+	 * @param count The amount of time in tick the item has been used for continuously
+	 */
+	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) 
+	{
+
+		System.out.println(count);
+		if(count == getMaxItemUseDuration(stack))
+			player.worldObj.playSoundAtEntity(player, Sounds.CHARGEUP, 1.0F, 1.0F);
+		else if(count <= getMaxItemUseDuration(stack)-40 && count%40 == 0)
+			player.worldObj.playSoundAtEntity(player, Sounds.CHARGECONT, 1.0F, 1.0F);
+
+
+	}
+
+	@Override
+	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int slot, boolean isSelected) 
+	{
+
+	}
+
 	public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4)
 	{
 		int useTime = this.getMaxItemUseDuration(par1ItemStack) - par4;
@@ -112,7 +126,7 @@ public class XBusterItem extends Item
 			lemon.setTypeOfAttack(2); //crit attack
 		}
 		lemon.canBePickedUp = 2;
-		
+
 		par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + chargeLevel * 0.5F);
 
 
@@ -151,10 +165,9 @@ public class XBusterItem extends Item
 		else
 		{
 			int var3 = this.getColor(par1ItemStack);
-
 			if (var3 < 0)
 			{
-				var3 = 16777215;
+				var3 = 0x0060f8;
 			}
 
 			return var3;
@@ -220,5 +233,53 @@ public class XBusterItem extends Item
 
 		var4.setInteger("color", par2);
 
+	}
+	@Override
+	public void doKeyBindingAction(EntityPlayer thePlayer, ItemStack itemStack, String keyBinding) {
+
+		if (keyBinding.equals("key.menu")) {
+			openWeaponMenu(thePlayer);
+		}
+		else if (keyBinding.equals("key.charge")) {
+			if (!thePlayer.isSneaking()) {
+				if (getCurrentWeaponType(itemStack) == 8) {
+					//failed
+					//thePlayer.worldObj.playSoundAtEntity(thePlayer, Sounds.CHARGE_FAIL, 0.5F, 0.5F + (0.5F * (getCharge(itemStack) * 1.0F / maxChargeLevel)));
+				}
+				else {
+					nextWeaponType(itemStack);
+					thePlayer.sendChatToPlayer("" + num);
+					//thePlayer.worldObj.playSoundAtEntity(thePlayer, Sounds.CHARGE_UP, 0.5F, 0.5F + (0.5F * (getCharge(itemStack) * 1.0F / maxChargeLevel)));
+				}
+			}
+			else {
+				if (getCurrentWeaponType(itemStack) == 0) {
+					//failed
+					//thePlayer.worldObj.playSoundAtEntity(thePlayer, Sounds.CHARGE_FAIL, 0.5F, 0.5F + (0.5F * (getCharge(itemStack) * 1.0F / maxChargeLevel)));
+				}
+				else {
+					previousWeaponType(itemStack);
+					thePlayer.sendChatToPlayer("" + num);
+					//thePlayer.worldObj.playSoundAtEntity(thePlayer, Sounds.CHARGE_DOWN, 0.5F, 1.0F - (0.5F - (0.5F * (getCharge(itemStack) * 1.0F / maxChargeLevel))));
+				}
+			}
+		}
+
+	}
+	private int num = 1;
+	private void previousWeaponType(ItemStack itemStack) {
+		num--;
+		System.out.println(num);
+	}
+	private void openWeaponMenu(EntityPlayer thePlayer) {
+
+	}
+	private void nextWeaponType(ItemStack itemStack) {
+		num++;
+		System.out.println(num);
+	}
+	private int getCurrentWeaponType(ItemStack itemStack) {
+		
+		return num;
 	}
 }

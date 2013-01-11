@@ -22,7 +22,6 @@ import zornco.megax.bullets.EntityBusterBullet;
 import zornco.megax.bullets.EntityMetBullet;
 import zornco.megax.core.CommonProxy;
 import zornco.megax.core.EventBus;
-import zornco.megax.core.PacketHandler;
 import zornco.megax.core.TabMegaX;
 import zornco.megax.core.TickHandlerClient;
 import zornco.megax.entities.EntityMet;
@@ -33,6 +32,7 @@ import zornco.megax.items.ItemMegaXBase;
 import zornco.megax.items.armors.ItemMegaX1Armor;
 import zornco.megax.items.armors.ItemMegaX1ArmorEnhanced;
 import zornco.megax.items.busters.XBusterItem;
+import zornco.megax.network.PacketHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -158,6 +158,12 @@ public class MegaX {
 		int blockID = 2500;
 		upgradeStationID = config.get(config.CATEGORY_BLOCK,"Upgrade Station", blockID++).getInt();
 		spikesID = config.get(config.CATEGORY_BLOCK,"Metal Spikes", blockID++).getInt();
+		
+		//Keys
+        proxy.setKeyBinding("key.charge", config.get("Keybinds", "key.charge", 48).getInt(48));
+        proxy.setKeyBinding("key.menu", config.get("Keybinds", "key.menu", 48).getInt(49));
+
+		config.save();
 	}
 
 	@PreInit
@@ -165,6 +171,8 @@ public class MegaX {
 		// Stub Method
 
 		loadConfig(event);
+        proxy.registerKeyBindingHandler();
+
 		//RenderPlayerAPI.register("MegaX", MegaXRenderPlayerBase.class);
 		//ModelPlayerAPI.register("MegaX", MegaXModelPlayerBase.class);
 		//TODO: add in crafting bench to add weapon modules to the buster
