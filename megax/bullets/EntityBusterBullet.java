@@ -1,5 +1,6 @@
 package zornco.megax.bullets;
 
+import zornco.megax.MegaX;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
@@ -22,7 +23,7 @@ public class EntityBusterBullet extends EntityBulletBase {
 	private int charge = 1;
 	private boolean blockHit = false;
 	private int ttlInAir = 12;
-	
+
 	public EntityBusterBullet(World par1World) {
 		super(par1World);
 	}
@@ -44,7 +45,22 @@ public class EntityBusterBullet extends EntityBulletBase {
 		this.renderDistanceWeight = 10D;
 		this.curvature = 0.0f;
 	}
+	public void onUpdate()
+	{
+		super.onUpdate();
 
+		if (this.worldObj.isRemote)
+		{
+			for (int a = 0; a < 3; a++) {
+
+			      MegaX.proxy.burst(this.worldObj, this.posX, this.posY, this.posZ, 1.2F);
+				double x2 = (this.posX + this.prevPosX) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
+				double y2 = (this.posY + this.prevPosY) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
+				double z2 = (this.posZ + this.prevPosZ) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
+			      MegaX.proxy.burst(this.worldObj, x2, y2, z2, 1.2F);
+			}
+		}
+	}
 	@Override
 	protected boolean canTriggerWalking() {
 		return false;
@@ -87,9 +103,9 @@ public class EntityBusterBullet extends EntityBulletBase {
 		String sound = "random.wood click";
 		boolean hit = false;
 		if(dmg > 0) {
-			 hit = ent.attackEntityFrom(source, dmg);
+			hit = ent.attackEntityFrom(source, dmg);
 			//System.out.println(dmg);
-			
+
 			if(hit)
 			{
 				sound = hurtSound;
@@ -99,7 +115,7 @@ public class EntityBusterBullet extends EntityBulletBase {
 			else dmg = 0;
 		}
 		worldObj.playSoundAtEntity(this, sound, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
-		
+
 		motionX *= vBounceEnt;
 		motionY *= hBounceEnt;
 		motionZ *= hBounceEnt;
