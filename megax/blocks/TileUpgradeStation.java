@@ -1,10 +1,5 @@
 package zornco.megax.blocks;
 
-import ic2.api.Direction;
-import ic2.api.energy.EnergyNet;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -20,7 +15,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileUpgradeStation extends TileEntity  implements IInventory, ISidedInventory, IEnergySink{
+public class TileUpgradeStation extends TileEntity  implements IInventory, ISidedInventory{
 	/**
 	 * The ItemStacks that hold the items currently being used in the upgradeStation
 	 */
@@ -226,10 +221,6 @@ public class TileUpgradeStation extends TileEntity  implements IInventory, ISide
 	 */
 	public void updateEntity()
 	{
-		if(!addedToEnet) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-			addedToEnet = true;
-		}
 		boolean var1 = this.upgradeStationCharge > 0;
 		boolean var2 = false;
 
@@ -411,44 +402,4 @@ public class TileUpgradeStation extends TileEntity  implements IInventory, ISide
 	{
 		return 1;
 	}
-	private boolean addedToEnet = false;
-
-	@Override
-	public void invalidate() {
-		if(addedToEnet) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			addedToEnet = false;
-		}
-		super.invalidate();
-	}
-
-	@Override
-	public boolean isAddedToEnergyNet() {
-		return addedToEnet;
-	}
-
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter, Direction direction) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public int demandsEnergy() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int injectEnergy(Direction directionFrom, int amount) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getMaxSafeInput() {
-		// TODO Auto-generated method stub
-		return 32;
-	}
-
 }

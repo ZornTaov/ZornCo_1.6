@@ -33,7 +33,7 @@ public class ContainerUpgradeStation extends Container
 			this.addSlotToContainer(new Slot(engine, i++, e*18 +62, 21){
 				@Override
 				public boolean isItemValid(ItemStack stack){
-					return stack != null && stack.getItem() instanceof ItemChip;
+					return stack != null && inventory.getStackInSlot(0) != null && stack.getItem() instanceof ItemChip;
 				}
 			});
 		}
@@ -41,7 +41,7 @@ public class ContainerUpgradeStation extends Container
 			this.addSlotToContainer(new Slot(engine, i++, e*18 +17, 52){
 				@Override
 				public boolean isItemValid(ItemStack stack){
-					return stack != null && stack.getItem() instanceof ItemChip;
+					return stack != null && (inventory.getStackInSlot(0) != null && inventory.getStackInSlot(0).getItem() instanceof XBusterItem) && stack.getItem() instanceof ItemChip;
 				}
 			});
 		}
