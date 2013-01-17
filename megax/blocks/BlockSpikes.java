@@ -25,82 +25,72 @@ public class BlockSpikes extends Block {
 	/**
 	 * checks to see if you can place this block can be placed on that side of a block: BlockLever overrides
 	 */
-	public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5)
+	public boolean canPlaceBlockOnSide(World par1World, int x, int y, int z, int par5)
 	{
 		ForgeDirection dir = ForgeDirection.getOrientation(par5);
-		return (dir == DOWN  && par1World.isBlockSolidOnSide(par2, par3 + 1, par4, DOWN )) ||
-				(dir == UP    && par1World.isBlockSolidOnSide(par2, par3 - 1, par4, UP   )) ||
-				(dir == NORTH && par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH)) ||
-				(dir == SOUTH && par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH)) ||
-				(dir == WEST  && par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST )) ||
-				(dir == EAST  && par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST ));
+		return (dir == DOWN  && (par1World.isBlockSolidOnSide(x, y + 1, z, DOWN ) || par1World.getBlockMaterial(x, y + 1, z) == Material.piston)) ||
+				(dir == UP    && (par1World.isBlockSolidOnSide(x, y - 1, z, UP   ) || par1World.getBlockMaterial(x, y - 1, z) == Material.piston)) ||
+				(dir == NORTH && (par1World.isBlockSolidOnSide(x, y, z + 1, NORTH) || par1World.getBlockMaterial(x, y, z + 1) == Material.piston)) ||
+				(dir == SOUTH && (par1World.isBlockSolidOnSide(x, y, z - 1, SOUTH) || par1World.getBlockMaterial(x, y, z - 1) == Material.piston)) ||
+				(dir == WEST  && (par1World.isBlockSolidOnSide(x + 1, y, z, WEST ) || par1World.getBlockMaterial(x + 1, y, z) == Material.piston)) ||
+				(dir == EAST  && (par1World.isBlockSolidOnSide(x - 1, y, z, EAST ) || par1World.getBlockMaterial(x - 1, y, z) == Material.piston));
 	}
 	/**
 	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
 	 */
-	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	public boolean canPlaceBlockAt(World par1World, int x, int y, int z)
 	{
-		return par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST ) ||
-				par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST ) ||
-				par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH) ||
-				par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH) ||
-				par1World.isBlockSolidOnSide(par2, par3 - 1, par4, UP   ) ||
-				par1World.isBlockSolidOnSide(par2, par3 + 1, par4, DOWN );
+		return (par1World.isBlockSolidOnSide(x - 1, y, z, EAST ) || par1World.getBlockMaterial(x - 1, y, z) == Material.piston) ||
+				(par1World.isBlockSolidOnSide(x + 1, y, z, WEST ) || par1World.getBlockMaterial(x + 1, y, z) == Material.piston) ||
+				(par1World.isBlockSolidOnSide(x, y, z - 1, SOUTH) || par1World.getBlockMaterial(x, y, z - 1) == Material.piston) ||
+				(par1World.isBlockSolidOnSide(x, y, z + 1, NORTH) || par1World.getBlockMaterial(x, y, z + 1) == Material.piston) ||
+				(par1World.isBlockSolidOnSide(x, y - 1, z, UP   ) || par1World.getBlockMaterial(x, y - 1, z) == Material.piston) ||
+				(par1World.isBlockSolidOnSide(x, y + 1, z, DOWN ) || par1World.getBlockMaterial(x, y + 1, z) == Material.piston);
 	}
 
 	/**
 	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
 	 * their own) Args: x, y, z, neighbor blockID
 	 */
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	public void onNeighborBlockChange(World par1World, int x, int y, int z, int par5)
 	{
 
 		int valid = 0;
 
-		if (par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST))
+		if (par1World.isBlockSolidOnSide(x - 1, y, z, EAST) || par1World.getBlockMaterial(x - 1, y, z) == Material.piston)
 		{
 			valid++;
 		}
 
-		if (par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST))
+		if (par1World.isBlockSolidOnSide(x + 1, y, z, WEST) || par1World.getBlockMaterial(x + 1, y, z) == Material.piston)
 		{
 			valid++;
 		}
 
-		if (par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH))
+		if (par1World.isBlockSolidOnSide(x, y, z - 1, SOUTH) || par1World.getBlockMaterial(x, y, z - 1) == Material.piston)
 		{
 			valid++;
 		}
 
-		if (par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH))
+		if (par1World.isBlockSolidOnSide(x, y, z + 1, NORTH) || par1World.getBlockMaterial(x, y, z + 1) == Material.piston)
 		{
 			valid++;
 		}
 
-		if (par1World.isBlockSolidOnSide(par2, par3 - 1, par4, UP))
+		if (par1World.isBlockSolidOnSide(x, y - 1, z, UP) || par1World.getBlockMaterial(x, y - 1, z) == Material.piston)
 		{
 			valid++;
 		}
 
-		if (par1World.isBlockSolidOnSide(par2, par3 - 1, par4, UP))
-		{
-			valid++;
-		}
-
-		if (par1World.isBlockSolidOnSide(par2, par3 + 1, par4, DOWN))
-		{
-			valid++;
-		}
-
-		if (par1World.isBlockSolidOnSide(par2, par3 + 1, par4, DOWN))
+		if (par1World.isBlockSolidOnSide(x, y + 1, z, DOWN) || par1World.getBlockMaterial(x, y + 1, z) == Material.piston)
 		{
 			valid++;
 		}
 
 		if (valid == 0)
 		{
-			this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockWithNotify(par2, par3, par4, 0);
+			this.dropBlockAsItem(par1World, x, y, z, par1World.getBlockMetadata(x, y, z), 0);
+			par1World.setBlockWithNotify(x, y, z, 0);
 		}
 
 	}
@@ -204,7 +194,7 @@ public class BlockSpikes extends Block {
 		if (var5 != this.blockID)
 		{
 			Block var6 = Block.blocksList[var5];
-			return var6 != null && var6.blockMaterial.isOpaque() && var6.renderAsNormalBlock() ? var6.blockMaterial != Material.pumpkin : false;
+			return var6 != null && var6.blockMaterial.isOpaque() && (var6.renderAsNormalBlock() || ( var6.blockMaterial == Material.piston && var6.blockID != Block.pistonMoving.blockID)) ? var6.blockMaterial != Material.pumpkin : false;
 		}
 		else
 		{

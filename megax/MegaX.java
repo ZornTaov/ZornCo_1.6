@@ -217,7 +217,7 @@ public class MegaX {
 
 		/** Blocks **/
 		upgradeStation = new BlockUpgradeStation(upgradeStationID, false).setHardness(3.5F).setStepSound(new StepSound("stone", 1.0F, 1.5F)).setBlockName("upgradeStation").setRequiresSelfNotify();
-		spikes = new BlockSpikes(spikesID).setBlockName("spikes").setHardness(3.5F);
+		spikes = new BlockSpikes(spikesID).setStepSound(new StepSound("stone", 1.0F, 1.5F)).setBlockName("spikes").setHardness(3.5F);
 
 		GameRegistry.registerBlock(upgradeStation, "upgradeStation");
 		GameRegistry.registerTileEntity(TileUpgradeStation.class, "tileupgradeStation");

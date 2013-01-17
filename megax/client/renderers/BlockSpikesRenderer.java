@@ -5,9 +5,11 @@ import org.lwjgl.opengl.GL11;
 import zornco.megax.MegaX;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 
 public class BlockSpikesRenderer extends RenderBlocks
@@ -39,61 +41,62 @@ implements ISimpleBlockRenderingHandler {
 		double vBottom = (double)(((float)texV + 16F) / 256.0F); 
 		double offset = 0.0625F;
 		double i, j;
-		tess.setBrightness(block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z));
+		int light = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z);
+		tess.setBrightness(light);
 		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
-		if (renderer.blockAccess.isBlockNormalCube(x, y + 1, z))
+		if (renderer.blockAccess.isBlockNormalCube(x, y + 1, z) || (renderer.blockAccess.getBlockMaterial(x, y + 1, z) == Material.piston && renderer.blockAccess.getBlockId(x, y + 1, z) != Block.pistonMoving.blockID))
 		{
 			renderer.setRenderMinMax(0.0, 1.0-offset, 0.0, 1.0, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, -1F, 0.0F);
 
-			drawY1(tess, x, y, z, uLeft, uRight, vTop, vBottom);
+			drawY1(tess, x, y, z, uLeft, uRight, vTop, vBottom, light);
 
 		}
-		if (renderer.blockAccess.isBlockNormalCube(x, y - 1, z))
+		if (renderer.blockAccess.isBlockNormalCube(x, y - 1, z) || (renderer.blockAccess.getBlockMaterial(x, y - 1, z) ==  Material.piston && renderer.blockAccess.getBlockId(x, y - 1, z) != Block.pistonMoving.blockID))
 		{
 			renderer.setRenderMinMax(0.0, 0.0, 0.0, 1.0, offset, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, 1.0F, 0.0F);
 
-			drawY2(tess, x, y, z, uLeft, uRight, vTop, vBottom);
+			drawY2(tess, x, y, z, uLeft, uRight, vTop, vBottom, light);
 
 		}
-		if (renderer.blockAccess.isBlockNormalCube(x + 1, y, z))
+		if (renderer.blockAccess.isBlockNormalCube(x + 1, y, z) || (renderer.blockAccess.getBlockMaterial(x + 1, y, z) == Material.piston && renderer.blockAccess.getBlockId(x + 1, y, z) != Block.pistonMoving.blockID))
 		{
 			//PROBLEM SIDE
 			renderer.setRenderMinMax(1.0-offset, 0.0, 0.0, 1.0, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(-1F, 0.0F, 0.0F);
 
-			drawX1(tess, x, y, z, uLeft, uRight, vTop, vBottom);
+			drawX1(tess, x, y, z, uLeft, uRight, vTop, vBottom, light);
 
 		}
-		if (renderer.blockAccess.isBlockNormalCube(x - 1, y, z))
+		if (renderer.blockAccess.isBlockNormalCube(x - 1, y, z) || (renderer.blockAccess.getBlockMaterial(x - 1, y, z) == Material.piston && renderer.blockAccess.getBlockId(x - 1, y, z) != Block.pistonMoving.blockID))
 		{
 			renderer.setRenderMinMax(0.0, 0.0, 0.0, offset, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(1.0F, 0.0F, 0.0F);
 
-			drawX2(x, y, z, tess, uLeft, uRight, vTop, vBottom);
+			drawX2(x, y, z, tess, uLeft, uRight, vTop, vBottom, light);
 
 		}
-		if (renderer.blockAccess.isBlockNormalCube(x, y, z + 1))
+		if (renderer.blockAccess.isBlockNormalCube(x, y, z + 1) || (renderer.blockAccess.getBlockMaterial(x, y, z + 1) == Material.piston && renderer.blockAccess.getBlockId(x, y, z + 1) != Block.pistonMoving.blockID))
 		{
 			renderer.setRenderMinMax(0.0, 0.0, 1.0-offset, 1.0, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, 0.0F, -1F);
 
-			drayZ1(tess, x, y, z, uLeft, uRight, vTop, vBottom);
+			drayZ1(tess, x, y, z, uLeft, uRight, vTop, vBottom, light);
 
 		}
-		if (renderer.blockAccess.isBlockNormalCube(x, y, z - 1))
+		if (renderer.blockAccess.isBlockNormalCube(x, y, z - 1) || (renderer.blockAccess.getBlockMaterial(x, y, z - 1) == Material.piston && renderer.blockAccess.getBlockId(x, y, z - 1) != Block.pistonMoving.blockID))
 		{
 			renderer.setRenderMinMax(0.0, 0.0, 0.0, 1.0, 1.0, offset);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, 0.0F, 1.0F);
 
-			drawZ2(tess, x, y, z, uLeft, uRight, vTop, vBottom);
+			drawZ2(tess, x, y, z, uLeft, uRight, vTop, vBottom, light);
 
 		}
 		float var13 = 1.0F;
@@ -105,155 +108,197 @@ implements ISimpleBlockRenderingHandler {
 		return true;
 	}
 
-	private void drawZ2(Tessellator tess, int x, int y, int z, double uLeft,
-			double uRight, double vTop, double vBottom) {
-		int mode = tess.instance.drawMode;
-		tess.draw();
-		tess.startDrawing(4);
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ), (double)(z + 0.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ),	(double)(z + 0.0 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ), (double)(z + 0.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ),	(double)(z + 0.0 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ), (double)(z + 0.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ),	(double)(z + 0.0 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ), (double)(z + 0.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ),	(double)(z + 0.0 ), uRight, vTop);
-
-		tess.draw();
-		tess.startDrawing(mode);
-	}
-
-	private void drayZ1(Tessellator tess, int x, int y, int z, double uLeft,
-			double uRight, double vTop, double vBottom) {
-		int mode = tess.instance.drawMode;
-		tess.draw();
-		tess.startDrawing(4);
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ), (double)(z + 1.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ),	(double)(z + 1.0 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ), (double)(z + 1.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ),	(double)(z + 1.0 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ), (double)(z + 1.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ),	(double)(z + 1.0 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ), (double)(z + 1.0 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ),	(double)(z + 1.0 ), uRight, vTop);
-
-		tess.draw();
-		tess.startDrawing(mode);
-	}
-
-	private void drawX2(int x, int y, int z, Tessellator tess, double uLeft,
-			double uRight, double vTop, double vBottom) {
-		int mode = tess.instance.drawMode;
-		tess.draw();
-		tess.startDrawing(4);
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ), (double)(z + 0.1 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ),	(double)(z + 0.1 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ), (double)(z + 0.1 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ),	(double)(z + 0.9 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ), (double)(z + 0.9 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ),	(double)(z + 0.9 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ), (double)(z + 0.9 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ),	(double)(z + 0.1 ), uRight, vTop);
-
-		tess.draw();
-		tess.startDrawing(mode);
-	}
-
-	private void drawY2(Tessellator tess, int x, int y, int z, double uLeft,
-			double uRight, double vTop, double vBottom) {
-		int mode = tess.instance.drawMode;
-		tess.draw();
-		tess.startDrawing(4);
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uRight, vTop);
-
-		tess.draw();
-		tess.startDrawing(mode);
-	}
-
-	private void drawY1(Tessellator tess, int x, int y, int z, double uLeft,
-			double uRight, double vTop, double vBottom){
-		int mode = tess.instance.drawMode;
-		tess.draw();
-		tess.startDrawing(4);
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uRight, vTop);
-
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uLeft, vTop);
-		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
-		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uRight, vTop);
-
-		tess.draw();
-		tess.startDrawing(mode);
-	}
-
-	private void drawX1(Tessellator tess, int x, int y, int z, double uLeft, double uRight, double vTop, double vBottom)
+	private void drawX1(Tessellator tess, int x, int y, int z, double uLeft, 
+			double uRight, double vTop, double vBottom, int light)
 	{
-		int mode = tess.instance.drawMode;
-		tess.draw();
-		tess.startDrawing(4);
+		//int mode = tess.instance.drawMode;
+		//tess.draw();
+		//tess.startDrawing(4);
+		tess.setBrightness(light);
+		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.1 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.1 ), (double)(z + 0.9 ), uLeft, vBottom);
 		tess.addVertexWithUV((double)(x + 0.6), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.1 ),	(double)(z + 0.1 ), uRight, vTop);
 
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.1 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.1 ), (double)(z + 0.1 ), uLeft, vBottom);
 		tess.addVertexWithUV((double)(x + 0.6), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.9 ),	(double)(z + 0.1 ), uRight, vTop);
 
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.9 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.9 ), (double)(z + 0.1 ), uLeft, vBottom);
 		tess.addVertexWithUV((double)(x + 0.6), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.9 ),	(double)(z + 0.9 ), uRight, vTop);
 
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.9 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.9 ), (double)(z + 0.9 ), uLeft, vBottom);
 		tess.addVertexWithUV((double)(x + 0.6), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
 		tess.addVertexWithUV((double)(x + 1.0), (double)(y + 0.1 ),	(double)(z + 0.9 ), uRight, vTop);
 
-		tess.draw();
-		tess.startDrawing(mode);
+		//tess.draw();
+		//tess.startDrawing(mode);
 	}
+
+	private void drawX2(int x, int y, int z, Tessellator tess, double uLeft,
+			double uRight, double vTop, double vBottom, int light) {
+		//int mode = tess.instance.drawMode;
+		//tess.draw();
+		//tess.startDrawing(4);
+		tess.setBrightness(light);
+		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ), (double)(z + 0.1 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ),	(double)(z + 0.1 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ), (double)(z + 0.1 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ),	(double)(z + 0.9 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.1 ), (double)(z + 0.9 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ),	(double)(z + 0.9 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ), (double)(z + 0.9 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.4), (double)(y + 0.5 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.0), (double)(y + 0.9 ),	(double)(z + 0.1 ), uRight, vTop);
+
+		//tess.draw();
+		//tess.startDrawing(mode);
+	}
+
+	private void drayZ1(Tessellator tess, int x, int y, int z, double uLeft,
+			double uRight, double vTop, double vBottom, int light) {
+		//int mode = tess.instance.drawMode;
+		//tess.draw();
+		//tess.startDrawing(4);
+		tess.setBrightness(light);
+		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ), (double)(z + 1.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ), (double)(z + 1.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ),	(double)(z + 1.0 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ), (double)(z + 1.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ), (double)(z + 1.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ),	(double)(z + 1.0 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ), (double)(z + 1.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ), (double)(z + 1.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ),	(double)(z + 1.0 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ), (double)(z + 1.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ), (double)(z + 1.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.6 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ),	(double)(z + 1.0 ), uRight, vTop);
+
+		//tess.draw();
+		//tess.startDrawing(mode);
+	}
+
+	private void drawZ2(Tessellator tess, int x, int y, int z, double uLeft,
+			double uRight, double vTop, double vBottom, int light) {
+		//int mode = tess.instance.drawMode;
+		//tess.draw();
+		//tess.startDrawing(4);
+		tess.setBrightness(light);
+		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		tess.setNormal(0.0F, -1F, 0.0F);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ), (double)(z + 0.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ), (double)(z + 0.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ),	(double)(z + 0.0 ), uRight, vTop);
+
+		tess.setNormal(-1F, 0.0F, 0.0F);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ), (double)(z + 0.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.1 ), (double)(z + 0.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ),	(double)(z + 0.0 ), uRight, vTop);
+
+		tess.setNormal(0.0F, 1F, 0.0F);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ), (double)(z + 0.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1), (double)(y + 0.9 ), (double)(z + 0.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ),	(double)(z + 0.0 ), uRight, vTop);
+
+		tess.setNormal(1F, 0.0F, 0.0F);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ), (double)(z + 0.0 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.9 ), (double)(z + 0.0 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5), (double)(y + 0.5 ), (double)(z + 0.4 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9), (double)(y + 0.1 ),	(double)(z + 0.0 ), uRight, vTop);
+
+		//tess.draw();
+		//tess.startDrawing(mode);
+	}
+
+	private void drawY1(Tessellator tess, int x, int y, int z, double uLeft,
+			double uRight, double vTop, double vBottom, int light){
+		//int mode = tess.instance.drawMode;
+		//tess.draw();
+		//tess.startDrawing(4);
+		tess.setBrightness(light);
+		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.9 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.6 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 1.0 ), (double)(z + 0.1 ), uRight, vTop);
+
+		//tess.draw();
+		//tess.startDrawing(mode);
+	}
+
+	private void drawY2(Tessellator tess, int x, int y, int z, double uLeft,
+			double uRight, double vTop, double vBottom, int light) {
+		//int mode = tess.instance.drawMode;
+		//tess.draw();
+		//tess.startDrawing(4);
+		tess.setBrightness(light);
+		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.1 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uRight, vTop);
+
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uLeft, vTop);
+		tess.addVertexWithUV((double)(x + 0.9 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uLeft, vBottom);
+		tess.addVertexWithUV((double)(x + 0.5 ), (double)(y + 0.4 ), (double)(z + 0.5 ), uRight, vBottom);
+		tess.addVertexWithUV((double)(x + 0.1 ), (double)(y + 0.0 ), (double)(z + 0.9 ), uRight, vTop);
+
+		//tess.draw();
+		//tess.startDrawing(mode);
+	}
+	
 	@Override
 	public boolean shouldRender3DInInventory() {
 		// TODO Auto-generated method stub
