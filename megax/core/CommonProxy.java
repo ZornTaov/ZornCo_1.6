@@ -16,7 +16,7 @@ public class CommonProxy implements IGuiHandler {
 	}
 	public void registerKeyBindingHandler() {
 
-    }
+	}
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
@@ -44,11 +44,11 @@ public class CommonProxy implements IGuiHandler {
 			return null;
 		}
 	}
-	public void burst(World worldObj, double sx, double sy, double sz, float size)
-	  {
+	public void busterShot(World worldObj, double sx, double sy, double sz, float size, int type)
+	{
 	}
 	public void setKeyBinding(String name, int value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

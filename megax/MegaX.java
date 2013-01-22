@@ -275,8 +275,27 @@ public class MegaX {
 			Character.valueOf('h'), healthBit,
 			Character.valueOf('H'), healthByte,
 			Character.valueOf('d'), Item.diamond
-		}
-				);
+			}
+		);
+		
+		GameRegistry.addRecipe(new ItemStack(upgradeStation), 
+				new Object[] { 
+			"pcp", "pbp", "pdp",  
+			Character.valueOf('p'), blueReploidPlate,
+			Character.valueOf('b'), Block.blockSteel,
+			Character.valueOf('c'), weaponChip,
+			Character.valueOf('d'), Item.redstone
+			}
+		);
+		
+		GameRegistry.addRecipe(new ItemStack(spikes, 8), 
+				new Object[] { 
+			" i ", " i ", "bbb", 
+			Character.valueOf('i'), Item.ingotIron, 
+			Character.valueOf('b'), Block.blockSteel
+			}
+		);
+		
 		/*GameRegistry.addRecipe(new ItemStack(weaponTank), 
 		new Object[] { 
 			"iwi", "bWb", "bdb", 

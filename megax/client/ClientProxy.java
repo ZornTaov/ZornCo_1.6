@@ -35,6 +35,9 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/UpgradeStation.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/burst.png" );
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster0.png" );
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster1.png" );
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster2.png" );
 		RenderingRegistry.registerEntityRenderingHandler(EntityMet.class, new RenderMet(new ModelMet(), new ModelMetHat(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBusterBullet.class, new RenderBulletBase());  
 		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());
@@ -45,16 +48,16 @@ public class ClientProxy extends CommonProxy {
 
 	}
 	@Override
-    public void registerKeyBindingHandler() {
+	public void registerKeyBindingHandler() {
 
-        KeyBindingRegistry.registerKeyBinding(new KeyBindingHandler());
-    }
+		KeyBindingRegistry.registerKeyBinding(new KeyBindingHandler());
+	}
 	@Override
-    public void setKeyBinding(String name, int value) {
+	public void setKeyBinding(String name, int value) {
 
-        KeyBindingHelper.addKeyBinding(name, value);
-        KeyBindingHelper.addIsRepeating(false);
-    }
+		KeyBindingHelper.addKeyBinding(name, value);
+		KeyBindingHelper.addIsRepeating(false);
+	}
 	@Override
 	public int addArmor(String path) {
 		return RenderingRegistry.addNewArmourRendererPrefix(path);
@@ -76,10 +79,11 @@ public class ClientProxy extends CommonProxy {
 			return null;
 		}
 	}
-	public void burst(World worldObj, double sx, double sy, double sz, float size)
-	  {
-		BusterFX ef = new BusterFX(worldObj, sx, sy, sz, size);
-	    ModLoader.getMinecraftInstance().effectRenderer.addEffect(ef);
-	  }
+	@Override
+	public void busterShot(World worldObj, double sx, double sy, double sz, float size, int type)
+	{
+		BusterFX ef = new BusterFX(worldObj, sx, sy, sz, size, type);
+		ModLoader.getMinecraftInstance().effectRenderer.addEffect(ef);
+	}
 
 }

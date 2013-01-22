@@ -76,7 +76,7 @@ public class XBusterItem extends Item implements IKeyBound
 	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) 
 	{
 
-		System.out.println(count);
+		//System.out.println(count);
 		if(count == getMaxItemUseDuration(stack))
 			player.worldObj.playSoundAtEntity(player, Sounds.CHARGEUP, 1.0F, 1.0F);
 		else if(count <= getMaxItemUseDuration(stack)-40 && count%40 == 0)

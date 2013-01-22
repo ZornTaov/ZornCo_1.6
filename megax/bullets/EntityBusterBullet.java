@@ -51,13 +51,31 @@ public class EntityBusterBullet extends EntityBulletBase {
 
 		if (this.worldObj.isRemote)
 		{
-			for (int a = 0; a < 3; a++) {
+			if(getCharge() == 0)
+			{
+				MegaX.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 0.2F, getCharge());
+			}
+			if(getCharge() == 1)
+			{
+				MegaX.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 0.4F, getCharge());
+				for (int a = 0; a < 3; a++) {
 
-			      MegaX.proxy.burst(this.worldObj, this.posX, this.posY, this.posZ, 1.2F);
-				double x2 = (this.posX + this.prevPosX) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
-				double y2 = (this.posY + this.prevPosY) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
-				double z2 = (this.posZ + this.prevPosZ) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
-			      MegaX.proxy.burst(this.worldObj, x2, y2, z2, 1.2F);
+					double x2 = (this.posX + this.prevPosX) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
+					double y2 = (this.posY + this.prevPosY) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
+					double z2 = (this.posZ + this.prevPosZ) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
+					MegaX.proxy.busterShot(this.worldObj, x2, y2, z2, 0.2F, getCharge());
+				}
+			}
+			if(getCharge() == 2)
+			{
+				MegaX.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 1F, getCharge());
+				for (int a = 0; a < 3; a++) {
+
+					double x2 = (this.posX + this.prevPosX) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
+					double y2 = (this.posY + this.prevPosY) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
+					double z2 = (this.posZ + this.prevPosZ) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
+					MegaX.proxy.busterShot(this.worldObj, x2, y2, z2, 0.2F, getCharge());
+				}
 			}
 		}
 	}
@@ -65,18 +83,22 @@ public class EntityBusterBullet extends EntityBulletBase {
 	protected boolean canTriggerWalking() {
 		return false;
 	}
+	public int getCharge()
+	{
+		return this.dataWatcher.getWatchableObjectByte(16);
+	}
 	@Override
 	public float[] getTexturePlacement()
 	{
 		//6, 8, 0, 44, 44 and 12,25,7,32,32 and 32,44,9,0,0
 		int type = this.dataWatcher.getWatchableObjectByte(16);
-		if (type == 0)
-			return new float[]{6F, 8F, 0F, 44F, 44F, 64F, 64F};
-		else if(type == 1)
-			return new float[]{12F, 25F, 7F, 32F, 32F, 64F, 64F};
-		else if(type == 2)
-			return new float[]{32F, 44F, 9F, 0F, 0F, 64F, 64F};
-		return new float[]{1,1,1,1,1,1,1};
+		//if (type == 0)
+		//	return new float[]{6F, 8F, 0F, 44F, 44F, 64F, 64F};
+		//else if(type == 1)
+		//	return new float[]{12F, 25F, 7F, 32F, 32F, 64F, 64F};
+		//else if(type == 2)
+		//	return new float[]{32F, 44F, 9F, 0F, 0F, 64F, 64F};
+		return new float[]{0,0,0,0,0,0,0};
 	}
 	@Override
 	public String getTexture()
