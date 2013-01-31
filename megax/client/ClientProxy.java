@@ -31,13 +31,14 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderInformation()
 	{
-		MinecraftForgeClient.registerItemRenderer(MegaX.buster.shiftedIndex, new XBusterRender());
+		MinecraftForgeClient.registerItemRenderer(MegaX.buster.shiftedIndex, new RenderXBuster());
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/UpgradeStation.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/burst.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster0.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster1.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster2.png" );
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/X1LightBusterDetailed.png" );
 		RenderingRegistry.registerEntityRenderingHandler(EntityMet.class, new RenderMet(new ModelMet(), new ModelMetHat(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBusterBullet.class, new RenderBulletBase());  
 		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());

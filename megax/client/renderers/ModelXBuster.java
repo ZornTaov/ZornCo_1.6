@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 
-public class XBusterModel extends ModelBase {
+public class ModelXBuster extends ModelBase {
 
 	//fields
 	ModelRenderer Left;
@@ -25,7 +25,7 @@ public class XBusterModel extends ModelBase {
 	ModelRenderer InnerRight;
 	ModelRenderer InnerLeft;
 
-	public XBusterModel()
+	public ModelXBuster()
 	{
 		textureWidth = 256;
 		textureHeight = 256;

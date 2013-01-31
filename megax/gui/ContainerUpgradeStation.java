@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import zornco.megax.blocks.TileUpgradeStation;
 import zornco.megax.items.ItemChip;
 import zornco.megax.items.armors.ItemMegaXArmorBase;
-import zornco.megax.items.busters.XBusterItem;
+import zornco.megax.items.busters.ItemXBuster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,7 +41,7 @@ public class ContainerUpgradeStation extends Container
 			this.addSlotToContainer(new Slot(engine, i++, e*18 +17, 52){
 				@Override
 				public boolean isItemValid(ItemStack stack){
-					return stack != null && (inventory.getStackInSlot(0) != null && inventory.getStackInSlot(0).getItem() instanceof XBusterItem) && stack.getItem() instanceof ItemChip;
+					return stack != null && (inventory.getStackInSlot(0) != null && inventory.getStackInSlot(0).getItem() instanceof ItemXBuster) && stack.getItem() instanceof ItemChip;
 				}
 			});
 		}

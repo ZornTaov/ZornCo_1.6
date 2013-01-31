@@ -19,13 +19,13 @@ import zornco.megax.sounds.Sounds;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class XBusterItem extends Item implements IKeyBound
+public class ItemXBuster extends Item implements IKeyBound
 {
 	int c;
 	private Minecraft mc;
 	private FontRenderer fr;
 
-	public XBusterItem(int i, int col)
+	public ItemXBuster(int i, int col)
 	{
 		super(i);
 		this.maxStackSize = 1;
@@ -144,7 +144,22 @@ public class XBusterItem extends Item implements IKeyBound
 	public int getMaxItemUseDuration(ItemStack itemstack) {
 		return 72000;
 	}
-
+	
+    public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player)
+    {
+        return true;
+    }
+    
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    {
+        return true;
+    }
+    
+    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
+    {
+        return true;
+    }
+    
 	/**
 	 * Return whether the specified armor ItemStack has a color.
 	 */

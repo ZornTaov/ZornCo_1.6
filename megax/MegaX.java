@@ -2,6 +2,8 @@ package zornco.megax;
 
 
 
+import java.util.logging.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.StepSound;
 import net.minecraft.creativetab.CreativeTabs;
@@ -31,8 +33,9 @@ import zornco.megax.items.ItemTank;
 import zornco.megax.items.ItemMegaXBase;
 import zornco.megax.items.armors.ItemMegaX1Armor;
 import zornco.megax.items.armors.ItemMegaX1ArmorEnhanced;
-import zornco.megax.items.busters.XBusterItem;
+import zornco.megax.items.busters.ItemXBuster;
 import zornco.megax.network.PacketHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -64,6 +67,8 @@ public class MegaX {
 
 	public static CreativeTabs megaXTab = new TabMegaX("MegaX");
 
+	public static Logger logger = Logger.getLogger("MegaX");
+	
 	public static Item buster;
 	public static Item weaponChip;
 
@@ -169,7 +174,7 @@ public class MegaX {
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
 		// Stub Method
-
+		logger.setParent(FMLLog.getLogger());
 		loadConfig(event);
         proxy.registerKeyBindingHandler();
 
@@ -185,7 +190,7 @@ public class MegaX {
 		//ServerPlayerAPI.register("MegaX", MegaXPlayerBaseServer.class);
 
 		/** Items **/
-		buster = new XBusterItem(busterID, 1).setItemName("X Buster").setIconIndex(14).setFull3D();
+		buster = new ItemXBuster(busterID, 1).setItemName("X Buster").setIconIndex(14).setFull3D();
 		// add weapon types
 		// Guts type weapon that would act like a macerator
 		// cut type weapon that act like shears
@@ -326,5 +331,10 @@ public class MegaX {
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) {
 		TickRegistry.registerTickHandler(new TickHandlerClient(), Side.CLIENT);
+	}
+
+	public static void console(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -18,13 +18,13 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class XBusterRender implements IItemRenderer
+public class RenderXBuster implements IItemRenderer
 {
-	public XBusterModel buster;
+	public ModelLightBuster buster;
 
-	public XBusterRender()
+	public RenderXBuster()
 	{
-		this.buster = new XBusterModel();
+		this.buster = new ModelLightBuster();
 	}
 
 	public boolean handleRenderType(ItemStack item, IItemRenderer.ItemRenderType type) {
@@ -34,7 +34,7 @@ public class XBusterRender implements IItemRenderer
 		}
 		else return false;
 	}
-	
+
 	public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper) {
 
 		return false;
@@ -55,20 +55,21 @@ public class XBusterRender implements IItemRenderer
 		{
 			GL11.glPushMatrix();
 			ForgeHooksClient.bindTexture("/zornco/megax/textures/XBusterDetailed.png", 0);
-
+			//ForgeHooksClient.bindTexture("/zornco/megax/textures/X1LightBusterDetailed.png", 0);
 			boolean isFirstPerson = false;
 			if(data[1] != null && data[1] instanceof EntityPlayer)
 			{
 				if(!((EntityPlayer)data[1] == Minecraft.getMinecraft().renderViewEntity && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !(Minecraft.getMinecraft().currentScreen instanceof GuiInventory && RenderManager.instance.playerViewY == 180.0F)))
 				{
-					GL11.glTranslatef(-0.22F, 1.43F, 0.15F);
+					GL11.glScaled(1, 1, -1);
+					GL11.glTranslatef(.75F, 0.3F, 0.05F);
 				}
 				else
 				{
 					isFirstPerson = true;
-					GL11.glRotatef(-6.0F, 1.0F, 0.0F, 0.0F);
+					GL11.glRotatef(6.0F, 1.0F, 0.0F, 0.0F);
 					GL11.glRotatef(-10.0F, 0.0F, 0.0F, 1.0F);
-					GL11.glTranslatef(-0.22F, 1.53F, 0.19F);
+					GL11.glTranslatef(0.22F, 0.53F, 0.019F);
 				}
 			}
 			else
@@ -77,16 +78,16 @@ public class XBusterRender implements IItemRenderer
 			}
 			// GL11.glScalef(1.8F, 1.8F, 1.8F);
 			// GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(8.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-0.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-140.0F, 0.0F, 0.0F, 1.0F);
 
 			int color = item.getItem().getColorFromItemStack(item, 0);
-			GL11.glColor4f((color >> 16 & 0xFF)/255.0F, (color >> 8 & 0xFF)/255.0F, (color & 0xFF)/255.0F, 1);
-			this.buster.render((Entity)data[1], 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+			//GL11.glColor4f((color >> 16 & 0xFF)/255.0F, (color >> 8 & 0xFF)/255.0F, (color & 0xFF)/255.0F, 1);
+			//this.buster.render((Entity)data[1], 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			this.buster.render2((Entity)data[1], 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-			
+			this.buster.render((Entity)data[1], 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			ForgeHooksClient.unbindTexture();
 			GL11.glPopMatrix();
@@ -104,26 +105,26 @@ public class XBusterRender implements IItemRenderer
 
 	}
 	public void renderEquippedItem(RenderBlocks render, EntityLiving entity, ItemStack item)
-	  {
-	    GL11.glPushMatrix();
-	    GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-	    float scale = 0.6F;
+	{
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+		float scale = 0.6F;
 
-	    if ((entity != Minecraft.getMinecraft().renderViewEntity) || (Minecraft.getMinecraft().gameSettings.thirdPersonView != 0) || !(Minecraft.getMinecraft().currentScreen instanceof GuiInventory && RenderManager.instance.playerViewY == 180.0F))
-	    {
-	      GL11.glScalef(scale, scale, scale);
-	      GL11.glRotatef(80.0F, 1.0F, 0.0F, 1.0F);
-	      float displacement = 0.55F;
-	      GL11.glTranslatef(displacement, 0.25F, -displacement);
-	    }
-	    renderInventoryItem(render, item);
-	    GL11.glPopMatrix();
-	  }
+		if ((entity != Minecraft.getMinecraft().renderViewEntity) || (Minecraft.getMinecraft().gameSettings.thirdPersonView != 0) || !(Minecraft.getMinecraft().currentScreen instanceof GuiInventory && RenderManager.instance.playerViewY == 180.0F))
+		{
+			GL11.glScalef(scale, scale, scale);
+			GL11.glRotatef(80.0F, 1.0F, 0.0F, 1.0F);
+			float displacement = 0.55F;
+			GL11.glTranslatef(displacement, 0.25F, -displacement);
+		}
+		renderInventoryItem(render, item);
+		GL11.glPopMatrix();
+	}
 	public void renderInventoryItem(RenderBlocks render, ItemStack item)
-	  {
-	    int itemID = item.itemID;
-	    int meta = item.getItemDamage();
-	  }
+	{
+		int itemID = item.itemID;
+		int meta = item.getItemDamage();
+	}
 }
 
 //		Minecraft mc = ModLoader.getMinecraftInstance();

@@ -2,7 +2,7 @@ package zornco.megax.gui;
 
 import zornco.megax.crafting.UpgradeStationRecipes;
 import zornco.megax.items.armors.ItemMegaXArmorBase;
-import zornco.megax.items.busters.XBusterItem;
+import zornco.megax.items.busters.ItemXBuster;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,7 @@ public class SlotUpgradeStation extends Slot
      */
     public boolean isItemValid(ItemStack par1ItemStack)
     {
-    	return par1ItemStack != null && (par1ItemStack.getItem() instanceof ItemMegaXArmorBase || par1ItemStack.getItem() instanceof XBusterItem);
+    	return par1ItemStack != null && (par1ItemStack.getItem() instanceof ItemMegaXArmorBase || par1ItemStack.getItem() instanceof ItemXBuster);
     }
 
     /**
