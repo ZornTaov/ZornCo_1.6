@@ -61,7 +61,7 @@ public class EntityMet extends EntityTameable {
 		this.moveSpeed = 0.3F;
 		this.getNavigator().setAvoidsWater(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIPanic(this, 0.38F));
+		//this.tasks.addTask(1, new EntityAIPanic(this, 0.38F));
 		this.tasks.addTask(2, this.aiSit);
 		this.tasks.addTask(2, this.aiMetHide);
 		this.tasks.addTask(3, new EntityAITempt(this, 0.25F, Item.ingotGold.shiftedIndex, false));
@@ -75,7 +75,7 @@ public class EntityMet extends EntityTameable {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, 16.0F, 200, false));
+		//this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, 16.0F, 200, false));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 16.0F, 0, true));
 
 	}
@@ -163,10 +163,13 @@ public class EntityMet extends EntityTameable {
 	 */
 	protected void dropFewItems(boolean par1, int par2)
 	{
-		if (!this.getIsHatWorn())
+		if (!this.getIsHatNotWorn())
 		{
 			//this.entityDropItem(new ItemStack(Block.cloth.blockID, 1, this.getMetHatType()), 0.0F);
 		}
+		int i = getDropItemId();
+		if(i > 0)
+			this.dropItem(i, 1);
 	}
 
 	/**
@@ -177,14 +180,11 @@ public class EntityMet extends EntityTameable {
 		int i = rand.nextInt(10)+1;
 		switch(i)
 		{
-		case 1:
-		case 2:
 		case 3:
 			return MegaX.healthBit.shiftedIndex;
 		case 4:
 			return MegaX.healthByte.shiftedIndex;
-		/*case 5:
-		case 6:
+		/*
 		case 7:
 			return MegaX.energyBit.shiftedIndex;
 		case 8:
@@ -192,7 +192,7 @@ public class EntityMet extends EntityTameable {
 		case 9:
 			return MegaX.extraMan.shiftedIndex;*/
 		default:
-			return MegaX.healthByte.shiftedIndex;
+			return 0;
 		
 		}
 	}
@@ -246,7 +246,7 @@ public class EntityMet extends EntityTameable {
 				this.setPathToEntity((PathEntity)null);
 			}
 		}
-		else if (var2 != null && var2.itemID == Item.goldNugget.shiftedIndex /*&& !this.isHiding()*/)
+		else if (var2 != null && var2.itemID == Item.goldNugget.shiftedIndex && !this.isHiding())
 		{
 			if (!par1EntityPlayer.capabilities.isCreativeMode)
 			{
@@ -296,7 +296,7 @@ public class EntityMet extends EntityTameable {
 	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setBoolean("HatWorn", this.getIsHatWorn());
+		par1NBTTagCompound.setBoolean("HatWorn", this.getIsHatNotWorn());
 		par1NBTTagCompound.setByte("Type", (byte)this.getMetHatType());
 	}
 
@@ -354,7 +354,7 @@ public class EntityMet extends EntityTameable {
 	/**
 	 * returns true if a sheeps wool has been sheared
 	 */
-	public boolean getIsHatWorn()
+	public boolean getIsHatNotWorn()
 	{
 		return (this.dataWatcher.getWatchableObjectByte(20) & 16) != 0;
 	}
@@ -408,12 +408,12 @@ public class EntityMet extends EntityTameable {
 	public void onUpdate()
 	{
 
-		boolean hat = getIsHatWorn();
-		int halfhp = (getMaxHealth()/2);
+		boolean hat = getIsHatNotWorn();
+		int halfhp = (getMaxHealth()/2)+1;
 		if(health < halfhp)
-			this.setIsHatWorn(false);
-		else if (health >= halfhp)
 			this.setIsHatWorn(true);
+		else if (health >= halfhp)
+			this.setIsHatWorn(false);
 		super.onUpdate();
 	}
 	/**

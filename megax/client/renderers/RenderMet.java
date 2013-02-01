@@ -23,7 +23,7 @@ public class RenderMet extends RenderLiving
 
     protected int setHatTypeAndRender(EntityMet par1EntityMet, int pass, float partialTickTime)
     {
-        if (pass == 0 && !par1EntityMet.getIsHatWorn())
+        if (pass == 0 && !par1EntityMet.getIsHatNotWorn())
         {
         	MinecraftForgeClient.preloadTexture("/zornco/megax/textures/MetHat.png");
             float white = 1.0F;

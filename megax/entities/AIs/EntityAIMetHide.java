@@ -33,7 +33,7 @@ public class EntityAIMetHide extends EntityAIBase {
         		||this.theEntity.isInWater()
         		||!this.theEntity.onGround
         		||this.theEntity.getRNG().nextInt(50) != 0
-        		||!this.theEntity.getIsHatWorn()
+        		||this.theEntity.getIsHatNotWorn()
         	)
         {
             return false;
