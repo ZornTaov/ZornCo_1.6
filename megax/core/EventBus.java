@@ -48,27 +48,33 @@ public class EventBus
 				//|| item.func_92014_d().itemID == MegaX.weaponByte.shiftedIndex 
 				)
 		{
-			if ((event.entityLiving instanceof EntityPlayerMP) && (event.entityLiving.getHealth() == event.entityLiving.getMaxHealth()) && (!playerEnt.isSneaking()))
+			if(event.entityLiving instanceof EntityPlayerMP && !playerEnt.isSneaking())
 			{
-				processBit((EntityPlayerMP)event.entityLiving, item);
-				ItemHPEnergy bit = (ItemHPEnergy) item.func_92014_d().getItem();
-				bit.applyEffect(playerEnt, item.func_92014_d().stackSize);
-				switch(bit.type)
-				{
+				ItemHPEnergy bit = (ItemHPEnergy) item.func_92014_d()
+						.getItem();
+				switch (bit.type) {
 				case 0:
-					playerEnt.worldObj.playSoundAtEntity(playerEnt, Sounds.BIT, 1.0F, 1.0F);
+					playerEnt.worldObj.playSoundAtEntity(playerEnt,
+							Sounds.BIT, 1.0F, 1.0F);
 					break;
 				case 1:
-					playerEnt.worldObj.playSoundAtEntity(playerEnt, Sounds.BYTE, 1.0F, 1.0F);
+					playerEnt.worldObj.playSoundAtEntity(playerEnt,
+							Sounds.BYTE, 1.0F, 1.0F);
 					break;
 				}
+				if (event.entityLiving.getHealth() == event.entityLiving.getMaxHealth())
+				{
+					processBit((EntityPlayerMP)event.entityLiving, item);
+				}
+				else {
+					bit.applyEffect(playerEnt, item.func_92014_d().stackSize);
+				}
+
 				item.func_92014_d().stackSize = 0;
 				item.setDead();
-				playerEnt.worldObj.playSoundAtEntity(playerEnt, Sounds.BIT, 1.0F, 1.0F);
 				return;
 			}
 		}
-
 		/*
 		 * Events may offer further fields and methods. Just read them, it should be obvious.
 		 */

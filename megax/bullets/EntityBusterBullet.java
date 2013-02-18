@@ -112,7 +112,7 @@ public class EntityBusterBullet extends EntityBulletBase {
 	public double getDamage() {
 		double v = this.getSpeed();
 		this.damage = (int)Math.floor(v * damageFactor);
-		//System.out.format("%.2f -> %d", v, damage);
+		System.out.format("%.2f -> %f", v, damage);
 		return this.damage;
 	}
 

@@ -1,5 +1,6 @@
 package zornco.megax.entities.AIs;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.world.World;
@@ -48,7 +49,7 @@ public class EntityAIBulletAttack extends EntityAIBase
     {
         EntityLiving var1 = this.entityHost.getAttackTarget();
 
-        if (var1 == null)
+        if (var1 == null||(var1 != null && var1.isDead))
         {
             return false;
         }

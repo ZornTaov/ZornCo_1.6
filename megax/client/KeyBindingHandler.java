@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 import zornco.megax.core.helper.KeyBindingHelper;
-import zornco.megax.item.IKeyBound;
+import zornco.megax.items.IKeyBound;
 import zornco.megax.network.PacketTypeHandler;
 import zornco.megax.network.packet.PacketKeyPressed;
 

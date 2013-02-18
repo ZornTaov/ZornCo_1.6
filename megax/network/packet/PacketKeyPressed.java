@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
-import zornco.megax.item.IKeyBound;
+import zornco.megax.items.IKeyBound;
 import zornco.megax.network.PacketTypeHandler;
 import cpw.mods.fml.common.network.Player;
 

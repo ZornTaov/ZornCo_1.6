@@ -15,8 +15,8 @@ public class ItemMegaX1Armor extends ItemMegaXArmorBase {
 	public String getArmorTextureFile(ItemStack itemstack)
 	{
 		if (itemstack.itemID == MegaX.megaX1Belt.shiftedIndex) {
-			return "/zornco/megax/textures/armor/MegaX1_2.png";
+			return "/zornco/megax/textures/armor/MegaXBasic_2.png";
 		}
-		return "/zornco/megax/textures/armor/MegaX1_1.png";
+		return "/zornco/megax/textures/armor/MegaXBasic_1.png";
 	}
 }

@@ -14,7 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import zornco.megax.MegaX;
 import zornco.megax.bullets.EntityBusterBullet;
-import zornco.megax.item.IKeyBound;
+import zornco.megax.items.IKeyBound;
 import zornco.megax.sounds.Sounds;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

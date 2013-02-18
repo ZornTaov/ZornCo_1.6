@@ -49,7 +49,7 @@ public class EntityMetBullet extends EntityBulletBase {
 	@Override
 	public String getTexture()
 	{
-		return "met";
+		return "buster_0";
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class EntityMetBullet extends EntityBulletBase {
 
 	public double getDamage() {
 		double v = this.getSpeed();
-		int damage = (int)Math.floor(v * damageFactor);
+		double damage = 2/*Math.floor(v * damageFactor)*/;
 		//System.out.format("%.2f -> %d", v, damage);
 		return damage;
 	}

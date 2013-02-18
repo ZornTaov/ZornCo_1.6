@@ -37,7 +37,7 @@ public class TickHandlerClient implements ITickHandler {
 			EntityPlayer player = (EntityPlayer)tickData[0];
 
 			if(player != null && player instanceof EntityOtherPlayerMP && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemXBuster)
-				if(player.getItemInUseCount() < player.getHeldItem().getItem().getMaxItemUseDuration(player.getHeldItem())) 
+				if(player.getItemInUseCount() > 0 )/*< player.getHeldItem().getItem().getMaxItemUseDuration(player.getHeldItem())) */
 				{ 
 					player.clearItemInUse(); 
 					player.setItemInUse(player.getHeldItem(), player.getHeldItem().getItem().getMaxItemUseDuration(player.getHeldItem())); 

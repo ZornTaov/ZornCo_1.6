@@ -1,4 +1,4 @@
-package zornco.megax.item;
+package zornco.megax.items;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -4,6 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 import org.lwjgl.opengl.GL11;
@@ -25,10 +26,13 @@ public class RenderMet extends RenderLiving
     {
         if (pass == 0 && !par1EntityMet.getIsHatNotWorn())
         {
-        	MinecraftForgeClient.preloadTexture("/zornco/megax/textures/MetHat.png");
+        	//ForgeHooksClient.bindTexture("/zornco/megax/textures/MetHat.png", 0);
+
+    		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MetHat.png" );
             float white = 1.0F;
             int type = par1EntityMet.getMetHatType();
             GL11.glColor3f(white * EntityMet.fleeceColorTable[type][0], white * EntityMet.fleeceColorTable[type][1], white * EntityMet.fleeceColorTable[type][2]);
+            //ForgeHooksClient.unbindTexture();
             return 1;
         }
         else

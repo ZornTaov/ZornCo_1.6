@@ -3,6 +3,8 @@ package zornco.megax.client;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
@@ -15,6 +17,7 @@ import zornco.megax.client.fx.BusterFX;
 import zornco.megax.client.renderers.*;
 import zornco.megax.core.CommonProxy;
 import zornco.megax.core.GuiIds;
+import zornco.megax.core.TickHandlerClient;
 import zornco.megax.core.helper.KeyBindingHelper;
 import zornco.megax.entities.*;
 import zornco.megax.gui.ContainerUpgradeStation;
@@ -29,23 +32,33 @@ public class ClientProxy extends CommonProxy {
 		sounds = new Sounds();
 	}
 	@Override
+	public void initTickHandlers()
+	{
+
+		TickRegistry.registerTickHandler(new TickHandlerClient(), Side.CLIENT);
+	}
+	@Override
 	public void registerRenderInformation()
 	{
 		MinecraftForgeClient.registerItemRenderer(MegaX.buster.shiftedIndex, new RenderXBuster());
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/UpgradeStation.png" );
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/burst.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster0.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster1.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster2.png" );
 		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/X1LightBusterDetailed.png" );
+		//MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MetHat.png" );
+		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/FloatingPlatform.png" );
 		RenderingRegistry.registerEntityRenderingHandler(EntityMet.class, new RenderMet(new ModelMet(), new ModelMetHat(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBusterBullet.class, new RenderBulletBase());  
+		RenderingRegistry.registerEntityRenderingHandler(EntityFloatingPlatform.class, new RenderFloatingPlatform());  
 		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());
 
 		MegaX.spikesRI = RenderingRegistry.getNextAvailableRenderId();
+		MegaX.bossDoorRI = RenderingRegistry.getNextAvailableRenderId();
 
 		RenderingRegistry.registerBlockHandler(new BlockSpikesRenderer());
+		RenderingRegistry.registerBlockHandler(new BlockBossDoorRenderer());
 
 	}
 	@Override
