@@ -112,7 +112,7 @@ public class EntityBusterBullet extends EntityBulletBase {
 	public double getDamage() {
 		double v = this.getSpeed();
 		this.damage = (int)Math.floor(v * damageFactor);
-		System.out.format("%.2f -> %f", v, damage);
+		//System.out.format("%.2f -> %f", v, damage);
 		return this.damage;
 	}
 
@@ -179,11 +179,11 @@ public class EntityBusterBullet extends EntityBulletBase {
 		}
 
 		Block block = Block.blocksList[inTile];
-		if(block != null) {
+		if(block != null) {/*
 			if((block instanceof BlockBreakable)
 					|| block.blockMaterial == Material.leaves) {
 				worldObj.setBlockAndMetadataWithNotify(xTile, yTile, zTile, 0, 0);
-			}
+			}*/
 
 			worldObj.playSoundAtEntity(this,
 					block.stepSound.getStepSound() ,
