@@ -101,7 +101,6 @@ public class Config {
 
 		//Blocks
 		int blockID = 2500;
-		upgradeStationID = config.get(config.CATEGORY_BLOCK,"Upgrade Station", blockID++).getInt();
 		spikesID = config.get(config.CATEGORY_BLOCK,"Metal Spikes", blockID++).getInt();
 		doorBossBlockID = config.get(config.CATEGORY_BLOCK,"Boss Door Block", blockID++).getInt();
 
@@ -217,7 +216,7 @@ public class Config {
 		LanguageRegistry.addName(MegaX.platformPlacer, "Platform Placer");
 		//LanguageRegistry.addName(MegaX.doorBossItem, "Boss Door");
 
-		LanguageRegistry.addName(MegaX.upgradeStation, "Upgrade Station");
+		//LanguageRegistry.addName(MegaX.upgradeStation, "Upgrade Station");
 		LanguageRegistry.addName(MegaX.spikes, "Metal Spikes");
 		//LanguageRegistry.addName(MegaX.doorBossBlock, "Boss Door");
 
@@ -250,9 +249,6 @@ public class Config {
 		MegaX.spikes = new BlockSpikes(spikesID).setStepSound(new StepSound("stone", 1.0F, 1.5F)).setUnlocalizedName("spikes").setHardness(3.5F);
 		//doorBossBlock = (new BlockBossDoor(doorBossBlockID, Material.iron)).setHardness(5.0F).setStepSound(Block.soundMetalFootstep).setUnlocalizedName("doorBoss").setRequiresSelfNotify();
 
-
-		GameRegistry.registerBlock(MegaX.upgradeStation, "upgradeStation");
-		//GameRegistry.registerTileEntity(TileUpgradeStation.class, "tileupgradeStation");
 		GameRegistry.registerBlock(MegaX.spikes, "spikes");
 		//GameRegistry.registerBlock(doorBossBlock, "doorBoss");
 	}

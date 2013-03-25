@@ -72,7 +72,6 @@ public class MegaX {
 	public static Item platformPlacer;
 	public static Item doorBossItem;
 
-	public static Block upgradeStation;
 	public static Block spikes;
 	public static Block doorBossBlock;
 

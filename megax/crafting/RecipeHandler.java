@@ -15,7 +15,6 @@ public class RecipeHandler {
 		/** Recipes **/
 		//GameRegistry.addRecipe(new ItemStack(Item.monsterPlacer, 1, metID), new Object[] { "   ", " # ", "xxx", Character.valueOf('#'), Block.dirt , Character.valueOf('x'), Block.planks });
 
-		//TEMP! will make a block that will infuse the ingots with the material, might keep and have this be an option
 		GameRegistry.addShapelessRecipe(new ItemStack(MegaX.reploidPlate, 1, 16), // basic plate
 				new Object[]{ Item.ingotIron, Item.redstone } );
 		String[] dyes = 
@@ -71,15 +70,7 @@ public class RecipeHandler {
 		}
 				);
 
-		GameRegistry.addRecipe(new ItemStack(MegaX.upgradeStation), 
-				new Object[] { 
-			"pcp", "pbp", "pdp",  
-			Character.valueOf('p'), new ItemStack(MegaX.reploidPlate, 1, 4),
-			Character.valueOf('b'), Block.blockSteel,
-			Character.valueOf('c'), MegaX.weaponChip,
-			Character.valueOf('d'), Item.redstone
-		}
-				);
+		
 
 		GameRegistry.addRecipe(new ItemStack(MegaX.megaX1Helm), 
 				new Object[] { 
