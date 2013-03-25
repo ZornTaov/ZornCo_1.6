@@ -1,34 +1,40 @@
 package zornco.megax.client;
 
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.src.ModLoader;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
+import zornco.megax.MegaX;
+import zornco.megax.bullets.EntityBusterBullet;
+import zornco.megax.bullets.EntityMetBullet;
+import zornco.megax.client.fx.BusterFX;
+import zornco.megax.client.renderers.BlockBossDoorRenderer;
+import zornco.megax.client.renderers.BlockSpikesRenderer;
+import zornco.megax.client.renderers.ModelMet;
+import zornco.megax.client.renderers.ModelMetHat;
+import zornco.megax.client.renderers.RenderBulletBase;
+import zornco.megax.client.renderers.RenderFloatingPlatform;
+import zornco.megax.client.renderers.RenderMet;
+import zornco.megax.client.renderers.RenderXBuster;
+import zornco.megax.core.CommonProxy;
+import zornco.megax.core.helper.KeyBindingHelper;
+import zornco.megax.entities.EntityFloatingPlatform;
+import zornco.megax.entities.EntityMet;
+import zornco.megax.sounds.Sounds;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.src.ModLoader;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
-import zornco.megax.MegaX;
-import zornco.megax.blocks.TileUpgradeStation;
-import zornco.megax.bullets.*;
-import zornco.megax.client.fx.BusterFX;
-import zornco.megax.client.renderers.*;
-import zornco.megax.core.CommonProxy;
-import zornco.megax.core.GuiIds;
-import zornco.megax.core.TickHandlerClient;
-import zornco.megax.core.helper.KeyBindingHelper;
-import zornco.megax.entities.*;
-import zornco.megax.gui.ContainerUpgradeStation;
-import zornco.megax.gui.GuiUpgradeStation;
-import zornco.megax.sounds.Sounds;
 
 public class ClientProxy extends CommonProxy {
 
 	Sounds sounds;
 	public ClientProxy()
 	{
+		
+	}
+	public void registerSounds() {
 		sounds = new Sounds();
 	}
 	@Override
@@ -40,22 +46,22 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderInformation()
 	{
-		MinecraftForgeClient.registerItemRenderer(MegaX.buster.shiftedIndex, new RenderXBuster());
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png" );
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/UpgradeStation.png" );
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster0.png" );
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster1.png" );
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/buster2.png" );
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/X1LightBusterDetailed.png" );
+		MinecraftForgeClient.registerItemRenderer(MegaX.buster.itemID, new RenderXBuster());
+		//MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png" );
+		MinecraftForgeClient.preloadTexture( "/mods/megax/textures/gui/UpgradeStation.png" );
+		MinecraftForgeClient.preloadTexture( "/mods/megax/textures/fx/buster0.png" );
+		MinecraftForgeClient.preloadTexture( "/mods/megax/textures/fx/buster1.png" );
+		MinecraftForgeClient.preloadTexture( "/mods/megax/textures/fx/buster2.png" );
+		MinecraftForgeClient.preloadTexture( "/mods/megax/textures/models/X1LightBusterDetailed.png" );
 		//MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MetHat.png" );
-		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/FloatingPlatform.png" );
+		MinecraftForgeClient.preloadTexture( "/mods/megax/textures/models/FloatingPlatform.png" );
 		RenderingRegistry.registerEntityRenderingHandler(EntityMet.class, new RenderMet(new ModelMet(), new ModelMetHat(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBusterBullet.class, new RenderBulletBase());  
 		RenderingRegistry.registerEntityRenderingHandler(EntityFloatingPlatform.class, new RenderFloatingPlatform());  
 		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());
 
-		MegaX.spikesRI = RenderingRegistry.getNextAvailableRenderId();
-		MegaX.bossDoorRI = RenderingRegistry.getNextAvailableRenderId();
+		MegaX.config.spikesRI = RenderingRegistry.getNextAvailableRenderId();
+		MegaX.config.bossDoorRI = RenderingRegistry.getNextAvailableRenderId();
 
 		RenderingRegistry.registerBlockHandler(new BlockSpikesRenderer());
 		RenderingRegistry.registerBlockHandler(new BlockBossDoorRenderer());
@@ -78,7 +84,7 @@ public class ClientProxy extends CommonProxy {
 	}
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		if (!world.blockExists(x, y, z))
+		/*if (!world.blockExists(x, y, z))
 			return null;
 
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
@@ -91,7 +97,9 @@ public class ClientProxy extends CommonProxy {
 			return new GuiUpgradeStation(player.inventory, (TileUpgradeStation) tile);
 		default:
 			return null;
-		}
+		}*/
+		return null;
+		
 	}
 	@Override
 	public void busterShot(World worldObj, double sx, double sy, double sz, float size, int type)

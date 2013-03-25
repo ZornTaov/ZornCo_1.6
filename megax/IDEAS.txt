@@ -1,0 +1,38 @@
+onDeath(event) {drop Mob Chip}
+
+Cow module: shoot milk, fill targets buckets with milk!
+
+Mooshroom module: shoot soup, fill targets buckets with soup!
+
+chicken module: glide ability(chest)
+
+pig module: shoot porkchops, upgrade is cooked
+
+sheep module: ???
+
+zombie module: enemy detector(head)
+
+skel module: shoot arows that use energy, charge shot does a multi shot
+
+creeper module: fully charged shot explodes around you (40% energy usage per, 3/4th to 1 creeper size)
+	enhanced: shrapnel explosion, twice as far damage, no blocks broken on extended range
+
+spider module: poisons the target
+
+enderman module: pick up a block, then throw (shoot) the block, two sliders for how far it's thrown, and the other for if the block gets broken or not
+
+slime module: walljump(boots)
+
+magma slimes module: dash(legs)
+
+blaze module: shoot fire
+
+ghast module: shoot fireballs
+
+wither skel module: puts a wither effect on the target
+
+pigmen module: lava immune(chest)
+
+wither boss module: upgrades armor(mostly look)
+
+ender dragon egg module: upgrades buster(mostly look)

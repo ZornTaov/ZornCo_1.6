@@ -59,7 +59,7 @@ public class RenderXBuster implements IItemRenderer
 		case EQUIPPED:
 		{
 			GL11.glPushMatrix();
-			ForgeHooksClient.bindTexture("/zornco/megax/textures/XBusterDetailed.png", 0);
+			Minecraft.getMinecraft().renderEngine.bindTexture("/mods/MegaX/textures/models/XBusterDetailed.png");
 			//ForgeHooksClient.bindTexture("/zornco/megax/textures/X1LightBusterDetailed.png", 0);
 
 			GL11.glRotatef(100.0F, 1.0F, 0.0F, 0.0F);
@@ -183,7 +183,6 @@ public class RenderXBuster implements IItemRenderer
 			this.buster.render2((Entity)data[1], 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			ForgeHooksClient.unbindTexture();
 			GL11.glPopMatrix();
 			break;
 		}

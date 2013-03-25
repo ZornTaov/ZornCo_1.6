@@ -9,14 +9,13 @@ public class ItemMegaX1Armor extends ItemMegaXArmorBase {
 	public ItemMegaX1Armor(int par1, EnumArmorMaterial par2EnumArmorMaterial,
 			int par3, int par4) {
 		super(par1, par2EnumArmorMaterial, par3, par4);
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack)
 	{
-		if (itemstack.itemID == MegaX.megaX1Belt.shiftedIndex) {
-			return "/zornco/megax/textures/armor/MegaXBasic_2.png";
+		if (itemstack.itemID == MegaX.megaX1Belt.itemID) {
+			return "/mods/megax/textures/models/MegaXBasic_2.png";
 		}
-		return "/zornco/megax/textures/armor/MegaXBasic_1.png";
+		return "/mods/megax/textures/models/MegaXBasic_1.png";
 	}
 }

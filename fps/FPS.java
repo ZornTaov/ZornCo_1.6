@@ -21,6 +21,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.ModLoader;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -33,7 +36,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 // central controller for mod
-//@Mod(modid="FPS", name="FPS", version="0.0.1") // uncomment this to compile
+//@Mod(modid="FPS", name="FPS", version="1.0.0") // uncomment this to compile
 @SideOnly(Side.CLIENT)
 public class FPS {
 	public static final String ARROW_LOCATION = "/zornco/fps/ArrowIconWhite.png";
@@ -287,7 +290,7 @@ public class FPS {
 
 	protected boolean loadDownloadableImageTexture(String par1Str, String par2Str)
 	{
-		RenderEngine var3 = ModLoader.getMinecraftInstance().renderEngine;
+		RenderEngine renderer = ModLoader.getMinecraftInstance().renderEngine;
 		String location = par1Str;
 		if(this.useOldSkinServ)
 		{
@@ -301,11 +304,12 @@ public class FPS {
 				location = par1Str;
 			}
 		}
-		int var4 = var3.getTextureForDownloadableImage(location, par2Str);
+		int var4 = renderer.getTextureForDownloadableImage(location, par2Str);
 
 		if (var4 >= 0)
 		{
-			var3.bindTexture(var4);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, var4);
+			renderer.resetBoundTexture();
 			return true;
 		}
 		else

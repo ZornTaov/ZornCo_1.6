@@ -13,6 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -20,14 +21,23 @@ import net.minecraft.world.World;
 
 public class BlockBossDoor extends Block
 {
+	private static final String[] field_94467_a = new String[] {"doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper"};
+    private final int field_94465_b;
+    @SideOnly(Side.CLIENT)
+    private Icon[] iconArray;
+    
     public BlockBossDoor(int par1, Material par2Material)
     {
         super(par1, par2Material);
-        this.blockIndexInTexture = 97;
+        //this.blockIndexInTexture = 97;
 
         if (par2Material == Material.iron)
         {
-            ++this.blockIndexInTexture;
+            this.field_94465_b = 2;
+        }
+        else
+        {
+            this.field_94465_b = 0;
         }
 
         float var3 = 0.5F;
@@ -38,72 +48,77 @@ public class BlockBossDoor extends Block
     @SideOnly(Side.CLIENT)
 
     /**
+     * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
+     */
+    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+    {
+        return this.iconArray[this.field_94465_b];
+    }
+
+    @SideOnly(Side.CLIENT)
+
+    /**
      * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
      */
-    public int getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
-        if (par5 != 0 && par5 != 1)
+        if (par5 != 1 && par5 != 0)
         {
-            int var6 = this.getFullMetadata(par1IBlockAccess, par2, par3, par4);
-            int var7 = this.blockIndexInTexture;
+            int i1 = this.getFullMetadata(par1IBlockAccess, par2, par3, par4);
+            int j1 = i1 & 3;
+            boolean flag = (i1 & 4) != 0;
+            boolean flag1 = false;
+            boolean flag2 = (i1 & 8) != 0;
 
-            if ((var6 & 8) != 0)
+            if (flag)
             {
-                var7 -= 16;
-            }
-
-            int var8 = var6 & 3;
-            boolean var9 = (var6 & 4) != 0;
-
-            if (var9)
-            {
-                if (var8 == 0 && par5 == 2)
+                if (j1 == 0 && par5 == 2)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
-                else if (var8 == 1 && par5 == 5)
+                else if (j1 == 1 && par5 == 5)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
-                else if (var8 == 2 && par5 == 3)
+                else if (j1 == 2 && par5 == 3)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
-                else if (var8 == 3 && par5 == 4)
+                else if (j1 == 3 && par5 == 4)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
             }
             else
             {
-                if (var8 == 0 && par5 == 5)
+                if (j1 == 0 && par5 == 5)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
-                else if (var8 == 1 && par5 == 3)
+                else if (j1 == 1 && par5 == 3)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
-                else if (var8 == 2 && par5 == 4)
+                else if (j1 == 2 && par5 == 4)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
-                else if (var8 == 3 && par5 == 2)
+                else if (j1 == 3 && par5 == 2)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
 
-                if ((var6 & 16) != 0)
+                if ((i1 & 16) != 0)
                 {
-                    var7 = -var7;
+                    flag1 = !flag1;
                 }
             }
 
-            return var7;
+            return this.iconArray[this.field_94465_b + (flag1 ? field_94467_a.length : 0) + (flag2 ? 1 : 0)];
         }
         else
         {
-            return this.blockIndexInTexture;
+            return this.iconArray[this.field_94465_b];
         }
     }
 
@@ -135,7 +150,7 @@ public class BlockBossDoor extends Block
      */
 	public int getRenderType()
 	{
-		return MegaX.bossDoorRI;
+		return MegaX.config.bossDoorRI;
 	}
 
     @SideOnly(Side.CLIENT)
@@ -284,12 +299,12 @@ public class BlockBossDoor extends Block
 
             if ((var10 & 8) == 0)
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var11);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, var11, 2);
                 par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
             }
             else
             {
-                par1World.setBlockMetadataWithNotify(par2, par3 - 1, par4, var11);
+                par1World.setBlockMetadataWithNotify(par2, par3 - 1, par4, var11, 2);
                 par1World.markBlockRangeForRenderUpdate(par2, par3 - 1, par4, par2, par3, par4);
             }
 
@@ -313,12 +328,12 @@ public class BlockBossDoor extends Block
 
             if ((var6 & 8) == 0)
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var8);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, var8, 2);
                 par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
             }
             else
             {
-                par1World.setBlockMetadataWithNotify(par2, par3 - 1, par4, var8);
+                par1World.setBlockMetadataWithNotify(par2, par3 - 1, par4, var8, 2);
                 par1World.markBlockRangeForRenderUpdate(par2, par3 - 1, par4, par2, par3, par4);
             }
 
@@ -340,18 +355,18 @@ public class BlockBossDoor extends Block
 
             if (par1World.getBlockId(par2, par3 + 1, par4) != this.blockID)
             {
-                par1World.setBlockWithNotify(par2, par3, par4, 0);
+                par1World.setBlockToAir(par2, par3, par4);
                 var7 = true;
             }
 
             if (!par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4))
             {
-                par1World.setBlockWithNotify(par2, par3, par4, 0);
+                par1World.setBlockToAir(par2, par3, par4);
                 var7 = true;
 
                 if (par1World.getBlockId(par2, par3 + 1, par4) == this.blockID)
                 {
-                    par1World.setBlockWithNotify(par2, par3 + 1, par4, 0);
+                    par1World.setBlockToAir(par2, par3 + 1, par4);
                 }
             }
 
@@ -376,7 +391,7 @@ public class BlockBossDoor extends Block
         {
             if (par1World.getBlockId(par2, par3 - 1, par4) != this.blockID)
             {
-                par1World.setBlockWithNotify(par2, par3, par4, 0);
+                par1World.setBlockToAir(par2, par3, par4);
             }
 
             if (par5 > 0 && par5 != this.blockID)
@@ -391,7 +406,7 @@ public class BlockBossDoor extends Block
      */
     public int idDropped(int par1, Random par2Random, int par3)
     {
-        return (par1 & 8) != 0 ? 0 : (this.blockMaterial == Material.iron ? Item.doorSteel.shiftedIndex : Item.doorWood.shiftedIndex);
+        return (par1 & 8) != 0 ? 0 : (this.blockMaterial == Material.iron ? Item.doorSteel.itemID : Item.doorWood.itemID);
     }
 
     /**
@@ -453,7 +468,7 @@ public class BlockBossDoor extends Block
      */
     public int idPicked(World par1World, int par2, int par3, int par4)
     {
-        return this.blockMaterial == Material.iron ? Item.doorSteel.shiftedIndex : Item.doorWood.shiftedIndex;
+        return this.blockMaterial == Material.iron ? Item.doorSteel.itemID : Item.doorWood.itemID;
     }
 
     /**
@@ -463,7 +478,7 @@ public class BlockBossDoor extends Block
     {
         if (par6EntityPlayer.capabilities.isCreativeMode && (par5 & 8) != 0 && par1World.getBlockId(par2, par3 - 1, par4) == this.blockID)
         {
-            par1World.setBlockWithNotify(par2, par3 - 1, par4, 0);
+            par1World.setBlockToAir(par2, par3 - 1, par4);
         }
     }
 }

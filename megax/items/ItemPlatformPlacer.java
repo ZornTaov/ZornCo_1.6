@@ -9,6 +9,7 @@ import zornco.megax.MegaX;
 import zornco.megax.entities.EntityFloatingPlatform;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
@@ -18,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Facing;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -25,15 +27,14 @@ import net.minecraft.world.World;
 
 public class ItemPlatformPlacer extends Item {
 
+	@SideOnly(Side.CLIENT)
+	private Icon platformSpawnerIcon;
+
 	public ItemPlatformPlacer(int par1)
 	{
 		super(par1);
 		this.maxStackSize = 1;
 		this.setCreativeTab(MegaX.megaXTab);
-	}
-    public String getTextureFile()
-	{
-		return "/zornco/megax/textures/MegaXItemTextures.png";
 	}
 	/**
      * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
@@ -78,5 +79,21 @@ public class ItemPlatformPlacer extends Item {
 
             return true;
         }
+    }
+
+	@SideOnly(Side.CLIENT)
+
+	/**
+	 * Gets an icon index based on an item's damage value
+	 */
+	public Icon getIconFromDamage(int par1)
+	{
+		return this.platformSpawnerIcon;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void updateIcons(IconRegister par1IconRegister)
+    {
+        this.platformSpawnerIcon = par1IconRegister.registerIcon("MegaX:"+this.getUnlocalizedName().substring(5));
     }
 }

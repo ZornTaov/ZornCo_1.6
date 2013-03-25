@@ -1,10 +1,7 @@
 package zornco.megax.core;
 
 
-import zornco.megax.blocks.TileUpgradeStation;
-import zornco.megax.gui.ContainerUpgradeStation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
@@ -24,7 +21,6 @@ public class CommonProxy implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	public int addArmor(String path) {
@@ -33,7 +29,7 @@ public class CommonProxy implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 
-		if (!world.blockExists(x, y, z))
+		/*if (!world.blockExists(x, y, z))
 			return null;
 
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
@@ -44,15 +40,17 @@ public class CommonProxy implements IGuiHandler {
 
 		case GuiIds.UPGRADE_STATION:
 			return new ContainerUpgradeStation(player.inventory, (TileUpgradeStation) tile);
-		default:
+		default:*/
 			return null;
-		}
+		/*}*/
 	}
 	public void busterShot(World worldObj, double sx, double sy, double sz, float size, int type)
 	{
 	}
 	public void setKeyBinding(String name, int value) {
-		// TODO Auto-generated method stub
 
+	}
+	public void registerSounds() {
+		
 	}
 }

@@ -33,7 +33,7 @@ public class RenderBulletBase extends Render
 	
 	public void setup(String tex, float wid, float len, float mid, float u, float v, float texWidth, float texHeight)
 	{
-		this.texture = "/zornco/megax/textures/bullet_" + tex + ".png";
+		this.texture = "/mods/MegaX/textures/fx/bullet_" + tex + ".png";
 		this.backSide = u/texWidth;
 		this.frontSide = (u+len)/ texWidth;
 		this.leftSide = v / texHeight;

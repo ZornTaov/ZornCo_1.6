@@ -51,9 +51,9 @@ public class RenderFloatingPlatform extends Render {
 
 		GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
-		ForgeHooksClient.bindTexture("/zornco/megax/textures/FloatingPlatform.png", 0);
+		this.loadTexture("/mods/MegaX/textures/models/FloatingPlatform.png");
 		this.modelPlatform.render(entity, 0.0F, var10 * 3.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-		ForgeHooksClient.unbindTexture();
+
 		GL11.glPopMatrix();
 	}
 

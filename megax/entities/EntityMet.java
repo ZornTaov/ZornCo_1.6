@@ -64,7 +64,7 @@ public class EntityMet extends EntityTameable {
 		//this.tasks.addTask(1, new EntityAIPanic(this, 0.38F));
 		this.tasks.addTask(2, this.aiSit);
 		this.tasks.addTask(2, this.aiMetHide);
-		this.tasks.addTask(3, new EntityAITempt(this, 0.25F, Item.ingotGold.shiftedIndex, false));
+		this.tasks.addTask(3, new EntityAITempt(this, 0.25F, Item.ingotGold.itemID, false));
 		this.tasks.addTask(4, new EntityAIBulletAttack(this, this.moveSpeed, 1, 60));
 		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.25F));
 		this.tasks.addTask(5, new EntityAIFollowOwner(this, this.moveSpeed, 10.0F, 2.0F));
@@ -181,9 +181,9 @@ public class EntityMet extends EntityTameable {
 		switch(i)
 		{
 		case 3:
-			return MegaX.healthBit.shiftedIndex;
+			return MegaX.healthBit.itemID;
 		case 4:
-			return MegaX.healthByte.shiftedIndex;
+			return MegaX.healthByte.itemID;
 		/*
 		case 7:
 			return MegaX.energyBit.shiftedIndex;
@@ -246,7 +246,7 @@ public class EntityMet extends EntityTameable {
 				this.setPathToEntity((PathEntity)null);
 			}
 		}
-		else if (var2 != null && var2.itemID == Item.goldNugget.shiftedIndex && !this.isHiding())
+		else if (var2 != null && var2.itemID == Item.goldNugget.itemID && !this.isHiding())
 		{
 			if (!par1EntityPlayer.capabilities.isCreativeMode)
 			{
@@ -338,7 +338,7 @@ public class EntityMet extends EntityTameable {
 	 */
 	public boolean isWheat(ItemStack par1ItemStack)
 	{
-		return par1ItemStack != null && par1ItemStack.itemID == Item.ingotGold.shiftedIndex;
+		return par1ItemStack != null && par1ItemStack.itemID == Item.ingotGold.itemID;
 	}
 	public int getMetHatType()
 	{
@@ -441,7 +441,7 @@ public class EntityMet extends EntityTameable {
 	}
 
 	@Override
-	public EntityAgeable func_90011_a(EntityAgeable var1) {
+	public EntityAgeable createChild(EntityAgeable var1) {
 		return this.spawnBabyAnimal(var1);
 	}
 

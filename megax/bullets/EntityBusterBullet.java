@@ -7,8 +7,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 
@@ -23,6 +25,10 @@ public class EntityBusterBullet extends EntityBulletBase {
 	private int charge = 1;
 	private boolean blockHit = false;
 	private int ttlInAir = 12;
+	
+	public double size;
+	public static final int SIZE = 24;
+	public double damagingness;
 
 	public EntityBusterBullet(World par1World) {
 		super(par1World);
@@ -34,7 +40,25 @@ public class EntityBusterBullet extends EntityBulletBase {
 		super(world, attacker, target);
 	}
 	public EntityBusterBullet(World par1World, EntityLiving ent) {
-		super(par1World, ent);
+		super(par1World);
+		this.shootingEntity = ent;
+		Vec3 direction = shootingEntity.getLookVec().normalize();
+		double scale = 1.0;
+		this.motionX = direction.xCoord * scale;
+		this.motionY = direction.yCoord * scale;
+		this.motionZ = direction.zCoord * scale;
+		double r = this.size / 50.0 - direction.yCoord * shootingEntity.getEyeHeight();
+		double xoffset = 1.3f + r;
+		double yoffset = -.2;
+		double zoffset = 0.3f;
+		Vec3 horzdir = direction.normalize();
+		horzdir.yCoord = 0;
+		horzdir = horzdir.normalize();
+		this.posX = shootingEntity.posX + direction.xCoord * xoffset - direction.yCoord * horzdir.xCoord * yoffset - horzdir.zCoord * zoffset;
+		this.posY = shootingEntity.posY + shootingEntity.getEyeHeight() + direction.yCoord * xoffset + (1 - Math.abs(direction.yCoord)) * yoffset;
+		this.posZ = shootingEntity.posZ + direction.zCoord * xoffset - direction.yCoord * horzdir.zCoord * yoffset + horzdir.xCoord * zoffset;
+		this.boundingBox.setBounds(posX - r, posY - r, posZ - r, posX + r, posY + r, posZ + r);
+		dataWatcher.addObject(SIZE, Byte.valueOf((byte) this.size));
 	}
 	public void entityInit() {
 		super.entityInit();
@@ -241,5 +265,14 @@ public class EntityBusterBullet extends EntityBulletBase {
 	{
 		byte crit = this.dataWatcher.getWatchableObjectByte(16);
 		return crit == 2 ? true : crit == 1 ? true : false;
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound var1) {
+		this.setDead();
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound var1) {
 	}
 }

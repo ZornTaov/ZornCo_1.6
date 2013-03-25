@@ -1,11 +1,15 @@
 package zornco.megax.items;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import zornco.megax.MegaX;
 import zornco.megax.sounds.Sounds;
@@ -27,34 +31,12 @@ public class ItemHPEnergy extends ItemFood {
 	/** probably of the set potion effect occurring */
 	private float potionEffectProbability;
 	public int type;
-	public ItemHPEnergy(int id, int type, int ammount, float sat) {
+    private Icon healthIcons;
+
+    public ItemHPEnergy(int id, int type, int ammount, float sat) {
 		super(id, ammount, sat, false);
 		this.type = type;
 		this.setCreativeTab(MegaX.megaXTab);
-	}
-	@SideOnly(Side.CLIENT)
-	int getIndex() {
-		return this.iconIndex;
-	}
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getTextureFile() {
-		return "/zornco/megax/textures/MegaXItemTextures.png";
-	}
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses()
-	{
-		return true;
-	}
-	@Override
-	@SideOnly(Side.CLIENT)
-	/**
-	 * Gets an icon index based on an item's damage value and the given render pass
-	 */
-	public int getIconFromDamageForRenderPass(int par1, int par2)
-	{
-		return (this.type == 2 || this.type == 3)?(par2 == 1 ? this.iconIndex + 1 : super.getIconFromDamageForRenderPass(par1, par2)):super.getIconFromDamageForRenderPass(par1, par2);
 	}
 
 	/**
@@ -113,5 +95,21 @@ public class ItemHPEnergy extends ItemFood {
 	public EnumAction getItemUseAction(ItemStack par1ItemStack)
 	{
 		return EnumAction.none;
+	}
+
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * Gets an icon index based on an item's damage value
+     */
+    public Icon getIconFromDamage(int par1)
+    {
+        return this.healthIcons;
+    }
+
+	@SideOnly(Side.CLIENT)
+	public void updateIcons(IconRegister par1IconRegister)
+	{
+		this.healthIcons = par1IconRegister.registerIcon("Megax:"+this.getUnlocalizedName().substring(5));
 	}
 }

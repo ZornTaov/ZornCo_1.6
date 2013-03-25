@@ -198,7 +198,7 @@ public class EntityFloatingPlatform extends Entity
 		{
 			ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
 
-			if (var2 != null && var2.itemID == Item.bucketEmpty.shiftedIndex)
+			if (var2 != null && var2.itemID == Item.bucketEmpty.itemID)
 			{
 				//par1EntityPlayer.openGui(MegaX.instance, GuiIds.UPGRADE_STATION, par1World, i, j, k);
 
@@ -213,7 +213,7 @@ public class EntityFloatingPlatform extends Entity
 	 */
 	public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
 	{
-		if (this.func_85032_ar())
+		if (this.isEntityInvulnerable())
 		{
 			return false;
 		}

@@ -37,11 +37,9 @@ public class TickHandlerClient implements ITickHandler {
 	}
 
 	private void onTickInGame() {
-		// TODO Auto-generated method stub
 	}
 
 	private void onTickInGUI(GuiScreen guiscreen) {
-		// TODO Auto-generated method stub
 		if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer.isDead)
 			return;
 		ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().displayWidth,Minecraft.getMinecraft().displayHeight); 
@@ -123,7 +121,7 @@ public class TickHandlerClient implements ITickHandler {
 							;
 
 						// draw arrow
-						Minecraft.getMinecraft().renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine.getTexture(FPS.instance.ARROW_LOCATION));
+						Minecraft.getMinecraft().renderEngine.bindTexture(FPS.instance.ARROW_LOCATION);
 						int arrowColor = FPS.instance.neutralArrowColor;
 						if(FPS.instance.friendList.containsKey(multiPlayer.username))
 							arrowColor = FPS.instance.friendArrowColor;
@@ -136,7 +134,7 @@ public class TickHandlerClient implements ITickHandler {
 						// draw faceplate
 						boolean loaded = FPS.instance.loadDownloadableImageTexture(multiPlayer.skinUrl, "/mob/char.png");
 						if(!loaded){
-							Minecraft.getMinecraft().renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine.getTexture("/mob/char.png"));
+							Minecraft.getMinecraft().renderEngine.bindTexture("/mob/char.png");
 						}
 						FPS.instance.drawTexturedHeadModalRect(
 								14, (lineCount * 10) + 20, 

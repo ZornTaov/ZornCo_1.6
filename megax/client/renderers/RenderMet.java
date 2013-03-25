@@ -28,7 +28,7 @@ public class RenderMet extends RenderLiving
         {
         	//ForgeHooksClient.bindTexture("/zornco/megax/textures/MetHat.png", 0);
 
-    		MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MetHat.png" );
+    		MinecraftForgeClient.preloadTexture( "/mods/megax/textures/models/MetHat.png" );
             float white = 1.0F;
             int type = par1EntityMet.getMetHatType();
             GL11.glColor3f(white * EntityMet.fleeceColorTable[type][0], white * EntityMet.fleeceColorTable[type][1], white * EntityMet.fleeceColorTable[type][2]);

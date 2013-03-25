@@ -2,8 +2,10 @@ package zornco.megax.items;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,6 +16,7 @@ public class ItemReploidPlate extends ItemMegaXBase {
     public static final String[] plateColorNames = new String[] {"Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "Enhanced", "Basic"};
     public static final int[] chipColors = new int[] {1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 11250603, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320, 2651799};
 
+	private Icon iconPlate;
     public static final int typeAmmount = 17;
     public ItemReploidPlate(int par1)
     {
@@ -21,15 +24,31 @@ public class ItemReploidPlate extends ItemMegaXBase {
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }
-    public String getTextureFile()
+
+	/**
+	 * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
+	 * different names based on their damage or NBT.
+	 */
+	public String getUnlocalizedName(ItemStack par1ItemStack)
 	{
-		return "/zornco/megax/textures/MegaXItemTextures.png";
+		int i = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, typeAmmount);
+		return super.getUnlocalizedName() + "." + plateColorNames[i];
 	}
 
-    public String getItemNameIS(ItemStack par1ItemStack)
+    @SideOnly(Side.CLIENT)
+    public void updateIcons(IconRegister par1IconRegister)
     {
-        int var2 = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, typeAmmount-1);
-        return super.getItemName() + "." + plateColorNames[var2];
+            this.iconPlate = par1IconRegister.registerIcon("Megax:reploidPlate");
+    }
+
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * Gets an icon index based on an item's damage value
+     */
+    public Icon getIconFromDamage(int par1)
+    {
+        return this.iconPlate;
     }
 
     @SideOnly(Side.CLIENT)

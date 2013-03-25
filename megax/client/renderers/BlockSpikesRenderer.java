@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.util.Icon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 
@@ -18,10 +19,9 @@ implements ISimpleBlockRenderingHandler {
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID,
 			RenderBlocks renderer) {
-		// TODO Auto-generated method stub
-		if (modelID == MegaX.spikesRI)
+		if (modelID == MegaX.config.spikesRI)
 		{
-			renderer.setRenderMinMax(0.0F, 0.25F, 0.0F, 1.0F, 0.3125F, 1.0F);
+			renderer.setRenderBounds(0.0F, 0.25F, 0.0F, 1.0F, 0.3125F, 1.0F);
 			renderDo(renderer, block, metadata);
 		}
 	}
@@ -29,16 +29,13 @@ implements ISimpleBlockRenderingHandler {
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
-		// TODO Auto-generated method stub
 
 		Tessellator tess = Tessellator.instance;
-		int textureIndex = block.getBlockTextureFromSide(0);
-		int texU = (textureIndex & 15) << 4;
-		int texV = textureIndex & 240;
-		double uLeft = (double)((float)texU / 256.0F);
-		double uRight = (double)(((float)texU + 8F) / 256.0F);
-		double vTop = (double)((float)texV / 256.0F); 
-		double vBottom = (double)(((float)texV + 16F) / 256.0F); 
+		Icon icon = getBlockIconFromSide(block, 0);
+		double uLeft = (double)icon.getMinU();
+		double uRight = (double)icon.getMaxU();
+		double vTop = (double)icon.getMinV();
+		double vBottom = (double)icon.getMaxV(); 
 		double offset = 0.0625F;
 		double i, j;
 		int light = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z);
@@ -46,7 +43,7 @@ implements ISimpleBlockRenderingHandler {
 		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 		if (renderer.blockAccess.isBlockNormalCube(x, y + 1, z) || (renderer.blockAccess.getBlockMaterial(x, y + 1, z) == Material.piston && renderer.blockAccess.getBlockId(x, y + 1, z) != Block.pistonMoving.blockID))
 		{
-			renderer.setRenderMinMax(0.0, 1.0-offset, 0.0, 1.0, 1.0, 1.0);
+			renderer.setRenderBounds(0.0, 1.0-offset, 0.0, 1.0, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, -1F, 0.0F);
 
@@ -55,7 +52,7 @@ implements ISimpleBlockRenderingHandler {
 		}
 		if (renderer.blockAccess.isBlockNormalCube(x, y - 1, z) || (renderer.blockAccess.getBlockMaterial(x, y - 1, z) ==  Material.piston && renderer.blockAccess.getBlockId(x, y - 1, z) != Block.pistonMoving.blockID))
 		{
-			renderer.setRenderMinMax(0.0, 0.0, 0.0, 1.0, offset, 1.0);
+			renderer.setRenderBounds(0.0, 0.0, 0.0, 1.0, offset, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, 1.0F, 0.0F);
 
@@ -65,7 +62,7 @@ implements ISimpleBlockRenderingHandler {
 		if (renderer.blockAccess.isBlockNormalCube(x + 1, y, z) || (renderer.blockAccess.getBlockMaterial(x + 1, y, z) == Material.piston && renderer.blockAccess.getBlockId(x + 1, y, z) != Block.pistonMoving.blockID))
 		{
 			//PROBLEM SIDE
-			renderer.setRenderMinMax(1.0-offset, 0.0, 0.0, 1.0, 1.0, 1.0);
+			renderer.setRenderBounds(1.0-offset, 0.0, 0.0, 1.0, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(-1F, 0.0F, 0.0F);
 
@@ -74,7 +71,7 @@ implements ISimpleBlockRenderingHandler {
 		}
 		if (renderer.blockAccess.isBlockNormalCube(x - 1, y, z) || (renderer.blockAccess.getBlockMaterial(x - 1, y, z) == Material.piston && renderer.blockAccess.getBlockId(x - 1, y, z) != Block.pistonMoving.blockID))
 		{
-			renderer.setRenderMinMax(0.0, 0.0, 0.0, offset, 1.0, 1.0);
+			renderer.setRenderBounds(0.0, 0.0, 0.0, offset, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(1.0F, 0.0F, 0.0F);
 
@@ -83,7 +80,7 @@ implements ISimpleBlockRenderingHandler {
 		}
 		if (renderer.blockAccess.isBlockNormalCube(x, y, z + 1) || (renderer.blockAccess.getBlockMaterial(x, y, z + 1) == Material.piston && renderer.blockAccess.getBlockId(x, y, z + 1) != Block.pistonMoving.blockID))
 		{
-			renderer.setRenderMinMax(0.0, 0.0, 1.0-offset, 1.0, 1.0, 1.0);
+			renderer.setRenderBounds(0.0, 0.0, 1.0-offset, 1.0, 1.0, 1.0);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, 0.0F, -1F);
 
@@ -92,7 +89,7 @@ implements ISimpleBlockRenderingHandler {
 		}
 		if (renderer.blockAccess.isBlockNormalCube(x, y, z - 1) || (renderer.blockAccess.getBlockMaterial(x, y, z - 1) == Material.piston && renderer.blockAccess.getBlockId(x, y, z - 1) != Block.pistonMoving.blockID))
 		{
-			renderer.setRenderMinMax(0.0, 0.0, 0.0, 1.0, 1.0, offset);
+			renderer.setRenderBounds(0.0, 0.0, 0.0, 1.0, 1.0, offset);
 			renderer.renderStandardBlock(block, x, y, z);
 			tess.setNormal(0.0F, 0.0F, 1.0F);
 
@@ -301,14 +298,12 @@ implements ISimpleBlockRenderingHandler {
 	
 	@Override
 	public boolean shouldRender3DInInventory() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public int getRenderId() {
-		// TODO Auto-generated method stub
-		return MegaX.spikesRI;
+		return MegaX.config.spikesRI;
 	}
 
 	public static void renderDo(RenderBlocks renderblocks, Block block, int meta)
@@ -339,13 +334,11 @@ implements ISimpleBlockRenderingHandler {
 		tess.setNormal(1.0F, 0.0F, 0.0F);
 		renderblocks.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(5, meta));
 		tess.draw();
-		int textureIndex = block.getBlockTextureFromSide(0);       
-		int texU = (textureIndex & 15) << 4;                       
-		int texV = textureIndex & 240;                             
-		double uLeft = (double)((float)texU / 256.0F);             
-		double uRight = (double)(((float)texU + 15.99F) / 256.0F); 
-		double vTop = (double)((float)texV / 256.0F);              
-		double vBottom = (double)(((float)texV + 15.99F) / 256.0F);
+		Icon icon = block.getBlockTextureFromSide(0);
+		double uLeft = (double)icon.getMinU();
+		double uRight = (double)icon.getMaxU();
+		double vTop = (double)icon.getMinV();
+		double vBottom = (double)icon.getMaxV(); 
 		tess.startDrawingQuads();
 		tess.addVertexWithUV((double)( 0.1 ), (double)( 0.25 ), (double)( 0.9 ), uLeft, vTop);
 		tess.addVertexWithUV((double)( 0.1 ), (double)( 0.25 ), (double)( 0.9 ), uLeft, vBottom);

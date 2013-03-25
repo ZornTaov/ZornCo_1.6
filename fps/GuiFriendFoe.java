@@ -102,7 +102,7 @@ public class GuiFriendFoe extends GuiScreen {
 		this.enemySlot   = new GuiSlotFriendFoe(this, 30, this.width / 2 + 55 , 100, 100, this.enemyList,   enemyListId, "Enemies");
 
 		// make friend button
-		this.controlList.add(
+		this.buttonList.add(
 				new GuiButton(
 						this.friendButtonId,
 						this.width / 2 - 155, 132,
@@ -110,7 +110,7 @@ public class GuiFriendFoe extends GuiScreen {
 						"Make Friend"));
 
 		// make neutral button
-		this.controlList.add(
+		this.buttonList.add(
 				new GuiButton(
 						this.neutralButtonId,
 						this.width / 2 - 50, 132,
@@ -118,7 +118,7 @@ public class GuiFriendFoe extends GuiScreen {
 						"Make Neutral"));
 
 		// make enemy button
-		this.controlList.add(
+		this.buttonList.add(
 				new GuiButton(
 						this.enemyButtonId,
 						this.width / 2 + 55, 132,
@@ -139,17 +139,17 @@ public class GuiFriendFoe extends GuiScreen {
 				this.width / 2 - 155, 186,
 				"Show your info",
 				this.showHudInfo);
-		this.controlList.add(this.showHudInfoCheckBox);
+		this.buttonList.add(this.showHudInfoCheckBox);
 		this.showOtherPosCheckBox = new GuiCheckBox(
 				this.showOtherPosId,
 				this.width / 2 , 186,
 				"Show other player position",
 				this.showOtherPos);
-		this.controlList.add(this.showOtherPosCheckBox);
+		this.buttonList.add(this.showOtherPosCheckBox);
 		
 		
 		// done button
-		this.controlList.add(
+		this.buttonList.add(
 				new GuiButton(
 						this.doneButtonId,
 						this.width / 2 - 100,
@@ -171,7 +171,7 @@ public class GuiFriendFoe extends GuiScreen {
 
 	public void addRGBSliders(int id, float[] RGB, int x, int y) {
 		for (int row = 0; row < 3; ++row)
-			this.controlList.add(
+			this.buttonList.add(
 					new GuiColorSlider(
 							RGB,
 							id + row, 

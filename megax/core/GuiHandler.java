@@ -1,18 +1,15 @@
 package zornco.megax.core;
 
-import cpw.mods.fml.common.network.IGuiHandler;
-import zornco.megax.blocks.TileUpgradeStation;
-import zornco.megax.gui.ContainerUpgradeStation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
 
 	
 	public Object getGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 
-		if (!world.blockExists(x, y, z))
+		/*if (!world.blockExists(x, y, z))
 			return null;
 
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
@@ -25,22 +22,20 @@ public class GuiHandler implements IGuiHandler {
 
 		case GuiIds.UPGRADE_STATION:
 			return new ContainerUpgradeStation(player.inventory, engine);
-		default:
+		default:*/
 			return null;
-		}
+		//}
 	}
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

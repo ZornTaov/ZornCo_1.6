@@ -6,9 +6,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -18,8 +20,7 @@ public class BlockSpikes extends Block {
 	public BlockSpikes(int par1) {
 		super(par1, Material.iron);
 		this.setCreativeTab(MegaX.megaXTab);
-		this.blockIndexInTexture = 22;
-		// TODO Auto-generated constructor stub
+		//this.blockIndexInTexture = 22;
 	}
 
 	/**
@@ -90,7 +91,7 @@ public class BlockSpikes extends Block {
 		if (valid == 0)
 		{
 			this.dropBlockAsItem(par1World, x, y, z, par1World.getBlockMetadata(x, y, z), 0);
-			par1World.setBlockWithNotify(x, y, z, 0);
+			par1World.setBlockToAir(x, y, z);
 		}
 
 	}
@@ -137,7 +138,7 @@ public class BlockSpikes extends Block {
 			var13 = 0F;
 			var14 = 1F;
 		}
-		return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double)((float)x + var9), (double)((float)y + var11), (double)((float)z + var13),(double)((float)x + var10), (double)((float)y + var12), (double)((float)z + var14));
+		return AxisAlignedBB.getAABBPool().getAABB((double)((float)x + var9), (double)((float)y + var11), (double)((float)z + var13),(double)((float)x + var10), (double)((float)y + var12), (double)((float)z + var14));
 
 	}
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
@@ -227,12 +228,33 @@ public class BlockSpikes extends Block {
 		return false;
 	}
 
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
+     */
+    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+    {
+        return this.blockIcon;
+    }
+
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * When this method is called, your block should register all the icons it needs with the given IconRegister. This
+     * is the only chance you get to register icons.
+     */
+    public void registerIcons(IconRegister par1IconRegister)
+    {
+        this.blockIcon = par1IconRegister.registerIcon("blockIron");
+    }
+
 	/**
 	 * The type of render function that is called for this block
 	 */
 	public int getRenderType()
 	{
-		return MegaX.spikesRI;
+		return MegaX.config.spikesRI;
 	}
 	@SideOnly(Side.CLIENT)
 

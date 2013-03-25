@@ -1,19 +1,38 @@
 package zornco.megax.items.armors;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.machinemuse.api.IModularItem;
+import net.machinemuse.api.ModuleManager;
+import net.machinemuse.api.MuseCommonStrings;
+import net.machinemuse.api.MuseItemUtils;
+import net.machinemuse.api.electricity.ElectricItemUtils;
+import net.machinemuse.general.MuseStringUtils;
+import net.machinemuse.powersuits.common.Config;
+import net.machinemuse.powersuits.item.ItemElectricArmor;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumArmorMaterial;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Icon;
 import net.minecraftforge.common.IArmorTextureProvider;
+import net.minecraftforge.common.ISpecialArmor;
 import zornco.megax.MegaX;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemMegaXArmorBase extends ItemArmor implements IArmorTextureProvider{
+public class ItemMegaXArmorBase extends ItemElectricArmor implements ISpecialArmor, //
+IModularItem, IArmorTextureProvider {
 
 
 	/** The EnumArmorMaterial used for this ItemArmor */
 	private final EnumArmorMaterial material;
+	@SideOnly(Side.CLIENT)
+	private Icon theIcon;
 	public ItemMegaXArmorBase(int par1, EnumArmorMaterial par2EnumArmorMaterial,
 			int par3, int par4) {
 		super(par1, par2EnumArmorMaterial, par3, par4);
@@ -117,18 +136,106 @@ public class ItemMegaXArmorBase extends ItemArmor implements IArmorTextureProvid
 		var4.setInteger("color", par2);
 
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
+    /**
+     * Gets an icon index based on an item's damage value and the given render pass
+     */
+    public Icon getIconFromDamageForRenderPass(int par1, int par2)
+    {
+        return par2 == 1 ?theIcon : this.iconIndex;
+    }
 
-	/**
-	 * Gets an icon index based on an item's damage value and the given render pass
-	 */
-	public int getIconFromDamageForRenderPass(int par1, int par2)
-	{
-		return par2 == 1 ? this.iconIndex + 1 : super.getIconFromDamageForRenderPass(par1, par2);
-	}
+    @SideOnly(Side.CLIENT)
+    public void updateIcons(IconRegister par1IconRegister)
+    {
+    	iconIndex = par1IconRegister.registerIcon("MegaX:"+this.getUnlocalizedName().substring(5));
+        this.theIcon = par1IconRegister.registerIcon("MegaX:"+this.getUnlocalizedName().substring(5)+"_overlay");
+    }
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		return null;
+		return "/zornco/megax/textures/armors_0.png";
+	}
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List currentTipList, boolean advancedToolTips) {
+		MuseCommonStrings.addInformation(stack, player, currentTipList, advancedToolTips);
+	}
+
+	public static String formatInfo(String string, double value) {
+		return string + "\t" + MuseStringUtils.formatNumberShort(value);
+	}
+
+	@Override
+	public List<String> getLongInfo(EntityPlayer player, ItemStack stack) {
+		List<String> info = new ArrayList();
+		NBTTagCompound itemProperties = MuseItemUtils.getMuseItemTag(stack);
+		info.add("Detailed Summary");
+		info.add(formatInfo("Armor", getArmorDouble(player, stack)));
+		info.add(formatInfo("Energy Storage", getMaxJoules(stack)) + "J");
+		info.add(formatInfo("Weight", MuseCommonStrings.getTotalWeight(stack)) + "g");
+		return info;
+	}
+	@Override
+	public ArmorProperties getProperties(EntityLiving player, ItemStack armor, DamageSource source, double damage, int slot) {
+		// Order in which this armor is assessed for damage. Higher(?) priority
+		// items take damage first, and if none spills over, the other items
+		// take no damage.
+		int priority = 1;
+
+		double armorDouble;
+
+		if (player instanceof EntityPlayer) {
+			armorDouble = getArmorDouble((EntityPlayer) player, armor);
+		} else {
+			armorDouble = 2;
+		}
+
+		// How much of incoming damage is absorbed by this armor piece.
+		// 1.0 = absorbs all damage
+		// 0.5 = 50% damage to item, 50% damage carried over
+		double absorbRatio = 0.04 * armorDouble;
+
+		// Maximum damage absorbed by this piece. Actual damage to this item
+		// will be clamped between (damage * absorbRatio) and (absorbMax). Note
+		// that a player has 20 hp (1hp = 1 half-heart)
+		int absorbMax = (int) armorDouble * 75; // Not sure why this is
+												// necessary but oh well
+
+		return new ArmorProperties(priority, absorbRatio, absorbMax);
+	}
+	@Override
+	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+		return (int) getArmorDouble(player, armor);
+	}
+
+	public double getArmorDouble(EntityPlayer player, ItemStack stack) {
+		double totalArmor = 0;
+		NBTTagCompound props = MuseItemUtils.getMuseItemTag(stack);
+
+		double energy = ElectricItemUtils.getPlayerEnergy(player);
+		double physArmor = ModuleManager.computeModularProperty(stack, MuseCommonStrings.ARMOR_VALUE_PHYSICAL);
+		double enerArmor = ModuleManager.computeModularProperty(stack, MuseCommonStrings.ARMOR_VALUE_ENERGY);
+		double enerConsum = ModuleManager.computeModularProperty(stack, MuseCommonStrings.ARMOR_ENERGY_CONSUMPTION);
+
+		totalArmor += physArmor;
+
+		if (energy > enerConsum) {
+			totalArmor += enerArmor;
+		}
+		// Make it so each armor piece can only contribute reduction up to the configured amount.
+		// Defaults to 6 armor points, or 24% reduction.
+		totalArmor = Math.min(Config.getMaximumArmorPerPiece(), totalArmor);
+		return totalArmor;
+	}
+	@Override
+	public void damageArmor(EntityLiving entity, ItemStack stack, DamageSource source, int damage, int slot) {
+		NBTTagCompound itemProperties = MuseItemUtils.getMuseItemTag(stack);
+		double enerConsum = ModuleManager.computeModularProperty(stack, MuseCommonStrings.ARMOR_ENERGY_CONSUMPTION);
+		double drain = enerConsum * damage;
+		if (entity instanceof EntityPlayer) {
+			ElectricItemUtils.drainPlayerEnergy((EntityPlayer) entity, drain);
+		} else {
+			drainEnergyFrom(stack, drain);
+		}
 	}
 }

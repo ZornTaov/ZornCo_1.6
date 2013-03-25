@@ -17,15 +17,15 @@ public class RenderTurret extends RenderLiving {
                                                                
         }
  
-        public void func_177_a(EntityMet entityturret, double d, double d1, double d2, float f, float f1) {
+        public void renderCow(EntityMet entityturret, double d, double d1, double d2, float f, float f1) {
                 super.doRenderLiving(entityturret, d, d1, d2, f, f1);
         }
  
         public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
-                func_177_a((EntityMet) entityliving, d, d1, d2, f, f1);
+                renderCow((EntityMet) entityliving, d, d1, d2, f, f1);
         }
  
         public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
-                func_177_a((EntityMet) entity, d, d1, d2, f, f1);
+                renderCow((EntityMet) entity, d, d1, d2, f, f1);
         }
 }

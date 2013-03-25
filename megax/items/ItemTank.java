@@ -3,13 +3,16 @@ package zornco.megax.items;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import zornco.megax.sounds.Sounds;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class ItemTank extends ItemMegaXBase {
 
+	private Icon iconTank;
 	public ItemTank(int par1) {
 		super(par1);
 		setMaxDamage(30);
@@ -63,10 +66,21 @@ public class ItemTank extends ItemMegaXBase {
 		return tag;
 	}
 
-	public String getTextureFile()
-	{
-		return "/zornco/megax/textures/MegaXItemTextures.png";
-	}
+    @SideOnly(Side.CLIENT)
+    public void updateIcons(IconRegister par1IconRegister)
+    {
+            this.iconTank = par1IconRegister.registerIcon("Megax:"+this.getUnlocalizedName().substring(5));
+    }
+
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * Gets an icon index based on an item's damage value
+     */
+    public Icon getIconFromDamage(int par1)
+    {
+        return this.iconTank;
+    }
 	public ItemStack getContainerItemStack(ItemStack itemStack)
 	{
 		ItemStack rIS = new ItemStack(getContainerItem());

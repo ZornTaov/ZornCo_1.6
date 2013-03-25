@@ -15,6 +15,6 @@ public class TabMegaX extends CreativeTabs
 	@SideOnly(Side.CLIENT)
 	public int getTabIconItemIndex()
 	{
-		return MegaX.megaX1Helm.shiftedIndex;
+		return MegaX.megaX1Helm.itemID;
 	}
 }
