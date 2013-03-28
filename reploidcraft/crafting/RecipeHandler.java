@@ -55,7 +55,7 @@ public class RecipeHandler {
 			"rdr", "dpd", "rdr", 
 			Character.valueOf('r'), Item.redstone, 
 			Character.valueOf('d'), new ItemStack(RepliodCraft.component, 1, 0), // diamond dust
-			Character.valueOf('p'), Item.enderPearl // use quartz block
+			Character.valueOf('p'), Item.netherQuartz // use quartz block
 		}
 				);
 

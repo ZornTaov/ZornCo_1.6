@@ -44,12 +44,15 @@ public class RepliodCraft {
 
 	public static Logger logger = Logger.getLogger("Reploid");
 
+	public static Random rand = new Random();
+
 	public static Config config = new Config();
 
-	public static Random rand = new Random();
+	public static EventBus events;
+	
 	public static Item buster;
 	public static Item weaponChip;
-
+	
 	public static Item healthBit;
 	public static Item healthByte;
 	public static Item weaponBit;
@@ -71,18 +74,12 @@ public class RepliodCraft {
 	public static Block spikes;
 	public static Block doorBossBlock;
 
-	public static EventBus events;
-	public static EnumAction busterAction = new EnumHelper().addAction("buster");
-
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		// Stub Method
 		logger.setParent(FMLLog.getLogger());
 		config.loadConfig(event);
 		proxy.registerKeyBindingHandler();
 		proxy.registerSounds();
-		//TODO: add in crafting bench to add weapon modules to the buster
-
 	}
 
 	@Init
