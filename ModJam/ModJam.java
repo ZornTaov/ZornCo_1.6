@@ -1,9 +1,13 @@
-package zornco.modjam;
+package zornco.ModJam;
 
 
 
 import java.util.Random;
 import java.util.logging.Logger;
+
+import zornco.ModJam.client.ClientProxy;
+import zornco.ModJam.core.CommonProxy;
+import zornco.ModJam.core.Config;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,9 +36,10 @@ public class ModJam {
 	public static ModJam instance;
 
 	// Says where the client and server 'proxy' code is loaded.
-	@SidedProxy(clientSide="zornco.modjam.client.ClientProxy", serverSide="zornco.modjam.core.CommonProxy")
+	@SidedProxy(clientSide="zornco.ModJam.client.ClientProxy", serverSide="zornco.ModJam.core.CommonProxy")
 	public static CommonProxy proxy;
 
+	public static Config config = new Config();
 	public static Logger logger = Logger.getLogger("ModJam");
 
 	public static Random rand = new Random();
