@@ -69,12 +69,12 @@ public class BlockRug extends Block {
 	}
 
 	private boolean isIdAValid(int blockId) {
-		return blockId == Block.stairCompactCobblestone.blockID
-				|| blockId == Block.stairCompactPlanks.blockID
+		return blockId == Block.stairsCobblestone.blockID
+				|| blockId == Block.stairCompactNetherQuartz.blockID
 				|| blockId == Block.stairsBrick.blockID
 				|| blockId == Block.stairsNetherBrick.blockID
 				|| blockId == Block.stairsSandStone.blockID
-				|| blockId == Block.stairsStoneBrickSmooth.blockID
+				|| blockId == Block.stairsStoneBrick.blockID
 				|| blockId == Block.stairsWoodBirch.blockID
 				|| blockId == Block.stairsWoodJungle.blockID
 				|| blockId == Block.stairsWoodSpruce.blockID

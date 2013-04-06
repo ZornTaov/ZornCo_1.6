@@ -248,7 +248,7 @@ public class ItemRug extends Item {
 	 */
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
 	{
-		if (!world.setBlockAndMetadataWithNotify(x, y, z, this.blockID, metadata, 3))
+		if (!world.setBlock(x, y, z, this.blockID, metadata, 3))
 		{
 			return false;
 		}

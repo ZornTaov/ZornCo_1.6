@@ -21,8 +21,10 @@ import net.minecraft.world.World;
 
 public class BlockBossDoor extends Block
 {
-	private static final String[] field_94467_a = new String[] {"doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper"};
-    private final int field_94465_b;
+	private static final String[] doorIconNames = new String[] {"doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper"};
+
+    /** Used for pointing at icon names. */
+    private final int doorTypeForIcon;
     @SideOnly(Side.CLIENT)
     private Icon[] iconArray;
     
@@ -33,11 +35,11 @@ public class BlockBossDoor extends Block
 
         if (par2Material == Material.iron)
         {
-            this.field_94465_b = 2;
+            this.doorTypeForIcon = 2;
         }
         else
         {
-            this.field_94465_b = 0;
+            this.doorTypeForIcon = 0;
         }
 
         float var3 = 0.5F;
@@ -52,7 +54,7 @@ public class BlockBossDoor extends Block
      */
     public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
     {
-        return this.iconArray[this.field_94465_b];
+        return this.iconArray[this.doorTypeForIcon];
     }
 
     @SideOnly(Side.CLIENT)
@@ -114,11 +116,11 @@ public class BlockBossDoor extends Block
                 }
             }
 
-            return this.iconArray[this.field_94465_b + (flag1 ? field_94467_a.length : 0) + (flag2 ? 1 : 0)];
+            return this.iconArray[this.doorTypeForIcon + (flag1 ? doorIconNames.length : 0) + (flag2 ? 1 : 0)];
         }
         else
         {
-            return this.iconArray[this.field_94465_b];
+            return this.iconArray[this.doorTypeForIcon];
         }
     }
 

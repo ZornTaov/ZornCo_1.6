@@ -1,5 +1,6 @@
 package zornco.ModJam.entities;
 
+import net.minecraft.block.BlockCloth;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.*;
@@ -40,5 +41,96 @@ public class EntityFollower extends EntityTameable {
 	public EntityAgeable createChild(EntityAgeable entityageable) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	/**
+     * Determines if an entity can be despawned, used on idle far away entities
+     */
+    protected boolean canDespawn()
+    {
+        return false;
+    }
+
+    /**
+     * Returns true if the newer Entity AI code should be run
+     */
+    public boolean isAIEnabled()
+    {
+        return true;
+    }
+
+    /**
+     * Sets the active target the Task system uses for tracking
+     */
+    public void setAttackTarget(EntityLiving par1EntityLiving)
+    {
+        super.setAttackTarget(par1EntityLiving);
+
+        if (par1EntityLiving instanceof EntityPlayer)
+        {
+            this.setAngry(true);
+        }
+    }
+    /**
+     * Sets whether this wolf is angry or not.
+     */
+    public void setAngry(boolean par1)
+    {
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+
+        if (par1)
+        {
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 2)));
+        }
+        else
+        {
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -3)));
+        }
+    }
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
+    protected String getLivingSound()
+    {
+        return "none";
+    }
+
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
+    protected String getHurtSound()
+    {
+        return "mob.irongolem.hit";
+    }
+
+    /**
+     * Returns the sound this mob makes on death.
+     */
+    protected String getDeathSound()
+    {
+        return "mob.irongolem.death";
+    }
+    /**
+     * main AI tick function, replaces updateEntityActionState
+     */
+    protected void updateAITick()
+    {
+        this.dataWatcher.updateObject(18, Integer.valueOf(this.getHealth()));
+    }
+
+    /**
+     * Determines whether this wolf is angry or not.
+     */
+    public boolean isAngry()
+    {
+        return (this.dataWatcher.getWatchableObjectByte(16) & 2) != 0;
+    }
+
+    protected void entityInit()
+    {
+        super.entityInit();
+        this.dataWatcher.addObject(18, new Integer(this.getHealth()));
+        this.dataWatcher.addObject(19, new Byte((byte)0));
+        this.dataWatcher.addObject(20, new Byte((byte)BlockCloth.getBlockFromDye(1)));
+        this.setCanPickUpLoot(true);
 	}
 }

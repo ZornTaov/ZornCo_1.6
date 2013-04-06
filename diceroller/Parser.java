@@ -5,9 +5,6 @@ package zornco.diceroller;
  * Parser.java
  * Calculator
  *
- * Created by Graham Watt on 9/8/06.
- * Copyright 2006 All rights reserved.
- *
  * Parses an equation in String form
  */
 

@@ -6,30 +6,44 @@ import java.util.List;
 import net.machinemuse.api.IModularItem;
 import net.machinemuse.api.IPowerModule;
 import net.machinemuse.api.ModuleManager;
-import net.machinemuse.api.MuseCommonStrings;
-import net.machinemuse.api.electricity.ElectricItemUtils;
-import net.machinemuse.powersuits.powermodule.PowerModule;
-import net.machinemuse.powersuits.powermodule.ToggleablePowerModule;
+import net.machinemuse.api.MuseItemUtils;
+import net.machinemuse.powersuits.powermodule.armor.BasicPlatingModule;
+import net.machinemuse.powersuits.powermodule.armor.DiamondPlatingModule;
+import net.machinemuse.powersuits.powermodule.armor.EnergyShieldModule;
+import net.machinemuse.powersuits.powermodule.energy.AdvancedBatteryModule;
+import net.machinemuse.powersuits.powermodule.energy.BasicBatteryModule;
+import net.machinemuse.powersuits.powermodule.energy.EliteBatteryModule;
+import net.machinemuse.powersuits.powermodule.misc.TintModule;
 import net.machinemuse.powersuits.powermodule.movement.ShockAbsorberModule;
+import net.minecraft.block.Block;
 import net.minecraft.block.StepSound;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.EnumArmorMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import zornco.reploidcraft.RepliodCraft;
-import zornco.reploidcraft.blocks.*;
-import zornco.reploidcraft.bullets.*;
+import zornco.reploidcraft.blocks.BlockSpikes;
+import zornco.reploidcraft.bullets.EntityBusterBullet;
+import zornco.reploidcraft.bullets.EntityMetBullet;
 import zornco.reploidcraft.crafting.RecipeHandler;
-import zornco.reploidcraft.entities.*;
-import zornco.reploidcraft.items.*;
-import zornco.reploidcraft.items.armors.*;
+import zornco.reploidcraft.entities.EntityFloatingPlatform;
+import zornco.reploidcraft.entities.EntityMet;
+import zornco.reploidcraft.items.ItemChip;
+import zornco.reploidcraft.items.ItemComponent;
+import zornco.reploidcraft.items.ItemHPEnergy;
+import zornco.reploidcraft.items.ItemPlatformPlacer;
+import zornco.reploidcraft.items.ItemReploidPlate;
+import zornco.reploidcraft.items.ItemTank;
+import zornco.reploidcraft.items.armors.ItemReploidArmorBase;
 import zornco.reploidcraft.items.busters.ItemXBuster;
 import zornco.reploidcraft.modules.BusterModule;
+import zornco.reploidcraft.modules.SpreadArrowModule;
+import zornco.reploidcraft.modules.EnhancedFormModule;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -116,58 +130,24 @@ public class Config {
 
 
 		addModule(new BusterModule(BUSTERONLY));
+		addModule(new SpreadArrowModule(BUSTERONLY));
 
-		module = new PowerModule(MuseCommonStrings.MODULE_BASIC_PLATING, ARMORONLY, "basicplating2", MuseCommonStrings.CATEGORY_ARMOR)
-		.setDescription("Basic plating is heavy but protective.").addInstallCost(copyAndResize(net.machinemuse.powersuits.item.ItemComponent.basicPlating, 1))
-		.addTradeoffProperty("Plating Thickness", MuseCommonStrings.ARMOR_VALUE_PHYSICAL, 5, " Points")
-		.addTradeoffProperty("Plating Thickness", MuseCommonStrings.WEIGHT, 10000, "g");
-		addModule(module);
+		// Armor
+		addModule(new BasicPlatingModule(ARMORONLY));
+		addModule(new DiamondPlatingModule(ARMORONLY));
+		addModule(new EnergyShieldModule(ARMORONLY));
+		// Energy
+		addModule(new BasicBatteryModule(ALLITEMS));
+		addModule(new AdvancedBatteryModule(ALLITEMS));
+		addModule(new EliteBatteryModule(ALLITEMS));
 
-		module = new PowerModule(MuseCommonStrings.MODULE_DIAMOND_PLATING, ARMORONLY, "advancedplating2", MuseCommonStrings.CATEGORY_ARMOR)
-		.setDescription("Advanced plating is lighter, harder, and more protective than Basic but much harder to make.")
-		.addInstallCost(copyAndResize(net.machinemuse.powersuits.item.ItemComponent.advancedPlating, 1))
-		.addTradeoffProperty("Plating Thickness", MuseCommonStrings.ARMOR_VALUE_PHYSICAL, 6, " Points")
-		.addTradeoffProperty("Plating Thickness", MuseCommonStrings.WEIGHT, 6000, "g");
-		addModule(module);
+		// Cosmetic
+		addModule(new TintModule(ALLITEMS));
+		addModule(new EnhancedFormModule(ARMORONLY).
+				addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(Item.netherStar, 1), 1)));
+		addModule(new EnhancedFormModule(BUSTERONLY).
+				addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(Block.dragonEgg, 1), 1)));
 
-		module = new PowerModule(MuseCommonStrings.MODULE_ENERGY_SHIELD, ARMORONLY, "energyshield", MuseCommonStrings.CATEGORY_ARMOR)
-		.setDescription("Energy shields are much lighter than plating, but consume energy.")
-		.addInstallCost(copyAndResize(net.machinemuse.powersuits.item.ItemComponent.fieldEmitter, 2))
-		.addTradeoffProperty("Field Strength", MuseCommonStrings.ARMOR_VALUE_ENERGY, 6, " Points")
-		.addTradeoffProperty("Field Strength", MuseCommonStrings.ARMOR_ENERGY_CONSUMPTION, 500, "J");
-		addModule(module);
-		module = new PowerModule(MuseCommonStrings.MODULE_BATTERY_BASIC, ALLITEMS, "lvbattery", MuseCommonStrings.CATEGORY_ENERGY)
-		.setDescription("Integrate a battery to allow the item to store energy.").addInstallCost(copyAndResize(net.machinemuse.powersuits.item.ItemComponent.lvcapacitor, 1))
-		.addBaseProperty(ElectricItemUtils.MAXIMUM_ENERGY, 20000, "J").addBaseProperty(MuseCommonStrings.WEIGHT, 2000, "g")
-		.addTradeoffProperty("Battery Size", ElectricItemUtils.MAXIMUM_ENERGY, 80000)
-		.addTradeoffProperty("Battery Size", MuseCommonStrings.WEIGHT, 8000);
-		addModule(module);
-
-		module = new PowerModule(MuseCommonStrings.MODULE_BATTERY_ADVANCED, ALLITEMS, "mvbattery", MuseCommonStrings.CATEGORY_ENERGY)
-		.setDescription("Integrate a more advanced battery to store more energy.")
-		.addInstallCost(copyAndResize(net.machinemuse.powersuits.item.ItemComponent.mvcapacitor, 1)).addBaseProperty(ElectricItemUtils.MAXIMUM_ENERGY, 100000, "J")
-		.addBaseProperty(MuseCommonStrings.WEIGHT, 2000, "g").addTradeoffProperty("Battery Size", ElectricItemUtils.MAXIMUM_ENERGY, 400000)
-		.addTradeoffProperty("Battery Size", MuseCommonStrings.WEIGHT, 8000);
-		addModule(module);
-
-		module = new PowerModule(MuseCommonStrings.MODULE_BATTERY_ELITE, ALLITEMS, "crystalcapacitor", MuseCommonStrings.CATEGORY_ENERGY)
-		.setDescription("Integrate a the most advanced battery to store an extensive amount of energy.")
-		.addInstallCost(copyAndResize(net.machinemuse.powersuits.item.ItemComponent.hvcapacitor, 1)).addBaseProperty(ElectricItemUtils.MAXIMUM_ENERGY, 750000, "J")
-		.addBaseProperty(MuseCommonStrings.WEIGHT, 2000, "g").addTradeoffProperty("Battery Size", ElectricItemUtils.MAXIMUM_ENERGY, 4250000)
-		.addTradeoffProperty("Battery Size", MuseCommonStrings.WEIGHT, 8000);
-		addModule(module);
-		
-		module = new ToggleablePowerModule(MuseCommonStrings.MODULE_TINT, ALLITEMS, "netherstar", MuseCommonStrings.CATEGORY_COSMETIC)
-		.setDescription("Give your armor some coloured tinting to customize your armor's appearance.")
-		.addInstallCost(copyAndResize(net.machinemuse.powersuits.item.ItemComponent.laserHologram, 1))
-		.addTradeoffProperty("Red Intensity", MuseCommonStrings.RED_TINT, 1, "%")
-		.addTradeoffProperty("Green Intensity", MuseCommonStrings.GREEN_TINT, 1, "%")
-		.addTradeoffProperty("Blue Intensity", MuseCommonStrings.BLUE_TINT, 1, "%");
-		addModule(module);
-		module = new PowerModule(MuseCommonStrings.CITIZEN_JOE_STYLE, ARMORONLY, "greendrone", MuseCommonStrings.CATEGORY_COSMETIC)
-		.setDescription("An alternative armor texture, c/o CitizenJoe of IC2 forums.");
-
-		addModule(module);
 		// Head ======================================
 		// Torso =====================================
 		// Legs =======================================
