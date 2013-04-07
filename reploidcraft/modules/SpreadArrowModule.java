@@ -116,11 +116,11 @@ public class SpreadArrowModule extends PowerModuleBase implements IRightClickMod
 			{
 				return;
 			}
-			if (f > 1.0F)
+			if (f > 3.0F)
 			{
-				f = 1.0F;
+				f = 3.0F;
 			}
-			energyConsumption = energyConsumption * (f == 1.0F ? cluster : 1.0F);
+			energyConsumption = energyConsumption * (f == 3.0F ? cluster : 1.0F);
 			if (ElectricItemUtils.getPlayerEnergy(player) > energyConsumption) {
 				
 				ElectricItemUtils.drainPlayerEnergy(player, energyConsumption);
@@ -140,7 +140,7 @@ public class SpreadArrowModule extends PowerModuleBase implements IRightClickMod
 		}
 	}
 
-	private void createArrowWithOffset(World world, EntityPlayer player, float f, int spread, boolean fire)
+	private EntityArrow createArrowWithOffset(World world, EntityPlayer player, float f, int spread, boolean fire)
 	{
 		double x = player.posX, y = player.posY, z = player.posZ;
 		EntityArrow entityarrow = new EntityArrow(world, x, y, z);
@@ -160,5 +160,6 @@ public class SpreadArrowModule extends PowerModuleBase implements IRightClickMod
 		if (fire) entityarrow.setFire(100);
 		entityarrow.canBePickedUp = 2;
 		world.spawnEntityInWorld(entityarrow);
+		return entityarrow;
 	}
 }

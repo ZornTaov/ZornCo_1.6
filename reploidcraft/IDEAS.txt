@@ -8,7 +8,9 @@ chicken module: glide ability(chest)
 
 pig module: shoot porkchops, upgrade is cooked
 
-sheep module: ???
+sheep module: floating shield? knockback burst?
+
+squid module: blind?
 
 zombie module: enemy detector(head)
 
@@ -20,6 +22,8 @@ creeper module: fully charged shot explodes around you (40% energy usage per, 3/
 spider module: poisons the target
 
 enderman module: pick up a block, then throw (shoot) the block, two sliders for how far it's thrown, and the other for if the block gets broken or not
+
+silverfish module: ???
 
 slime module: walljump(boots)
 
