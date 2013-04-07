@@ -151,8 +151,8 @@ public class SpreadArrowModule extends PowerModuleBase implements IRightClickMod
 		entityarrow.posY -= 0.10000000149011612D;
 		entityarrow.posZ -= (double)(MathHelper.sin((entityarrow.rotationYaw+spread) / 180.0F * (float)Math.PI) * 0.16F);
 		entityarrow.setPosition(entityarrow.posX, entityarrow.posY, entityarrow.posZ);
-		entityarrow.motionX = (double)(-MathHelper.sin((entityarrow.rotationYaw+spread) / 180.0F * (float)Math.PI) * MathHelper.cos(entityarrow.rotationPitch / 180.0F * (float)Math.PI));
-		entityarrow.motionZ = (double)(MathHelper.cos((entityarrow.rotationYaw+spread) / 180.0F * (float)Math.PI) * MathHelper.cos(entityarrow.rotationPitch / 180.0F * (float)Math.PI));
+		entityarrow.motionX = (double)(-MathHelper.sin((entityarrow.rotationYaw+spread) / 180.0F * (float)Math.PI);
+		entityarrow.motionZ = (double)(MathHelper.cos((entityarrow.rotationYaw+spread) / 180.0F * (float)Math.PI);
 		entityarrow.motionY = (double)(-MathHelper.sin(entityarrow.rotationPitch / 180.0F * (float)Math.PI));
 		entityarrow.setThrowableHeading(entityarrow.motionX, entityarrow.motionY, entityarrow.motionZ, f * 2.0F * 1.5F, 1.0F);
 
