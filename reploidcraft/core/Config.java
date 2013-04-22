@@ -21,7 +21,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.blocks.*;
 import zornco.reploidcraft.bullets.*;
 import zornco.reploidcraft.crafting.RecipeHandler;
@@ -97,8 +97,8 @@ public class Config {
 		doorBossBlockID = config.get(config.CATEGORY_BLOCK,"Boss Door Block", blockID++).getInt();
 
 		//Keys
-		RepliodCraft.instance.proxy.setKeyBinding("Weapon Change", config.get("Keybinds", "key.change", 48).getInt(48));
-		RepliodCraft.instance.proxy.setKeyBinding("Buster Menu", config.get("Keybinds", "key.menu", 48).getInt(49));
+		ReploidCraft.instance.proxy.setKeyBinding("Weapon Change", config.get("Keybinds", "key.change", 48).getInt(48));
+		ReploidCraft.instance.proxy.setKeyBinding("Buster Menu", config.get("Keybinds", "key.menu", 48).getInt(49));
 
 		config.save();
 	}
@@ -107,13 +107,13 @@ public class Config {
 	 */
 	public static void loadPowerModules() {
 		IPowerModule module;
-		List<IModularItem> ALLITEMS = Arrays.asList((IModularItem) RepliodCraft.buster, (IModularItem) RepliodCraft.reploidHelm, (IModularItem) RepliodCraft.reploidChest, (IModularItem) RepliodCraft.reploidBelt, (IModularItem) RepliodCraft.reploidBoots);
-		List<IModularItem> ARMORONLY = Arrays.asList((IModularItem) RepliodCraft.reploidHelm, (IModularItem) RepliodCraft.reploidChest, (IModularItem) RepliodCraft.reploidBelt, (IModularItem) RepliodCraft.reploidBoots);
-		List<IModularItem> HEADONLY = Arrays.asList((IModularItem) RepliodCraft.reploidHelm);
-		List<IModularItem> CHESTONLY = Arrays.asList((IModularItem) RepliodCraft.reploidChest);
-		List<IModularItem> LEGSONLY = Arrays.asList((IModularItem) RepliodCraft.reploidBelt);
-		List<IModularItem> FEETONLY = Arrays.asList((IModularItem) RepliodCraft.reploidBoots);
-		List<IModularItem> BUSTERONLY = Arrays.asList((IModularItem) RepliodCraft.buster);
+		List<IModularItem> ALLITEMS = Arrays.asList((IModularItem) ReploidCraft.buster, (IModularItem) ReploidCraft.reploidHelm, (IModularItem) ReploidCraft.reploidChest, (IModularItem) ReploidCraft.reploidBelt, (IModularItem) ReploidCraft.reploidBoots);
+		List<IModularItem> ARMORONLY = Arrays.asList((IModularItem) ReploidCraft.reploidHelm, (IModularItem) ReploidCraft.reploidChest, (IModularItem) ReploidCraft.reploidBelt, (IModularItem) ReploidCraft.reploidBoots);
+		List<IModularItem> HEADONLY = Arrays.asList((IModularItem) ReploidCraft.reploidHelm);
+		List<IModularItem> CHESTONLY = Arrays.asList((IModularItem) ReploidCraft.reploidChest);
+		List<IModularItem> LEGSONLY = Arrays.asList((IModularItem) ReploidCraft.reploidBelt);
+		List<IModularItem> FEETONLY = Arrays.asList((IModularItem) ReploidCraft.reploidBoots);
+		List<IModularItem> BUSTERONLY = Arrays.asList((IModularItem) ReploidCraft.buster);
 
 
 		addModule(new BusterModule(BUSTERONLY));
@@ -145,12 +145,12 @@ public class Config {
 
 	public void addNames() {
 		/** Names **/
-		LanguageRegistry.addName(RepliodCraft.buster, "X Buster");
-		LanguageRegistry.addName(RepliodCraft.healthBit, "Health Bit");
-		LanguageRegistry.addName(RepliodCraft.healthByte, "Health Byte");
+		LanguageRegistry.addName(ReploidCraft.buster, "X Buster");
+		LanguageRegistry.addName(ReploidCraft.healthBit, "Health Bit");
+		LanguageRegistry.addName(ReploidCraft.healthByte, "Health Byte");
 		//LanguageRegistry.addName(Reploid.weaponBit, "Weapon Bit");
 		//LanguageRegistry.addName(Reploid.weaponByte, "Weapon Byte");
-		LanguageRegistry.addName(RepliodCraft.healthTank, "Health Tank");
+		LanguageRegistry.addName(ReploidCraft.healthTank, "Health Tank");
 		//LanguageRegistry.addName(Reploid.weaponTank, "Weapon Tank");
 		//LanguageRegistry.addName(Reploid.extraMan, "Extra Man");
 		for(String a : ItemReploidPlate.plateColorNames)
@@ -162,16 +162,16 @@ public class Config {
 			LanguageRegistry.instance().addStringLocalization("item.component."+a+".name", "en_US", a );
 		}
 
-		LanguageRegistry.addName(RepliodCraft.reploidHelm, "Reploid Helm");
-		LanguageRegistry.addName(RepliodCraft.reploidChest, "Reploid Chest");
-		LanguageRegistry.addName(RepliodCraft.reploidBelt, "Reploid Belt");
-		LanguageRegistry.addName(RepliodCraft.reploidBoots, "Reploid Boots");
+		LanguageRegistry.addName(ReploidCraft.reploidHelm, "Reploid Helm");
+		LanguageRegistry.addName(ReploidCraft.reploidChest, "Reploid Chest");
+		LanguageRegistry.addName(ReploidCraft.reploidBelt, "Reploid Belt");
+		LanguageRegistry.addName(ReploidCraft.reploidBoots, "Reploid Boots");
 
-		LanguageRegistry.addName(RepliodCraft.platformPlacer, "Platform Placer");
+		LanguageRegistry.addName(ReploidCraft.platformPlacer, "Platform Placer");
 		//LanguageRegistry.addName(Reploid.doorBossItem, "Boss Door");
 
 		//LanguageRegistry.addName(Reploid.upgradeStation, "Upgrade Station");
-		LanguageRegistry.addName(RepliodCraft.spikes, "Metal Spikes");
+		LanguageRegistry.addName(ReploidCraft.spikes, "Metal Spikes");
 		//LanguageRegistry.addName(Reploid.doorBossBlock, "Boss Door");
 
 		LanguageRegistry.instance().addStringLocalization("entity.Met.name", "en_US", "Met");
@@ -188,52 +188,52 @@ public class Config {
 		/** Registers **/
 
 		EntityRegistry.registerGlobalEntityID(EntityMet.class, "Met", EntityRegistry.findGlobalUniqueEntityId(), 0xFFFF00, 0x0F0000);
-		EntityRegistry.registerModEntity(EntityMet.class, "Met", 2, RepliodCraft.instance, 80, 3, true);
+		EntityRegistry.registerModEntity(EntityMet.class, "Met", 2, ReploidCraft.instance, 80, 3, true);
 		EntityRegistry.addSpawn("Met", 3, 2, 4, EnumCreatureType.monster, BiomeGenBase.beach);
 		EntityRegistry.registerGlobalEntityID(EntityFloatingPlatform.class, "FloatingPlatform", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityFloatingPlatform.class, "FloatingPlatform", 3, RepliodCraft.instance, 80, 1, true);
+		EntityRegistry.registerModEntity(EntityFloatingPlatform.class, "FloatingPlatform", 3, ReploidCraft.instance, 80, 1, true);
 		EntityRegistry.registerGlobalEntityID(EntityBusterBullet.class, "lemonBullet", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityBusterBullet.class, "lemonBullet", 1, RepliodCraft.instance, 250, 1, true);
+		EntityRegistry.registerModEntity(EntityBusterBullet.class, "lemonBullet", 1, ReploidCraft.instance, 250, 1, true);
 		EntityRegistry.registerGlobalEntityID(EntityMetBullet.class, "metBullet", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityMetBullet.class, "metBullet", 4, RepliodCraft.instance, 250, 1, true);
+		EntityRegistry.registerModEntity(EntityMetBullet.class, "metBullet", 4, ReploidCraft.instance, 250, 1, true);
 	}
 
 	public void addBlocks() {
 		/** Blocks **/
-		RepliodCraft.spikes = new BlockSpikes(spikesID).setStepSound(new StepSound("stone", 1.0F, 1.5F)).setUnlocalizedName("spikes").setHardness(3.5F);
+		ReploidCraft.spikes = new BlockSpikes(spikesID).setStepSound(new StepSound("stone", 1.0F, 1.5F)).setUnlocalizedName("spikes").setHardness(3.5F);
 		//doorBossBlock = (new BlockBossDoor(doorBossBlockID, Material.iron)).setHardness(5.0F).setStepSound(Block.soundMetalFootstep).setUnlocalizedName("doorBoss").setRequiresSelfNotify();
 
-		GameRegistry.registerBlock(RepliodCraft.spikes, "spikes");
+		GameRegistry.registerBlock(ReploidCraft.spikes, "spikes");
 		//GameRegistry.registerBlock(doorBossBlock, "doorBoss");
 	}
 	public void addItems() {
 		/** Items **/
-		RepliodCraft.buster = new ItemXBuster(busterID, 1, false).setUnlocalizedName("XBuster").setFull3D();
+		ReploidCraft.buster = new ItemXBuster(busterID, 1, false).setUnlocalizedName("XBuster").setFull3D();
 		// add weapon types
 		// Guts type weapon that would act like a macerator
 		// cut type weapon that act like shears
 		// fire type weapon that acts like flint and steel
 		// water type weapon that places a water(non-source) block
-		RepliodCraft.weaponChip = new ItemChip(weaponChipID).setUnlocalizedName("chip");
+		ReploidCraft.weaponChip = new ItemChip(weaponChipID).setUnlocalizedName("chip");
 
-		RepliodCraft.healthBit = new ItemHPEnergy(healthBitID, 0, 3, 0.5F).setPotionEffect(Potion.heal.id, 1, 0, 1.0F).setAlwaysEdible().setUnlocalizedName("healthBit").setMaxStackSize(1);
-		RepliodCraft.healthByte = new ItemHPEnergy(healthByteID, 1, 8, 0.8F).setPotionEffect(Potion.heal.id, 1, 1, 1.0F).setAlwaysEdible().setUnlocalizedName("healthByte").setMaxStackSize(1);
+		ReploidCraft.healthBit = new ItemHPEnergy(healthBitID, 0, 3, 0.5F).setPotionEffect(Potion.heal.id, 1, 0, 1.0F).setAlwaysEdible().setUnlocalizedName("healthBit").setMaxStackSize(1);
+		ReploidCraft.healthByte = new ItemHPEnergy(healthByteID, 1, 8, 0.8F).setPotionEffect(Potion.heal.id, 1, 1, 1.0F).setAlwaysEdible().setUnlocalizedName("healthByte").setMaxStackSize(1);
 		//weaponBit = new ItemWPEnergy(weaponBitID).setItemName("Weapon Bit").setMaxStackSize(1);
 		//weaponByte = new ItemWPEnergy(weaponByteID).setItemName("Weapon Byte").setMaxStackSize(1);
-		RepliodCraft.healthTank = new ItemTank(healthTankID).setUnlocalizedName("Health Tank").setMaxStackSize(1); //use EventBus to add to this, then use some other method to heal the player per heart
+		ReploidCraft.healthTank = new ItemTank(healthTankID).setUnlocalizedName("Health Tank").setMaxStackSize(1); //use EventBus to add to this, then use some other method to heal the player per heart
 		//weaponTank = new ItemTank(weaponTankID).setItemName("Weapon Tank").setMaxStackSize(1);
 		//extraMan = new ItemLife(extraManID).setItemName("Extra Man").setMaxStackSize(9); //possibly use ticker to instantly heal player?
 
-		RepliodCraft.reploidPlate = new ItemReploidPlate(reploidPlateID).setUnlocalizedName("reploidPlate");
-		RepliodCraft.component = new ItemComponent(componentID).setUnlocalizedName("component");
+		ReploidCraft.reploidPlate = new ItemReploidPlate(reploidPlateID).setUnlocalizedName("reploidPlate");
+		ReploidCraft.component = new ItemComponent(componentID).setUnlocalizedName("component");
 
 
-		RepliodCraft.reploidHelm = new ItemReploidArmorBase(reploidHelmID, enumReploidArmor, RepliodCraft.instance.proxy.addArmor("ReploidBasic"),0).setUnlocalizedName("ReploidHelm");
-		RepliodCraft.reploidChest = new ItemReploidArmorBase(reploidChestID, enumReploidArmor, RepliodCraft.instance.proxy.addArmor("ReploidBasic"),1).setUnlocalizedName("ReploidChest");
-		RepliodCraft.reploidBelt = new ItemReploidArmorBase(reploidBeltID, enumReploidArmor, RepliodCraft.instance.proxy.addArmor("ReploidBasic"),2).setUnlocalizedName("ReploidBelt");
-		RepliodCraft.reploidBoots = new ItemReploidArmorBase(reploidBootsID, enumReploidArmor, RepliodCraft.instance.proxy.addArmor("ReploidBasic"),3).setUnlocalizedName("ReploidBoots");
+		ReploidCraft.reploidHelm = new ItemReploidArmorBase(reploidHelmID, enumReploidArmor, ReploidCraft.instance.proxy.addArmor("ReploidBasic"),0).setUnlocalizedName("ReploidHelm");
+		ReploidCraft.reploidChest = new ItemReploidArmorBase(reploidChestID, enumReploidArmor, ReploidCraft.instance.proxy.addArmor("ReploidBasic"),1).setUnlocalizedName("ReploidChest");
+		ReploidCraft.reploidBelt = new ItemReploidArmorBase(reploidBeltID, enumReploidArmor, ReploidCraft.instance.proxy.addArmor("ReploidBasic"),2).setUnlocalizedName("ReploidBelt");
+		ReploidCraft.reploidBoots = new ItemReploidArmorBase(reploidBootsID, enumReploidArmor, ReploidCraft.instance.proxy.addArmor("ReploidBasic"),3).setUnlocalizedName("ReploidBoots");
 
-		RepliodCraft.platformPlacer = new ItemPlatformPlacer(platformPlacerID).setUnlocalizedName("platformPlacer");
+		ReploidCraft.platformPlacer = new ItemPlatformPlacer(platformPlacerID).setUnlocalizedName("platformPlacer");
 		//doorBossItem = (new ItemBossDoor(doorBossItemID, Material.iron)).setIconCoord(12, 2).setItemName("doorBoss");
 	}
 	/**

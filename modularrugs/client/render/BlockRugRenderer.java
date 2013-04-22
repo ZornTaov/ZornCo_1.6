@@ -42,53 +42,73 @@ public class BlockRugRenderer implements ISimpleBlockRenderingHandler {
 		{
 			renderer.setRenderBounds(sideOffset, 0.0, sideOffset, 1.0-sideOffset, offset, 1.0-sideOffset);
 			renderer.renderStandardBlock(block, x, y, z);
-			boolean[][][] boolList = new boolean[3][3][3];
-			for (int i = -1; i < 2; i++) {
-				for (int j = -1; j < 2; j++) {
-					for (int k = -1; k < 2; k++) {
-						boolList[i+1][j+1][k+1] = BlockRug.canConnectRugTo(world, x + i, y + j, z + k);
-					}
-				}
-			}
-			System.out.println("setstartA");
-			int counter = 0;
-			for (boolean[][] bs : boolList) {
-				for (boolean[] bs2 : bs) {
-					for (boolean b : bs2) {
-						System.out.println((counter++)+" "+b);
-					}
-				}
-			}
-			System.out.println("setendB");
+			
 			// TODO figure out render pattern
 			boolean right = BlockRug.canConnectRugTo(world, x + 1, y, z);
 			boolean left = BlockRug.canConnectRugTo(world, x - 1, y, z);
 			boolean front = BlockRug.canConnectRugTo(world, x, y, z + 1);
 			boolean back = BlockRug.canConnectRugTo(world, x, y, z - 1);
-			boolean frontLeft = front && left && BlockRug.canConnectRugTo(world, x - 1, y, z + 1);
-			boolean frontRight = front && right && BlockRug.canConnectRugTo(world, x + 1, y, z + 1);
-			boolean backLeft = back && left && BlockRug.canConnectRugTo(world, x - 1, y, z - 1);
-			boolean backRight = back && right && BlockRug.canConnectRugTo(world, x + 1, y, z - 1);
+			boolean airTop = world.isAirBlock(x, y + 1, z);
+			boolean airTopRight = world.isAirBlock(x + 1, y + 1, z);
+			boolean airTopLeft = world.isAirBlock(x - 1, y + 1, z);
+			boolean airTopFront = world.isAirBlock(x, y + 1, z + 1);
+			boolean airTopBack = world.isAirBlock(x, y + 1, z - 1);
+			boolean topRight = airTop && !right && BlockRug.canConnectRugTo(world, x + 1, y + 1, z);
+			boolean topLeft = airTop && !left && BlockRug.canConnectRugTo(world, x - 1, y + 1, z);
+			boolean topFront = airTop && !front && BlockRug.canConnectRugTo(world, x, y + 1, z + 1);
+			boolean topBack = airTop && !back && BlockRug.canConnectRugTo(world, x, y + 1, z - 1);
 			
-			boolean underRight = !right && BlockRug.canConnectRugTo(world, x + 1, y - 1, z);
-			boolean underLeft = !left && BlockRug.canConnectRugTo(world, x - 1, y - 1, z);
-			boolean underFront = !front && BlockRug.canConnectRugTo(world, x, y - 1, z + 1);
-			boolean underBack = !back && BlockRug.canConnectRugTo(world, x, y - 1, z - 1);
-			boolean underFrontLeft = !frontLeft && BlockRug.canConnectRugTo(world, x - 1, y - 1, z + 1);
-			boolean underFrontRight = !frontRight && BlockRug.canConnectRugTo(world, x + 1, y - 1, z + 1);
-			boolean underBackLeft = !backLeft && BlockRug.canConnectRugTo(world, x - 1, y - 1, z - 1);
-			boolean underBackRight = !backRight && BlockRug.canConnectRugTo(world, x + 1, y - 1, z - 1);
+			boolean frontLeft = (front || topFront) && (left || topLeft) && BlockRug.canConnectRugTo(world, x - 1, y, z + 1);
+			boolean frontRight = (front || topFront) && (right || topRight) && BlockRug.canConnectRugTo(world, x + 1, y, z + 1);
+			boolean backLeft = (back || topBack) && (left || topLeft) && BlockRug.canConnectRugTo(world, x - 1, y, z - 1);
+			boolean backRight = (back || topBack) && (right || topRight) && BlockRug.canConnectRugTo(world, x + 1, y, z - 1);
 			
-			boolean top = world.isAirBlock(x, y + 1, z);
-			boolean topRight = !top && !right && BlockRug.canConnectRugTo(world, x + 1, y - 1, z);
-			boolean topLeft = !top && !left && BlockRug.canConnectRugTo(world, x - 1, y - 1, z);
-			boolean topFront = !top && !front && BlockRug.canConnectRugTo(world, x, y - 1, z + 1);
-			boolean topBack = !top && !back && BlockRug.canConnectRugTo(world, x, y - 1, z - 1);
-			boolean topFrontLeft = !top && !frontLeft && BlockRug.canConnectRugTo(world, x - 1, y - 1, z + 1);
-			boolean topFrontRight = !top && !frontRight && BlockRug.canConnectRugTo(world, x + 1, y - 1, z + 1);
-			boolean topBackLeft = !top && !backLeft && BlockRug.canConnectRugTo(world, x - 1, y - 1, z - 1);
-			boolean topBackRight = !top && !backRight && BlockRug.canConnectRugTo(world, x + 1, y - 1, z - 1);
-			
+			boolean topFrontLeft = airTop && (airTopFront || airTopLeft) && (front || topFront) && (left || topLeft) && !frontLeft && BlockRug.canConnectRugTo(world, x - 1, y + 1, z + 1);
+			boolean topFrontRight = airTop && (airTopFront || airTopRight) && (front || topFront) && (right || topRight) && !frontRight && BlockRug.canConnectRugTo(world, x + 1, y + 1, z + 1);
+			boolean topBackLeft = airTop && (airTopBack || airTopLeft) && (back || topBack) && (left || topLeft) && !backLeft && BlockRug.canConnectRugTo(world, x - 1, y + 1, z - 1);
+			boolean topBackRight = airTop && (airTopBack || airTopRight) && (back || topBack) && (right || topRight) && !backRight && BlockRug.canConnectRugTo(world, x + 1, y + 1, z - 1);
+			if (topRight)
+			{
+				renderer.setRenderBounds(1.0-sideOffset, 0.0, sideOffset, 1.0+sideOffset, 1.0+offset, 1.0-sideOffset);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+			if (topLeft)
+			{
+				renderer.setRenderBounds(0.0-sideOffset, 0.0, sideOffset, sideOffset, 1.0+offset, 1.0-sideOffset);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+			if (topFront)
+			{
+				renderer.setRenderBounds(sideOffset, 0.0, 1.0-sideOffset, 1.0-sideOffset, 1.0+offset, 1.0+sideOffset);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+			if (topBack)
+			{
+				renderer.setRenderBounds(sideOffset, 0.0, 0.0-sideOffset, 1.0-sideOffset, 1.0+offset, sideOffset);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+			if (topFrontLeft)
+			{
+				renderer.setRenderBounds(0.0, 0.0, 1.0-sideOffset, sideOffset, 1.0+offset, 1.0);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+			if (topFrontRight)
+			{
+				renderer.setRenderBounds(1.0-sideOffset, 0.0, 1.0-sideOffset, 1.0, 1.0+offset, 1.0);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+			if (topBackLeft)
+			{
+	
+				renderer.setRenderBounds(0.0, 0.0, 0.0, sideOffset, 1.0+offset, sideOffset);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+			if (topBackRight)
+			{
+	
+				renderer.setRenderBounds(1.0-sideOffset, 0.0, 0.0, 1.0, 1.0+offset, sideOffset);
+				renderer.renderStandardBlock(block, x, y, z);
+			}
 			
 			if (right)
 			{
@@ -110,26 +130,27 @@ public class BlockRugRenderer implements ISimpleBlockRenderingHandler {
 				renderer.setRenderBounds(sideOffset, 0.0, 0.0, 1.0-sideOffset, offset, sideOffset);
 				renderer.renderStandardBlock(block, x, y, z);
 			}
+			
 			if (frontLeft)
 			{
-				renderer.setRenderBounds(0.0, 0.0, 1.0-sideOffset, sideOffset, offset, 1.0);
+				renderer.setRenderBounds(0.0, 0.0, 1.0-sideOffset, sideOffset, ((topFront||topLeft)?1.0:0.0)+offset, 1.0);
 				renderer.renderStandardBlock(block, x, y, z);
 			}
 			if (frontRight)
 			{
-				renderer.setRenderBounds(1.0-sideOffset, 0.0, 1.0-sideOffset, 1.0, offset, 1.0);
+				renderer.setRenderBounds(1.0-sideOffset, 0.0, 1.0-sideOffset, 1.0, ((topFront||topRight)?1.0:0.0)+offset, 1.0);
 				renderer.renderStandardBlock(block, x, y, z);
 			}
 			if (backLeft)
 			{
 	
-				renderer.setRenderBounds(0.0, 0.0, 0.0, sideOffset, offset, sideOffset);
+				renderer.setRenderBounds(0.0, 0.0, 0.0, sideOffset, ((topBack||topLeft)?1.0:0.0)+offset, sideOffset);
 				renderer.renderStandardBlock(block, x, y, z);
 			}
 			if (backRight)
 			{
 	
-				renderer.setRenderBounds(1.0-sideOffset, 0.0, 0.0, 1.0, offset, sideOffset);
+				renderer.setRenderBounds(1.0-sideOffset, 0.0, 0.0, 1.0, ((topBack||topRight)?1.0:0.0)+offset, sideOffset);
 				renderer.renderStandardBlock(block, x, y, z);
 			}
 		}

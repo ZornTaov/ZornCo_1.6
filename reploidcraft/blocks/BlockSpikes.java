@@ -1,7 +1,7 @@
 package zornco.reploidcraft.blocks;
 
 import static net.minecraftforge.common.ForgeDirection.*;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -19,7 +19,7 @@ public class BlockSpikes extends Block {
 
 	public BlockSpikes(int par1) {
 		super(par1, Material.iron);
-		this.setCreativeTab(RepliodCraft.reploidTab);
+		this.setCreativeTab(ReploidCraft.reploidTab);
 		//this.blockIndexInTexture = 22;
 	}
 
@@ -254,7 +254,7 @@ public class BlockSpikes extends Block {
 	 */
 	public int getRenderType()
 	{
-		return RepliodCraft.config.spikesRI;
+		return ReploidCraft.config.spikesRI;
 	}
 	@SideOnly(Side.CLIENT)
 

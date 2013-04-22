@@ -21,7 +21,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Icon;
 import net.minecraftforge.common.IArmorTextureProvider;
 import net.minecraftforge.common.ISpecialArmor;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -37,7 +37,7 @@ IModularItem, IArmorTextureProvider {
 			int par3, int par4) {
 		super(par1, par2EnumArmorMaterial, par3, par4);
 		this.material = par2EnumArmorMaterial;
-		this.setCreativeTab(RepliodCraft.reploidTab);
+		this.setCreativeTab(ReploidCraft.reploidTab);
 
 	}
 	@SideOnly(Side.CLIENT)
@@ -156,7 +156,7 @@ IModularItem, IArmorTextureProvider {
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack)
 	{
-		if (itemstack.itemID == RepliodCraft.reploidBelt.itemID) {
+		if (itemstack.itemID == ReploidCraft.reploidBelt.itemID) {
 			return "/mods/ReploidCraft/textures/models/ReploidBasic_2.png";
 		}
 		return "/mods/ReploidCraft/textures/models/ReploidBasic_1.png";

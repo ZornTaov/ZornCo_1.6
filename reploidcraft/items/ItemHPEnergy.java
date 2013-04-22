@@ -11,7 +11,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.sounds.Sounds;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,7 +36,7 @@ public class ItemHPEnergy extends ItemFood {
     public ItemHPEnergy(int id, int type, int ammount, float sat) {
 		super(id, ammount, sat, false);
 		this.type = type;
-		this.setCreativeTab(RepliodCraft.reploidTab);
+		this.setCreativeTab(ReploidCraft.reploidTab);
 	}
 
 	/**

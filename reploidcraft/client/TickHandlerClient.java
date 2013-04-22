@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.items.busters.ItemXBuster;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -63,7 +63,7 @@ public class TickHandlerClient implements ITickHandler {
 					}
 					catch(Exception e)
 					{
-						RepliodCraft.logger.warning("Forgot to update obfuscation!");
+						ReploidCraft.logger.warning("Forgot to update obfuscation!");
 						e.printStackTrace();
 					}
 					/*if(!currentItemIsGraviGun && GraviGun.getSettings("equipGraviGunSound") == 1)
@@ -90,7 +90,7 @@ public class TickHandlerClient implements ITickHandler {
 				}
 				catch(Exception e)
 				{
-					RepliodCraft.logger.warning("Forgot to update obfuscation!");
+					ReploidCraft.logger.warning("Forgot to update obfuscation!");
 					e.printStackTrace();
 				}
 			}

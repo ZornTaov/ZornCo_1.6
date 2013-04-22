@@ -1,6 +1,6 @@
 package zornco.reploidcraft.bullets;
 
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
@@ -77,28 +77,28 @@ public class EntityBusterBullet extends EntityBulletBase {
 		{
 			if(getCharge() == 0)
 			{
-				RepliodCraft.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 0.2F, getCharge());
+				ReploidCraft.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 0.2F, getCharge());
 			}
 			if(getCharge() == 1)
 			{
-				RepliodCraft.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 0.4F, getCharge());
+				ReploidCraft.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 0.4F, getCharge());
 				for (int a = 0; a < 3; a++) {
 
 					double x2 = (this.posX + this.prevPosX) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
 					double y2 = (this.posY + this.prevPosY) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
 					double z2 = (this.posZ + this.prevPosZ) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
-					RepliodCraft.proxy.busterShot(this.worldObj, x2, y2, z2, 0.2F, getCharge());
+					ReploidCraft.proxy.busterShot(this.worldObj, x2, y2, z2, 0.2F, getCharge());
 				}
 			}
 			if(getCharge() == 2)
 			{
-				RepliodCraft.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 1F, getCharge());
+				ReploidCraft.proxy.busterShot(this.worldObj, this.posX, this.posY, this.posZ, 1F, getCharge());
 				for (int a = 0; a < 3; a++) {
 
 					double x2 = (this.posX + this.prevPosX) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
 					double y2 = (this.posY + this.prevPosY) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
 					double z2 = (this.posZ + this.prevPosZ) / 2.0D + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.1F;
-					RepliodCraft.proxy.busterShot(this.worldObj, x2, y2, z2, 0.2F, getCharge());
+					ReploidCraft.proxy.busterShot(this.worldObj, x2, y2, z2, 0.2F, getCharge());
 				}
 			}
 		}

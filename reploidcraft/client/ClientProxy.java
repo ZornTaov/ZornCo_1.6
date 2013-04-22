@@ -1,11 +1,14 @@
 package zornco.reploidcraft.client;
 
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.ModLoader;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
-import zornco.reploidcraft.RepliodCraft;
+import net.minecraftforge.common.MinecraftForge;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.bullets.EntityBusterBullet;
 import zornco.reploidcraft.bullets.EntityMetBullet;
 import zornco.reploidcraft.client.fx.BusterFX;
@@ -46,7 +49,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderInformation()
 	{
-		MinecraftForgeClient.registerItemRenderer(RepliodCraft.buster.itemID, new RenderXBuster());
+		MinecraftForgeClient.registerItemRenderer(ReploidCraft.buster.itemID, new RenderXBuster());
 		//MinecraftForgeClient.preloadTexture( "/zornco/megax/textures/MegaXItemTextures.png" );
 		MinecraftForgeClient.preloadTexture( "/mods/ReploidCraft/textures/gui/UpgradeStation.png" );
 		MinecraftForgeClient.preloadTexture( "/mods/ReploidCraft/textures/fx/buster0.png" );
@@ -60,8 +63,8 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFloatingPlatform.class, new RenderFloatingPlatform());  
 		RenderingRegistry.registerEntityRenderingHandler(EntityMetBullet.class, new RenderBulletBase());
 
-		RepliodCraft.config.spikesRI = RenderingRegistry.getNextAvailableRenderId();
-		RepliodCraft.config.bossDoorRI = RenderingRegistry.getNextAvailableRenderId();
+		ReploidCraft.config.spikesRI = RenderingRegistry.getNextAvailableRenderId();
+		ReploidCraft.config.bossDoorRI = RenderingRegistry.getNextAvailableRenderId();
 
 		RenderingRegistry.registerBlockHandler(new BlockSpikesRenderer());
 		RenderingRegistry.registerBlockHandler(new BlockBossDoorRenderer());
@@ -107,5 +110,9 @@ public class ClientProxy extends CommonProxy {
 		BusterFX ef = new BusterFX(worldObj, sx, sy, sz, size, type);
 		ModLoader.getMinecraftInstance().effectRenderer.addEffect(ef);
 	}
-
+	@Override
+	public Object getSoundManager()
+	{
+		return Minecraft.getMinecraft().sndManager;
+	}
 }

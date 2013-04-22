@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
 
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -152,7 +152,7 @@ public class BlockBossDoor extends Block
      */
 	public int getRenderType()
 	{
-		return RepliodCraft.config.bossDoorRI;
+		return ReploidCraft.config.bossDoorRI;
 	}
 
     @SideOnly(Side.CLIENT)

@@ -2,7 +2,7 @@ package zornco.reploidcraft.items;
 
 
 
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,7 +21,7 @@ public class ItemBossDoor extends Item
         super(par1);
         this.doorMaterial = par2Material;
         this.maxStackSize = 1;
-		this.setCreativeTab(RepliodCraft.reploidTab);
+		this.setCreativeTab(ReploidCraft.reploidTab);
     }
 
     /**

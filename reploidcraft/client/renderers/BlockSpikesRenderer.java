@@ -2,7 +2,7 @@ package zornco.reploidcraft.client.renderers;
 
 import org.lwjgl.opengl.GL11;
 
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -19,7 +19,7 @@ implements ISimpleBlockRenderingHandler {
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID,
 			RenderBlocks renderer) {
-		if (modelID == RepliodCraft.config.spikesRI)
+		if (modelID == ReploidCraft.config.spikesRI)
 		{
 			renderer.setRenderBounds(0.0F, 0.25F, 0.0F, 1.0F, 0.3125F, 1.0F);
 			renderDo(renderer, block, metadata);
@@ -303,7 +303,7 @@ implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return RepliodCraft.config.spikesRI;
+		return ReploidCraft.config.spikesRI;
 	}
 
 	public static void renderDo(RenderBlocks renderblocks, Block block, int meta)

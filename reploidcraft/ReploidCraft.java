@@ -30,11 +30,11 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid="Reploid", name="Reploid", version="0.0.1", dependencies = "required-after:mmmPowersuits", acceptedMinecraftVersions = "[1.5,)")
 @NetworkMod(packetHandler = PacketHandler.class, channels={"Reploid"}, clientSideRequired=true, serverSideRequired=false)
-public class RepliodCraft {
+public class ReploidCraft {
 
 	// The instance of your mod that Forge uses.
 	@Instance("Reploid")
-	public static RepliodCraft instance;
+	public static ReploidCraft instance;
 
 	// Says where the client and server 'proxy' code is loaded.
 	@SidedProxy(clientSide="zornco.reploidcraft.client.ClientProxy", serverSide="zornco.reploidcraft.core.CommonProxy")

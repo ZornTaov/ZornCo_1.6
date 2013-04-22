@@ -19,11 +19,12 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.items.IKeyBound;
-import zornco.reploidcraft.sounds.Sounds;
+import zornco.reploidcraft.sounds.SoundUpdaterBuster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,12 +34,13 @@ public class ItemXBuster extends ItemElectricTool implements IKeyBound, IModular
 	public boolean enhanced = false;
 	@SideOnly(Side.CLIENT)
 	private Icon iconBusterOverlay;
+    protected IUpdatePlayerListBox field_82344_g = null;
 
 	public ItemXBuster(int i, int col, boolean enhance)
 	{
 		super(i, 0, EnumToolMaterial.EMERALD, new Block[0]);
 		this.maxStackSize = 1;
-		this.setCreativeTab(RepliodCraft.reploidTab);
+		this.setCreativeTab(ReploidCraft.reploidTab);
 		this.color = col;
 		this.enhanced = enhance;
 	}
@@ -79,7 +81,13 @@ public class ItemXBuster extends ItemElectricTool implements IKeyBound, IModular
 				((IRightClickModule) module).onRightClick(player, world, itemStack);
 			}
 		}
-		return itemStack;
+/*		if(world.isRemote){
+        this.field_82344_g = world != null && this.field_82344_g == null ? new SoundUpdaterBuster(ReploidCraft.proxy.getSoundManager(), player) : null;
+        }
+	    if (this.field_82344_g != null)
+	    	((SoundUpdaterBuster)field_82344_g).playerIsCharging = true;
+	*/	    
+	    return itemStack;
 	}
 	/*public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
@@ -95,11 +103,15 @@ public class ItemXBuster extends ItemElectricTool implements IKeyBound, IModular
 	 */
 	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) 
 	{
+		if (this.field_82344_g != null) 
+        {
+            this.field_82344_g.update();
+        }
 		//System.out.println(count);
-		if(count == getMaxItemUseDuration(stack))
+		/*if(count == getMaxItemUseDuration(stack))
 			player.worldObj.playSoundAtEntity(player, Sounds.CHARGEUP, 1.0F, 1.0F);
 		else if(count <= getMaxItemUseDuration(stack)-40 && count%40 == 0)
-			player.worldObj.playSoundAtEntity(player, Sounds.CHARGECONT, 1.0F, 1.0F);
+			player.worldObj.playSoundAtEntity(player, Sounds.CHARGECONT, 1.0F, 1.0F);*/
 	}
 
 	@Override
@@ -159,6 +171,12 @@ public class ItemXBuster extends ItemElectricTool implements IKeyBound, IModular
 		if (module instanceof IRightClickModule) {
 			((IRightClickModule) module).onPlayerStoppedUsing(itemStack, world, player, par4);
 		}
+
+        if (this.field_82344_g != null)
+        {
+      //  	((SoundUpdaterBuster)field_82344_g).playerIsCharging = false;
+            this.field_82344_g.update();
+        }
 	}
 	@Override
 	public ItemStack onEaten(ItemStack itemstack, World world, EntityPlayer entityplayer) {

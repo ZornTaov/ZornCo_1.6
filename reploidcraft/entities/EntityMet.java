@@ -29,7 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.entities.AIs.EntityAIBulletAttack;
 import zornco.reploidcraft.entities.AIs.EntityAIMetHide;
 import cpw.mods.fml.relauncher.Side;
@@ -181,9 +181,9 @@ public class EntityMet extends EntityTameable {
 		switch(i)
 		{
 		case 3:
-			return RepliodCraft.healthBit.itemID;
+			return ReploidCraft.healthBit.itemID;
 		case 4:
-			return RepliodCraft.healthByte.itemID;
+			return ReploidCraft.healthByte.itemID;
 		/*
 		case 7:
 			return ReploidCraft.energyBit.shiftedIndex;

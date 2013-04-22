@@ -22,7 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.bullets.EntityBusterBullet;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -45,7 +45,7 @@ public class SpreadArrowModule extends PowerModuleBase implements IRightClickMod
 		addIntTradeoffProperty("Count", ARROWS_SHOT_AT_FULL_CHARGE, 9, "arrows", 2, 1);
 		addIntTradeoffProperty("Spread", ARROWS_SPREAD, 120, "degrees", 10, 0);
 		addIntTradeoffProperty("Spread", ENERGY_USED_PER_ARROW, 30, "J", 1, 0);
-		addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(RepliodCraft.weaponChip, 1, 9), 1));
+		addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(ReploidCraft.weaponChip, 1, 9), 1));
 	}
 	public PowerModuleBase addIntTradeoffProperty(String tradeoffName, String propertyName, double multiplier, String unit, int roundTo, int offset) {
 		double propFromConfig = Config.getConfig().get("Properties", getName() + '.' + propertyName + '.' + tradeoffName + ".multiplier", multiplier)
@@ -128,7 +128,7 @@ public class SpreadArrowModule extends PowerModuleBase implements IRightClickMod
 				world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / ((float) Math.random() * 0.4F + 0.8F));
 				boolean fire = MuseItemUtils.itemHasModule(itemStack, EnhancedFormModule.ENHANCED_FORM);
 				createArrowWithOffset(world, player, f, 0, fire);
-				if(f == 1.0F) {
+				if(f == 3.0F) {
 					for (int i = 1; i <= cluster/2; i++) {
 						createArrowWithOffset(world, player, f, ((spread/2)/(cluster/2))*i, fire);
 						createArrowWithOffset(world, player, f, 0-((spread/2)/(cluster/2))*i, fire);

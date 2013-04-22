@@ -5,7 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.entities.EntityFloatingPlatform;
 
 import net.minecraft.block.Block;
@@ -34,7 +34,7 @@ public class ItemPlatformPlacer extends Item {
 	{
 		super(par1);
 		this.maxStackSize = 1;
-		this.setCreativeTab(RepliodCraft.reploidTab);
+		this.setCreativeTab(ReploidCraft.reploidTab);
 	}
 	/**
      * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return

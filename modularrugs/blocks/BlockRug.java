@@ -145,7 +145,7 @@ public class BlockRug extends Block {
 			int par2, int par3, int par4) {
 		int var5 = par1IBlockAccess.getBlockId(par2, par3, par4);
 
-		return (var5 == ModularRugs.rugBlock.blockID)&& par1IBlockAccess.isAirBlock(par2, par3, par4) ? true : false;
+		return (var5 == ModularRugs.rugBlock.blockID)&& !par1IBlockAccess.isAirBlock(par2, par3, par4) ? true : false;
 
 	}
 

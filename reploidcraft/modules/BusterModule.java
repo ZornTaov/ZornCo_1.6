@@ -13,7 +13,7 @@ import net.machinemuse.powersuits.powermodule.PowerModuleBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.bullets.EntityBusterBullet;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -31,7 +31,7 @@ public class BusterModule extends PowerModuleBase implements IRightClickModule {
 		addBaseProperty(BUSTER_CANNON_DAMAGE_AT_FULL_CHARGE, 2, "pt");
 		addTradeoffProperty("Amperage", BUSTER_CANNON_ENERGY_PER_TICK, 150, "J");
 		addTradeoffProperty("Amperage", BUSTER_CANNON_DAMAGE_AT_FULL_CHARGE, 38, "pt");
-		addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(RepliodCraft.component, 1, 1), 1));
+		addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(ReploidCraft.component, 1, 1), 1));
 	}
 
 	@Override

@@ -22,7 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import zornco.reploidcraft.bullets.EntityBusterBullet;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -41,7 +41,7 @@ public class ExplosiveModule extends PowerModuleBase implements IRightClickModul
 		addBaseProperty(EXPLOSION_SIZE_AT_FULL_CHARGE, .25, "Creeper");
 		addTradeoffProperty("Size", ENERGY_USED_PER_EXPLOSION, 1750, "J");
 		addTradeoffProperty("Size", EXPLOSION_SIZE_AT_FULL_CHARGE, 1.75, "Creeper");
-		addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(RepliodCraft.weaponChip, 1, 3), 1));
+		addInstallCost(MuseItemUtils.copyAndResize(new ItemStack(ReploidCraft.weaponChip, 1, 3), 1));
 	}
 	@Override
 	public String getCategory() {

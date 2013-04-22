@@ -1,7 +1,7 @@
 package zornco.reploidcraft.core;
 
 import net.minecraft.creativetab.CreativeTabs;
-import zornco.reploidcraft.RepliodCraft;
+import zornco.reploidcraft.ReploidCraft;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -15,6 +15,6 @@ public class TabReploid extends CreativeTabs
 	@SideOnly(Side.CLIENT)
 	public int getTabIconItemIndex()
 	{
-		return RepliodCraft.reploidHelm.itemID;
+		return ReploidCraft.reploidHelm.itemID;
 	}
 }
