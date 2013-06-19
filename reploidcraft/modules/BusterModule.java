@@ -4,9 +4,9 @@ import java.util.List;
 
 import net.machinemuse.api.IModularItem;
 import net.machinemuse.api.ModuleManager;
-import net.machinemuse.api.MuseCommonStrings;
-import net.machinemuse.api.MuseItemUtils;
-import net.machinemuse.api.electricity.ElectricItemUtils;
+import net.machinemuse.utils.MuseCommonStrings;
+import net.machinemuse.utils.MuseItemUtils;
+import net.machinemuse.utils.ElectricItemUtils;
 import net.machinemuse.api.moduletrigger.IRightClickModule;
 import net.machinemuse.powersuits.network.packets.MusePacketPlasmaBolt;
 import net.machinemuse.powersuits.powermodule.PowerModuleBase;

@@ -1,7 +1,8 @@
-package zornco.reploidcraft.client.renderers;
+package zornco.monstercompress.client.renderers;
 
 import org.lwjgl.opengl.GL11;
 
+import zornco.monstercompress.MonsterCompressor;
 import zornco.reploidcraft.ReploidCraft;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
@@ -13,13 +14,13 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockBossDoorRenderer extends RenderBlocks
+public class BlockCompressorRenderer extends RenderBlocks
 implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID,
 			RenderBlocks renderer) {
-		if (modelID == ReploidCraft.config.spikesRI)
+		if (modelID == MonsterCompressor.compressorRI)
 		{
 			renderer.setRenderBounds(0.0F, 0.25F, 0.0F, 1.0F, 0.3125F, 1.0F);
 			renderDo(renderer, block, metadata);
@@ -31,7 +32,7 @@ implements ISimpleBlockRenderingHandler {
 			Block block, int modelId, RenderBlocks renderer) {
 
 		Tessellator tess = Tessellator.instance;
-		Icon icon = block.getBlockTextureFromSide(0);
+		Icon icon = getBlockIconFromSide(block, 0);
 		double uLeft = (double)icon.getMinU();
 		double uRight = (double)icon.getMaxU();
 		double vTop = (double)icon.getMinV();
@@ -303,38 +304,38 @@ implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return ReploidCraft.config.spikesRI;
+		return MonsterCompressor.compressorRI;
 	}
 
 	public static void renderDo(RenderBlocks renderblocks, Block block, int meta)
 	{
-        Tessellator tess = Tessellator.instance;
+		Tessellator tess = Tessellator.instance;
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-        tess.startDrawingQuads();
+		tess.startDrawingQuads();
 		Icon icon = block.getBlockTextureFromSide(0);
 		tess.setNormal(0.0F, -1.0F, 0.0F);
 		renderblocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 0, meta));
-        tess.draw();
-        tess.startDrawingQuads();
-        tess.setNormal(0.0F, 1.0F, 0.0F);
-        renderblocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 1, meta));
-        tess.draw();
-        tess.startDrawingQuads();
-        tess.setNormal(0.0F, 0.0F, -1.0F);
-        renderblocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 2, meta));
-        tess.draw();
-        tess.startDrawingQuads();
-        tess.setNormal(0.0F, 0.0F, 1.0F);
-        renderblocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 3, meta));
-        tess.draw();
-        tess.startDrawingQuads();
-        tess.setNormal(-1.0F, 0.0F, 0.0F);
-        renderblocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 4, meta));
-        tess.draw();
-        tess.startDrawingQuads();
-        tess.setNormal(1.0F, 0.0F, 0.0F);
-        renderblocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 5, meta));
-        tess.draw();
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(0.0F, 1.0F, 0.0F);
+		renderblocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 1, meta));
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(0.0F, 0.0F, -1.0F);
+		renderblocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 2, meta));
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(0.0F, 0.0F, 1.0F);
+		renderblocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 3, meta));
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(-1.0F, 0.0F, 0.0F);
+		renderblocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 4, meta));
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(1.0F, 0.0F, 0.0F);
+		renderblocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderblocks.getBlockIconFromSideAndMetadata(block, 5, meta));
+		tess.draw();
 		double uLeft = (double)icon.getMinU();
 		double uRight = (double)icon.getMaxU();
 		double vTop = (double)icon.getMinV();

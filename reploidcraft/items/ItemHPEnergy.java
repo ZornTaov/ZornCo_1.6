@@ -107,8 +107,9 @@ public class ItemHPEnergy extends ItemFood {
         return this.healthIcons;
     }
 
+    @Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister par1IconRegister)
+	public void registerIcons(IconRegister par1IconRegister)
 	{
 		this.healthIcons = par1IconRegister.registerIcon("ReploidCraft:"+this.getUnlocalizedName().substring(5));
 	}

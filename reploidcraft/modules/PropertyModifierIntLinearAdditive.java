@@ -1,6 +1,6 @@
 package zornco.reploidcraft.modules;
 
-import net.machinemuse.api.MuseItemUtils;
+import net.machinemuse.utils.MuseItemUtils;
 import net.machinemuse.powersuits.powermodule.PropertyModifierLinearAdditive;
 import net.minecraft.nbt.NBTTagCompound;
 

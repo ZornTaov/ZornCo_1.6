@@ -79,8 +79,9 @@ public class ItemComponent extends ItemReploidCraftBase {
 		return this.componentIcon[var2];
     }
 
+	@Override
     @SideOnly(Side.CLIENT)
-    public void updateIcons(IconRegister par1IconRegister)
+    public void registerIcons(IconRegister par1IconRegister)
     {
         this.componentIcon = new Icon[componentIconName.length];
 

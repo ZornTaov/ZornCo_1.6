@@ -6,7 +6,7 @@ import java.util.List;
 import net.machinemuse.api.IModularItem;
 import net.machinemuse.api.IPowerModule;
 import net.machinemuse.api.ModuleManager;
-import net.machinemuse.api.MuseItemUtils;
+import net.machinemuse.utils.MuseItemUtils;
 import net.machinemuse.powersuits.powermodule.armor.*;
 import net.machinemuse.powersuits.powermodule.energy.*;
 import net.machinemuse.powersuits.powermodule.misc.TintModule;

@@ -60,9 +60,10 @@ public class ItemChip extends ItemReploidCraftBase {
 			par3List.add(new ItemStack(par1, 1, var4));
 		}
 	}
-
+	
+	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister par1IconRegister)
+	public void registerIcons(IconRegister par1IconRegister)
 	{
 		this.iconChip = new Icon[chipIconNames.length];
 

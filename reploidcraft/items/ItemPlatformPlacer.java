@@ -91,8 +91,9 @@ public class ItemPlatformPlacer extends Item {
 		return this.platformSpawnerIcon;
     }
 
+	@Override
     @SideOnly(Side.CLIENT)
-    public void updateIcons(IconRegister par1IconRegister)
+    public void registerIcons(IconRegister par1IconRegister)
     {
         this.platformSpawnerIcon = par1IconRegister.registerIcon("ReploidCraft:"+this.getUnlocalizedName().substring(5));
     }

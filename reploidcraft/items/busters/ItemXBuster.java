@@ -6,10 +6,10 @@ import java.util.List;
 import net.machinemuse.api.IModularItem;
 import net.machinemuse.api.IPowerModule;
 import net.machinemuse.api.ModuleManager;
-import net.machinemuse.api.MuseCommonStrings;
-import net.machinemuse.api.MuseItemUtils;
+import net.machinemuse.utils.MuseCommonStrings;
+import net.machinemuse.utils.MuseItemUtils;
 import net.machinemuse.api.moduletrigger.IRightClickModule;
-import net.machinemuse.general.MuseStringUtils;
+import net.machinemuse.utils.MuseStringUtils;
 import net.machinemuse.powersuits.item.ItemElectricTool;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -56,13 +56,13 @@ public class ItemXBuster extends ItemElectricTool implements IKeyBound, IModular
      */
     public Icon getIconFromDamageForRenderPass(int par1, int par2)
     {
-        return par2 == 1 && this.enhanced ? this.iconBusterOverlay : this.iconIndex;
+        return par2 == 1 && this.enhanced ? this.iconBusterOverlay : this.itemIcon;
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateIcons(IconRegister par1IconRegister)
+    public void registerIcons(IconRegister par1IconRegister)
     {
-    	iconIndex =  par1IconRegister.registerIcon("ReploidCraft:"+this.getUnlocalizedName().substring(5));
+    	itemIcon =  par1IconRegister.registerIcon("ReploidCraft:"+this.getUnlocalizedName().substring(5));
         if(this.enhanced )this.iconBusterOverlay = par1IconRegister.registerIcon("ReploidCraft:"+this.getUnlocalizedName().substring(5)+"_overlay");
     }
 	
@@ -356,7 +356,7 @@ public class ItemXBuster extends ItemElectricTool implements IKeyBound, IModular
 		
 		return num;
 	}
-	public static String formatInfo(String string, double value) {
+	public String formatInfo(String string, double value) {
 		return string + "\t" + MuseStringUtils.formatNumberShort(value);
 	}
 	@Override

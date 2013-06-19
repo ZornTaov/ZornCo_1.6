@@ -238,8 +238,8 @@ public class BlockSpikes extends Block {
         return this.blockIcon;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
-
     /**
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.

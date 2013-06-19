@@ -50,7 +50,7 @@ public class ItemRug extends Item {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister par1IconRegister)
+	public void registerIcons(IconRegister par1IconRegister)
 	{
 		this.rugIconList = new Icon[rugIconNames.length];
 

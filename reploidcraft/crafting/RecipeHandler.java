@@ -120,7 +120,7 @@ public class RecipeHandler {
 				new Object[] { 
 			" i ", " i ", "bbb", 
 			Character.valueOf('i'), new ItemStack(ReploidCraft.reploidPlate, 1, 7), 
-			Character.valueOf('b'), Block.blockSteel
+			Character.valueOf('b'), Block.blockIron
 		}
 				);
 

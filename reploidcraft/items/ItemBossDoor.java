@@ -45,7 +45,7 @@ public class ItemBossDoor extends Item
             }
             else
             {
-                var11 = Block.doorSteel;
+                var11 = Block.doorIron;
             }
 
             if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
