@@ -9,7 +9,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.*;
-import net.minecraft.util.StringTranslate;
+import net.minecraft.util.StatCollector;
 
 public class GuiFriendFoe extends GuiScreen {
 
@@ -94,8 +94,6 @@ public class GuiFriendFoe extends GuiScreen {
 	@Override
 	public void initGui()
 	{
-		StringTranslate translation = StringTranslate.getInstance();
-
 		// "slot" listers for the three lists
 		this.friendSlot  = new GuiSlotFriendFoe(this, 30, this.width / 2 - 155, 100, 100, this.friendList,  friendListId, "Friends");
 		this.neutralSlot = new GuiSlotFriendFoe(this, 30, this.width / 2 - 50 , 100, 100, this.neutralList, neutralListId, "Neutral");
@@ -154,7 +152,7 @@ public class GuiFriendFoe extends GuiScreen {
 						this.doneButtonId,
 						this.width / 2 - 100,
 						this.height / 6 + 168,
-						translation.translateKey("gui.done")));
+						StatCollector.translateToLocal("gui.done")));
 
 	}
 
@@ -164,7 +162,7 @@ public class GuiFriendFoe extends GuiScreen {
 		if (par2 == 1)
 		{
 			this.mod.loadLists();
-			this.mod.loadOptions();
+			this.mod.proxy.loadOptions();
 		}
 		super.keyTyped(par1, par2);
 	}
@@ -194,7 +192,7 @@ public class GuiFriendFoe extends GuiScreen {
 		this.mod.showHudInfo = this.showHudInfoCheckBox.getState();
 		this.mod.showOtherPos = this.showOtherPosCheckBox.getState();
 		this.mod.saveLists();
-		this.mod.saveOptions();
+		this.mod.proxy.saveOptions();
 	}
 
 	/**

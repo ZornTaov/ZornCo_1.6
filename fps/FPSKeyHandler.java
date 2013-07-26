@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.src.ModLoader;
 
@@ -28,7 +29,7 @@ public class FPSKeyHandler extends KeyHandler {
 	public void keyDown(EnumSet<TickType> types, KeyBinding kb,
 			boolean tickEnd, boolean isRepeat) {
 		if (kb == this.show) {
-			if(FPS.instance.mc.currentScreen == null)
+			if(Minecraft.getMinecraft().currentScreen == null)
 			{
 				this.guiFF = new GuiFriendFoe(
 						FPS.instance,
@@ -37,7 +38,7 @@ public class FPSKeyHandler extends KeyHandler {
 						FPS.instance.friendArrowColor, FPS.instance.neutralArrowColor, FPS.instance.enemyArrowColor,
 						FPS.instance.showHudInfo, FPS.instance.showOtherPos
 						);
-				ModLoader.openGUI(FPS.instance.clientPlayer, this.guiFF);
+				ModLoader.openGUI(Minecraft.getMinecraft().thePlayer, this.guiFF);
 			}
 
 		}

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.src.ModLoader;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiSlotFriendFoe  {
 	public static final Logger myLogger = Logger.getLogger("Minecraft");
@@ -169,7 +170,7 @@ public class GuiSlotFriendFoe  {
 		Tessellator tess = Tessellator.instance;
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.mc.renderEngine.getTexture("/gui/background.png"));
+		mc.renderEngine.func_110577_a(new ResourceLocation("textures/gui/options_background.png"));
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float texture = 32.0F;
 		tess.startDrawingQuads();

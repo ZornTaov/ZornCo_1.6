@@ -4,47 +4,29 @@ package zornco.modularrugs;
 
 import java.util.logging.Logger;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.StepSound;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import zornco.modularrugs.blocks.BlockRug;
 import zornco.modularrugs.core.CommonProxy;
 import zornco.modularrugs.core.TabModularRugs;
 import zornco.modularrugs.item.ItemRug;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.StepSound;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.EnumArmorMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemDoor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.potion.Potion;
-import net.minecraft.src.ModLoader;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.EnumHelper;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid="ModularRugs", name="ModularRugs", version="0.0.1")
 public class ModularRugs {
@@ -92,7 +74,7 @@ public class ModularRugs {
 		config.save();
 	}
 
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		// Stub Method
 		logger.setParent(FMLLog.getLogger());
@@ -100,7 +82,7 @@ public class ModularRugs {
 
 	}
 
-	@Init
+	@EventHandler
 	public void load(FMLInitializationEvent event) {
 
 		/** Blocks **/
@@ -163,7 +145,7 @@ public class ModularRugs {
 		proxy.registerRenderInformation();
 	}
 
-	@PostInit
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 
 	}

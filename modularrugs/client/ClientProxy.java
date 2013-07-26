@@ -11,7 +11,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderInformation()
 	{
-		MinecraftForgeClient.preloadTexture( "/zornco/modularrugs/textures/items.png" );
 		ModularRugs.rugRI = RenderingRegistry.getNextAvailableRenderId();
 		
 		RenderingRegistry.registerBlockHandler(new BlockRugRenderer());

@@ -5,12 +5,10 @@ import java.util.logging.Logger;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 
 @Mod(modid="DiceRoller", name="DiceRoller", version="0.1")
 public class DiceRoller {
@@ -21,13 +19,13 @@ public class DiceRoller {
 	public static Logger logger = Logger.getLogger("DiceRoller");
 	public Parser equ;
 	
-	@PostInit
+	@EventHandler
 	public void load(FMLPostInitializationEvent event) {
 		equ = new Parser();
 		logger.info("DiceRoller has been enabled!");
 	}
 	
-	@ServerStarting
+	@EventHandler
 	public void registerCommands(FMLServerStartingEvent event) {
 		MinecraftServer server = event.getServer();
 		((ServerCommandManager) server.getCommandManager()).registerCommand(new CommandDice());

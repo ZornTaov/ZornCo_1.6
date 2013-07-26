@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiCheckBox extends GuiButton {
 	
@@ -18,7 +19,7 @@ public class GuiCheckBox extends GuiButton {
 
     public void drawButton(Minecraft par1Minecraft, int par2, int par3)
     {
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1Minecraft.renderEngine.getTexture("/zornco/fps/checkbox.png"));
+        par1Minecraft.renderEngine.func_110577_a(new ResourceLocation("fps:gui/checkbox.png"));
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float texUPixel = 0.03125F; // 1 / width of png
 		float texVPixel = 0.0625F; // 1 / height of png

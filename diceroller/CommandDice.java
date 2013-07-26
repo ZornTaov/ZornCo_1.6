@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityCommandBlock;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.MathHelper;
 
 public class CommandDice extends CommandBase {
@@ -80,8 +81,7 @@ public class CommandDice extends CommandBase {
 			String output = name
 					+ "Roll Was: " + args[0] + " and got ";
 			if(!silent)
-			MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayers(
-					new Packet3Chat(output + parsedOutput));
+				MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatMessageComponent.func_111066_d(output + parsedOutput));
 			else System.out.println(parsedOutput);
 			if(!checkedBool)
 				throw new CommandException("worked, but min,max is for command blocks", new Object[0]);

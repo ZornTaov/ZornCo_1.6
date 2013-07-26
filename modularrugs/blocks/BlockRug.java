@@ -148,7 +148,15 @@ public class BlockRug extends Block {
 		return (var5 == ModularRugs.rugBlock.blockID)&& !par1IBlockAccess.isAirBlock(par2, par3, par4) ? true : false;
 
 	}
+	@SideOnly(Side.CLIENT)
 
+    /**
+     * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
+     */
+    public Icon getIcon(int par1, int par2)
+    {
+        return Block.cloth.getIcon(par1, par2);
+    }
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -156,11 +164,11 @@ public class BlockRug extends Block {
 	 * the only chance you get to register icons.
 	 */
 	public void registerIcons(IconRegister par1IconRegister) {
-		this.iconArray = new Icon[16];
+		/*this.iconArray = new Icon[16];
 
 		for (int i = 0; i < this.iconArray.length; ++i) {
 			this.iconArray[i] = par1IconRegister.registerIcon("cloth_" + i);
-		}
+		}*/
 	}
 
 	@SideOnly(Side.CLIENT)

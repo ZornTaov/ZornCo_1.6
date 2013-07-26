@@ -4,11 +4,13 @@ import java.util.EnumSet;
 
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
 import cpw.mods.fml.common.ITickHandler;
@@ -47,7 +49,6 @@ public class TickHandlerClient implements ITickHandler {
 		int height = scaledresolution.getScaledHeight();
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-		FPS.instance.clientPlayer = Minecraft.getMinecraft().thePlayer;
 
 		if (Minecraft.getMinecraft().currentScreen == null ) {
 
@@ -55,15 +56,15 @@ public class TickHandlerClient implements ITickHandler {
 			if (FPS.instance.currentPlayerList.isEmpty() || 
 					FPS.instance.needsToRefresh || 
 					Minecraft.getMinecraft().theWorld.getWorldInfo().getWorldTime() % 20 == 0)
-				FPS.instance.refresh();
+				FPS.instance.proxy.refresh();
 			// lets draw our stuff
 
 			if(FPS.instance.showHudInfo) {
 				fontRenderer.drawString((new StringBuilder() + Minecraft.getMinecraft().debug).toString(), 2, 10,0xe0e0e0);
 			}
-			double playerX = FPS.instance.clientPlayer.posX;
-			double playerY = FPS.instance.clientPlayer.posY;
-			double playerZ = FPS.instance.clientPlayer.posZ;
+			double playerX = Minecraft.getMinecraft().thePlayer.posX;
+			double playerY = Minecraft.getMinecraft().thePlayer.posY;
+			double playerZ = Minecraft.getMinecraft().thePlayer.posZ;
 			Vec3 vecPlayer = Vec3.createVectorHelper(playerX, 0, playerZ);
 
 			// are there players to draw?
@@ -121,22 +122,27 @@ public class TickHandlerClient implements ITickHandler {
 							;
 
 						// draw arrow
-						Minecraft.getMinecraft().renderEngine.bindTexture(FPS.instance.ARROW_LOCATION);
+						Minecraft.getMinecraft().renderEngine.func_110577_a(new ResourceLocation("fps:gui/ArrowIconWhite.png"));
 						int arrowColor = FPS.instance.neutralArrowColor;
 						if(FPS.instance.friendList.containsKey(multiPlayer.username))
 							arrowColor = FPS.instance.friendArrowColor;
 						if(FPS.instance.enemyList.containsKey(multiPlayer.username))
 							arrowColor = FPS.instance.enemyArrowColor;
-						FPS.instance.drawRotatedTexturedModalRect(7,
+						FPS.instance.proxy.drawRotatedTexturedModalRect(7,
 								(lineCount * 10) + 23, 0, 0, 7,
 								7, angleTrunc, arrowColor, Minecraft.getMinecraft());
 
 						// draw faceplate
-						boolean loaded = FPS.instance.loadDownloadableImageTexture(multiPlayer.skinUrl, "/mob/char.png");
-						if(!loaded){
-							Minecraft.getMinecraft().renderEngine.bindTexture("/mob/char.png");
-						}
-						FPS.instance.drawTexturedHeadModalRect(
+						ResourceLocation resourcelocation = AbstractClientPlayer.field_110314_b;
+
+		                if (multiPlayer.username != null && multiPlayer.username.length() > 0)
+		                {
+		                    resourcelocation = AbstractClientPlayer.func_110305_h(multiPlayer.username);
+		                    AbstractClientPlayer.func_110304_a(resourcelocation, multiPlayer.username);
+		                }
+
+		                Minecraft.getMinecraft().renderEngine.func_110577_a(resourcelocation);
+						FPS.instance.proxy.drawTexturedHeadModalRect(
 								14, (lineCount * 10) + 20, 
 								8, 8,
 								8, 8, 
