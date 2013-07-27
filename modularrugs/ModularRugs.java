@@ -97,6 +97,7 @@ public class ModularRugs {
 		//GameRegistry.registerTileEntity(TileRug.class, "rug");
 
 		/** Names **/
+		LanguageRegistry.instance().addStringLocalization( "itemGroup.ModularRugs", "Modular Rugs" );
 		LanguageRegistry.addName(scissors, "Scissors");
 
 		for(String a : ItemRug.rugColorNames)
@@ -106,7 +107,7 @@ public class ModularRugs {
 		}
 
 		/** Recipes **/
-		GameRegistry.addShapelessRecipe(new ItemStack(scissors, 1, 16), // basic plate
+		GameRegistry.addShapelessRecipe(new ItemStack(scissors, 1, 16), // scissors
 				new Object[]{ Item.ingotIron, Item.redstone } );
 		String[] dyes = 
 			{
@@ -129,16 +130,14 @@ public class ModularRugs {
 			};
 		for(int i = 0; i < 16; i++)
 			GameRegistry.addRecipe(new ItemStack(rugItem, 4, i),
-					new Object[] { 
-				"yty", 
-				Character.valueOf('t'), new ItemStack(Block.cloth, 1, i),
-				Character.valueOf('t'), new ItemStack(Block.cloth, 1, -1)
-			}
-					);
+				new Object[] { "xxx", 
+					Character.valueOf('x'), new ItemStack(Block.cloth, 1, i)
+				}
+			);
 		for(int i = 0; i < 16; i++)
 			for(int j = 0; j < 16; j++)
-				addShapelessOreRecipe(new ItemStack(rugItem, 1, i), // blue plate
-						new Object[]{new ItemStack(Block.cloth, 1, j), dyes[i] } );
+				addShapelessOreRecipe(new ItemStack(rugItem, 1, 15-i), // blue plate
+						new Object[]{new ItemStack(rugItem, 1, j), dyes[i] } );
 
 
 		/** Registers **/
