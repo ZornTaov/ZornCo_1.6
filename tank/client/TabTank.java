@@ -1,13 +1,13 @@
-package zornco.modularrugs.core;
+package zornco.tank.client;
 
-import zornco.modularrugs.ModularRugs;
+import zornco.tank.Tank;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 
-public class TabModularRugs extends CreativeTabs {
+public class TabTank extends CreativeTabs {
 
-	public TabModularRugs(String label) 
+	public TabTank(String label) 
 	{
 		super(label);
 	}
@@ -15,7 +15,7 @@ public class TabModularRugs extends CreativeTabs {
 	@SideOnly(Side.CLIENT)
 	public int getTabIconItemIndex()
 	{
-		return ModularRugs.rugItem.itemID;
+		return Tank.tankItem.itemID;
 	}
 
 }

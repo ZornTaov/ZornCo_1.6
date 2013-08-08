@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import zornco.modularrugs.ModularRugs;
-import zornco.modularrugs.core.TabModularRugs;
+import zornco.modularrugs.client.TabModularRugs;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -133,8 +133,11 @@ public class BlockRug extends Block {
 		float var12 = 0.0625F;
 		float var13 = 0F;
 		float var14 = 1F;
-
-		this.setBlockBounds(var9, var11, var13, var10, var12, var14);
+		/*int ID = world.getBlockId(x, y-1, z);
+		if(ID == Block.stoneSingleSlab.blockID || ID == Block.woodSingleSlab.blockID && ((world.getBlockMetadata(x, y -1, z) & 0x8) == 0))
+			this.setBlockBounds(var9, var11-0.5F, var13, var10, var12-0.5F, var14);
+		else*/
+			this.setBlockBounds(var9, var11, var13, var10, var12, var14);
 
 	}
 
