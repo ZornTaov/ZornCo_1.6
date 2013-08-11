@@ -17,9 +17,11 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid="Tank", name="Tank", version="0.0.1")
+@NetworkMod(/*packetHandler = PacketHandler.class, */channels={"Tank"}, clientSideRequired=true, serverSideRequired=false)
 public class Tank {
 
 	// The instance of your mod that Forge uses.

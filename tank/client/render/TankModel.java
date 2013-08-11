@@ -1,12 +1,25 @@
 package zornco.tank.client.render;
 
+import zornco.tank.entity.TankEntity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.util.Vec3;
-import zornco.tank.entity.TankEntity;
+import net.minecraft.entity.Entity;
 
 public class TankModel extends ModelBase {
 
+	//public Angle3D muzzleAngle;
+	//public Vec3 muzzlePos;
+	private final int boxes = 42;
+	/*public Bone Origin;
+	public Bone muzzle;
+	public Bone end;
+	public Bone end2;
+	public Bone turret;*/
+	// public Bone smokeStackA;
+	// public Bone smokeStackB;
+	public TankEntity tankCS;
+	public ModelRenderer[] sideModels = new ModelRenderer[boxes];
+	
 	public TankModel() {
 		// Origin
 		/*Origin = new Bone(0, 0, 0, 0);
@@ -17,7 +30,7 @@ public class TankModel extends ModelBase {
 		end = new Bone(0, -3.141593F / 2, 0, 2, muzzle);
 		end2 = new Bone(0, -3.141593F / 2, 0, 2, end);*/
 
-		sideModels = new ModelRenderer[boxes];
+		
 		// texture placement
 		sideModels[0] = new ModelRenderer(this, 0, 0).setTextureSize(128, 64);// body
 		sideModels[1] = new ModelRenderer(this, 100, -4).setTextureSize(128, 64);// inner
@@ -197,14 +210,15 @@ public class TankModel extends ModelBase {
 
 		// muzzle.relativeAngles.angleZ = 1.570796F;
 	}
-
-	public void render(float f, float f1, float f2, float f3, float f4, float f5) {
+	@Override
+	public void render(Entity par1Entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		if(tankCS == null)
+			tankCS = (TankEntity)par1Entity;
 		setRotationAngles(f, f1, f2, f3, f4, f5);
-
 		/*Origin.prepareDraw();
 		Origin.setAnglesToModels();*/
-		for (int i = 0; i < boxes; i++) {// if(i <= 11 && i >= 14)
-			sideModels[i].render(f5 * 2F);
+		for (int i = 0; i < boxes; ++i) {// if(i <= 11 && i >= 14)
+			sideModels[i].render(f5*2F);
 		}
 		// sideModels[1].render(f5*2F);
 		/*
@@ -215,27 +229,16 @@ public class TankModel extends ModelBase {
 
 	public void setRotationAngles(float f, float f1, float f2, float f3,
 			float f4, float f5) {
-		/*
-		 * if(tank.riddenByEntity != null){ double d11 = tank.getSpeed(); //
-		 * where tankSpeed = Math.sqrt(motionX * motionX + motionZ * motionZ);
-		 * //System.out.println((new
-		 * StringBuilder("tankspeed ")).append(d11).append
-		 * (" motionX ").append(motionX
-		 * ).append(" motionZ ").append(motionZ).toString()); for(int i = 5; i <
-		 * 11; i++) { sideModels[i].rotateAngleZ -= d11*Math.PI; }}
-		 */
-	}
 
-	//public Angle3D muzzleAngle;
-	public Vec3 muzzlePos;
-	private int boxes = 42;
-	/*public Bone Origin;
-	public Bone muzzle;
-	public Bone end;
-	public Bone end2;
-	public Bone turret;*/
-	// public Bone smokeStackA;
-	// public Bone smokeStackB;
-	public TankEntity tankCS;
-	public ModelRenderer sideModels[];
+		double d11 = tankCS.getSpeed(); //where tankSpeed = Math.sqrt(motionX * motionX + motionZ * motionZ);
+		//System.out.println((newStringBuilder("tankspeed "))
+		//.append(d11).append(" motionX ").append(motionX)
+		//.append(" motionZ ").append(motionZ).toString()); 
+		for(int i = 5; i < 11; i++) 
+		{ 
+			sideModels[i].rotateAngleZ -= d11*Math.PI/0.0625F; 
+		}
+
+
+	}
 }

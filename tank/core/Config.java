@@ -1,5 +1,6 @@
 package zornco.tank.core;
 
+import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.Configuration;
 import zornco.tank.Tank;
 import zornco.tank.crafting.RecipeHandler;
@@ -56,10 +57,15 @@ public class Config {
 	}
 
 	public void registerEntities() {
-		EntityRegistry.registerGlobalEntityID(TankEntity.class, "Tank", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(TankEntity.class, "Tank", 3, Tank.instance, 80, 1, true);
-		EntityRegistry.registerGlobalEntityID(TankBulletEntity.class, "tankBullet", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(TankBulletEntity.class, "tankBullet", 1, Tank.instance, 250, 1, true);
+        int entityID = EntityRegistry.findGlobalUniqueEntityId();
+		//EntityRegistry.registerGlobalEntityID(TankEntity.class, "Tank", entityID);
+		//EntityList.addMapping(TankEntity.class, "Tank", entityID);
+		EntityRegistry.registerModEntity(TankEntity.class, "Tank", 3, Tank.instance, 100, 5, true);
+        
+		entityID = EntityRegistry.findGlobalUniqueEntityId();
+		//EntityRegistry.registerGlobalEntityID(TankBulletEntity.class, "tankBullet", entityID);
+		EntityRegistry.registerModEntity(TankBulletEntity.class, "tankBullet", 1, Tank.instance, 40, 100, true);
+		//EntityList.addMapping(TankBulletEntity.class, "tankBullet", entityID);
 
 	}
 
