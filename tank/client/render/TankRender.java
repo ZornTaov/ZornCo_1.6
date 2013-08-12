@@ -1,6 +1,7 @@
 package zornco.tank.client.render;
 
 
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -13,7 +14,7 @@ import zornco.tank.entity.TankEntity;
 public class TankRender extends Render {
 
 	private static final ResourceLocation tankCamo = new ResourceLocation("tank:textures/entity/tank/camo.png");
-	public TankModel tankModel;
+	public ModelBase tankModel;
 
 	public TankRender() {
 		shadowSize = 2F;

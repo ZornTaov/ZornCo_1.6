@@ -260,6 +260,11 @@ public class TankEntity extends Entity {
             d4 = Math.cos((double)this.rotationYaw * Math.PI / 180.0D);
             d5 = Math.sin((double)this.rotationYaw * Math.PI / 180.0D);
 
+
+            int j1 = MathHelper.floor_double(this.posX);
+            int i1 = MathHelper.floor_double(this.posY - 0.20000000298023224D - (double)this.yOffset);
+            int k1 = MathHelper.floor_double(this.posZ);
+            int l = this.worldObj.getBlockId(j1, i1, k1);
             for (int j = 0; (double)j < 1.0D + d3 * 60.0D; ++j)
             {
                 double d6 = (double)(this.rand.nextFloat() * 2.0F - 1.0F);
@@ -271,13 +276,13 @@ public class TankEntity extends Entity {
                 {
                     d8 = this.posX - d4 * d6 * 0.8D + d5 * d7;
                     d9 = this.posZ - d5 * d6 * 0.8D - d4 * d7;
-                    this.worldObj.spawnParticle("splash", d8, this.posY - 0.125D, d9, this.motionX, this.motionY, this.motionZ);
+                    this.worldObj.spawnParticle("tilecrack_" + l + "_" + this.worldObj.getBlockMetadata(j1, i1, k1), d8, this.posY - 0.125D, d9, this.motionX, this.motionY, this.motionZ);
                 }
                 else
                 {
                     d8 = this.posX + d4 + d5 * d6 * 0.7D;
                     d9 = this.posZ + d5 - d4 * d6 * 0.7D;
-                    this.worldObj.spawnParticle("splash", d8, this.posY - 0.125D, d9, this.motionX, this.motionY, this.motionZ);
+                    this.worldObj.spawnParticle("tilecrack_" + l + "_" + this.worldObj.getBlockMetadata(j1, i1, k1), d8, this.posY - 0.125D, d9, this.motionX, this.motionY, this.motionZ);
                 }
             }
         }
@@ -313,9 +318,9 @@ public class TankEntity extends Entity {
                     this.motionZ *= 0.5D;
                 }
 
-                this.motionX *= 0.9900000095367432D;
-                this.motionY *= 0.949999988079071D;
-                this.motionZ *= 0.9900000095367432D;
+                this.motionX *= 0.97D;
+                this.motionY *= 0.94D;
+                this.motionZ *= 0.97D;
             }
         }
         else
@@ -337,14 +342,42 @@ public class TankEntity extends Entity {
 
             if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
             {
-                d4 = (double)((EntityLivingBase)this.riddenByEntity).moveForward;
+            	/*double riderStrafing = ((EntityLivingBase)this.riddenByEntity).moveStrafing * 0.5F;
+            	double riderForward = ((EntityLivingBase)this.riddenByEntity).moveForward;
+            	if (riderForward <= 0.0F)
+                {
+            		riderForward *= 0.25F;
+                }
+            	
+            	double f3 = riderStrafing * riderStrafing + riderForward * riderForward;
+            	float friction = 0.546F;
+            	float friction2 = 0.16277136F/ (friction * friction * friction);
+            	float speed = 0.1F * friction2;
+                if (f3 >= 1.0E-4F)
+                {
+                    f3 = MathHelper.sqrt_double(f3);
+
+                    if (f3 < 1.0F)
+                    {
+                        f3 = 1.0F;
+                    }
+
+                    f3 = speed / f3;
+                    riderStrafing *= f3;
+                    riderForward *= f3;
+                    float f4 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
+                    float f5 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
+                    this.motionX += (double)(riderStrafing * f5 - riderForward * f4);
+                    this.motionZ += (double)(riderForward * f5 + riderStrafing * f4);
+                }*/
+            	d4 = (double)((EntityLivingBase)this.riddenByEntity).moveForward;
 
                 if (d4 > 0.0D)
                 {
                     d5 = -Math.sin((double)(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F));
                     d11 = Math.cos((double)(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F));
-                    this.motionX += d5 * this.speedMultiplier;// * 0.05000000074505806D;
-                    this.motionZ += d11 * this.speedMultiplier;// * 0.05000000074505806D;
+                    this.motionX += d5 * this.speedMultiplier * 0.05000000074505806D;
+                    this.motionZ += d11 * this.speedMultiplier * 0.05000000074505806D;
                 }
             }
 
@@ -377,7 +410,7 @@ public class TankEntity extends Entity {
             }
 
             setSpeed((float)d4);
-            if (this.onGround)
+            if (!this.onGround)
             {
                 this.motionX *= 0.5D;
                 this.motionY *= 0.5D;
@@ -406,9 +439,9 @@ public class TankEntity extends Entity {
             }
             else
             {
-                this.motionX *= 0.9900000095367432D;
-                this.motionY *= 0.949999988079071D;
-                this.motionZ *= 0.9900000095367432D;
+                this.motionX *= 0.95D;
+                this.motionY *= 0.94D;
+                this.motionZ *= 0.95D;
             }
 
             this.rotationPitch = 0.0F;
@@ -423,14 +456,14 @@ public class TankEntity extends Entity {
 
             double d12 = MathHelper.wrapAngleTo180_double(d5 - (double)this.rotationYaw);
 
-            if (d12 > 20.0D)
+            if (d12 > 10.0D)
             {
-                d12 = 20.0D;
+                d12 = 10.0D;
             }
 
-            if (d12 < -20.0D)
+            if (d12 < -10.0D)
             {
-                d12 = -20.0D;
+                d12 = -10.0D;
             }
 
             this.rotationYaw = (float)((double)this.rotationYaw + d12);
@@ -459,7 +492,7 @@ public class TankEntity extends Entity {
                     int i1 = MathHelper.floor_double(this.posX + ((double)(l % 2) - 0.5D) * 0.8D);
                     int j1 = MathHelper.floor_double(this.posZ + ((double)(l / 2) - 0.5D) * 0.8D);
 
-                    for (int k1 = 0; k1 < 2; ++k1)
+                    for (int k1 = -1; k1 < 1; ++k1)
                     {
                         int l1 = MathHelper.floor_double(this.posY) + k1;
                         int i2 = this.worldObj.getBlockId(i1, l1, j1);
@@ -471,6 +504,10 @@ public class TankEntity extends Entity {
                         else if (i2 == Block.waterlily.blockID)
                         {
                             this.worldObj.destroyBlock(i1, l1, j1, true);
+                        }
+                        else if (i2 == Block.grass.blockID || i2 == Block.tilledField.blockID)
+                        {
+                        	this.worldObj.setBlock(i1, l1, j1, Block.dirt.blockID);
                         }
                     }
                 }
@@ -584,7 +621,7 @@ public class TankEntity extends Entity {
      */
     public void setSpeed(float par1)
     {
-        this.dataWatcher.updateObject(19, Float.valueOf(par1));
+        this.dataWatcher.updateObject(25, Float.valueOf(par1));
     }
 
     /**
@@ -592,6 +629,6 @@ public class TankEntity extends Entity {
      */
     public float getSpeed()
     {
-        return this.dataWatcher.func_111145_d(19);
+        return this.dataWatcher.func_111145_d(25);
     }
 }
