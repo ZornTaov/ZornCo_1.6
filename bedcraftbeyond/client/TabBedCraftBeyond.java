@@ -1,13 +1,13 @@
-package zornco.modularrugs.client;
+package zornco.bedcraftbeyond.client;
 
-import zornco.modularrugs.ModularRugs;
+import zornco.bedcraftbeyond.BedCraftBeyond;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 
-public class TabModularRugs extends CreativeTabs {
+public class TabBedCraftBeyond extends CreativeTabs {
 
-	public TabModularRugs(String label) 
+	public TabBedCraftBeyond(String label) 
 	{
 		super(label);
 	}
@@ -15,7 +15,7 @@ public class TabModularRugs extends CreativeTabs {
 	@SideOnly(Side.CLIENT)
 	public int getTabIconItemIndex()
 	{
-		return ModularRugs.rugItem.itemID;
+		return BedCraftBeyond.rugItem.itemID;
 	}
 
 }

@@ -1,4 +1,4 @@
-package zornco.modularrugs.core;
+package zornco.bedcraftbeyond.core;
 
 public class CommonProxy {
 

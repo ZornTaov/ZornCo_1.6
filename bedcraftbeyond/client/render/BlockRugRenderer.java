@@ -1,6 +1,7 @@
-package zornco.modularrugs.client.render;
+package zornco.bedcraftbeyond.client.render;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockHalfSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -10,8 +11,8 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
-import zornco.modularrugs.ModularRugs;
-import zornco.modularrugs.blocks.BlockRug;
+import zornco.bedcraftbeyond.BedCraftBeyond;
+import zornco.bedcraftbeyond.blocks.BlockRug;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 class RugStruct {
@@ -85,11 +86,11 @@ public class BlockRugRenderer implements ISimpleBlockRenderingHandler {
 					{
 						byteList[i+1][j+1][k+1].air = true;
 					}
-					else if(ID == ModularRugs.rugBlock.blockID)
+					else if(ID == BedCraftBeyond.rugBlock.blockID)
 					{
 						byteList[i+1][j+1][k+1].rug = true;
 					}
-					else if(ID == Block.stoneSingleSlab.blockID || ID == Block.woodSingleSlab.blockID)
+					else if(ID > 0 && Block.blocksList[ID] instanceof BlockHalfSlab)
 					{
 						byteList[i+1][j+1][k+1].slab = true;
 						byteList[i+1][j+1][k+1].upsidedown = ((META & 0x8) == 8);
@@ -657,6 +658,6 @@ public class BlockRugRenderer implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return ModularRugs.rugRI;
+		return BedCraftBeyond.rugRI;
 	}
 }

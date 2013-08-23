@@ -51,8 +51,9 @@ public class Config {
 		/** Names **/
 		LanguageRegistry.addName(Tank.tankItem, "Tank");
 		for (int i = 0; i < Tank.bullettypes; i++) {
-			LanguageRegistry.addName(Tank.tankBullet[i], TankBulletItem.bulletNames[i]);			
+			LanguageRegistry.addName(Tank.tankBullet[i], TankBulletItem.bulletNames[i]);
 		}
+		LanguageRegistry.instance().addStringLocalization( "itemGroup.Tank", "Tanks" );
 		
 	}
 

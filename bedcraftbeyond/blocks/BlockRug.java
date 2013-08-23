@@ -1,4 +1,4 @@
-package zornco.modularrugs.blocks;
+package zornco.bedcraftbeyond.blocks;
 
 import static net.minecraftforge.common.ForgeDirection.DOWN;
 import static net.minecraftforge.common.ForgeDirection.EAST;
@@ -10,13 +10,15 @@ import static net.minecraftforge.common.ForgeDirection.WEST;
 import java.util.List;
 import java.util.Random;
 
-import zornco.modularrugs.ModularRugs;
-import zornco.modularrugs.client.TabModularRugs;
+import zornco.bedcraftbeyond.BedCraftBeyond;
+import zornco.bedcraftbeyond.client.TabBedCraftBeyond;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
+import net.minecraft.block.BlockHalfSlab;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,7 +36,7 @@ public class BlockRug extends Block {
 
 	public BlockRug(int par1) {
 		super(par1, Material.cloth);
-		this.setCreativeTab(ModularRugs.modularRugsTab);
+		this.setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 	}
 
 	/**
@@ -43,18 +45,8 @@ public class BlockRug extends Block {
 	 */
 	public boolean canPlaceBlockOnSide(World par1World, int x, int y, int z,
 			int par5) {
-		/*
-		 * ForgeDirection dir = ForgeDirection.getOrientation(par5); return (dir
-		 * == DOWN && (par1World.isBlockSolidOnSide(x, y - 1, z, DOWN ))) ||
-		 * (dir == UP && (par1World.isBlockSolidOnSide(x, y - 1, z, UP ))) ||
-		 * (dir == NORTH && (par1World.isBlockSolidOnSide(x, y - 1, z, NORTH)))
-		 * || (dir == SOUTH && (par1World.isBlockSolidOnSide(x, y - 1, z,
-		 * SOUTH))) || (dir == WEST && (par1World.isBlockSolidOnSide(x, y - 1,
-		 * z, WEST ))) || (dir == EAST && (par1World.isBlockSolidOnSide(x, y -
-		 * 1, z, EAST )));
-		 */
 		return par1World.doesBlockHaveSolidTopSurface(x, y - 1, z)
-				|| this.isIdAValid(par1World.getBlockId(x, y - 1, z));
+				|| this.isBlockValid(par1World.getBlockId(x, y - 1, z));
 
 	}
 
@@ -64,22 +56,12 @@ public class BlockRug extends Block {
 	 */
 	public boolean canPlaceBlockAt(World par1World, int x, int y, int z) {
 		return par1World.doesBlockHaveSolidTopSurface(x, y - 1, z)
-				|| this.isIdAValid(par1World.getBlockId(x, y - 1, z));
+				|| this.isBlockValid(par1World.getBlockId(x, y - 1, z));
 
 	}
 
-	private boolean isIdAValid(int blockId) {
-		return blockId == Block.stairsCobblestone.blockID
-				|| blockId == Block.stairsNetherQuartz.blockID
-				|| blockId == Block.stairsBrick.blockID
-				|| blockId == Block.stairsNetherBrick.blockID
-				|| blockId == Block.stairsSandStone.blockID
-				|| blockId == Block.stairsStoneBrick.blockID
-				|| blockId == Block.stairsWoodBirch.blockID
-				|| blockId == Block.stairsWoodJungle.blockID
-				|| blockId == Block.stairsWoodSpruce.blockID
-				|| blockId == Block.stoneSingleSlab.blockID
-				|| blockId == Block.woodSingleSlab.blockID;
+	private boolean isBlockValid(int blockId) {
+		return (Block.blocksList[blockId] instanceof BlockStairs) || (Block.blocksList[blockId] instanceof BlockHalfSlab);
 	}
 
 	/**
@@ -92,7 +74,7 @@ public class BlockRug extends Block {
 
 		int valid = 0;
 
-		if (par1World.isBlockSolidOnSide(x, y - 1, z, DOWN)|| this.isIdAValid(par1World.getBlockId(x, y - 1, z))) {
+		if (par1World.isBlockSolidOnSide(x, y - 1, z, DOWN)|| this.isBlockValid(par1World.getBlockId(x, y - 1, z))) {
 			valid++;
 		}
 
@@ -110,17 +92,6 @@ public class BlockRug extends Block {
 	 */
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x,
 			int y, int z) {
-		/*float var9 = 0F;
-		float var10 = 1F;
-		float var11 = 0F;
-		float var12 = 0.0F;
-		float var13 = 0F;
-		float var14 = 1F;
-
-		return AxisAlignedBB.getAABBPool().getAABB((double) ((float) x + var9),
-				(double) ((float) y + var11), (double) ((float) z + var13),
-				(double) ((float) x + var10), (double) ((float) y + var12),
-				(double) ((float) z + var14));*/
 		return null;
 
 	}
@@ -148,7 +119,7 @@ public class BlockRug extends Block {
 			int par2, int par3, int par4) {
 		int var5 = par1IBlockAccess.getBlockId(par2, par3, par4);
 
-		return (var5 == ModularRugs.rugBlock.blockID)&& !par1IBlockAccess.isAirBlock(par2, par3, par4) ? true : false;
+		return (var5 == BedCraftBeyond.rugBlock.blockID)&& !par1IBlockAccess.isAirBlock(par2, par3, par4) ? true : false;
 
 	}
 	@SideOnly(Side.CLIENT)
@@ -167,11 +138,6 @@ public class BlockRug extends Block {
 	 * the only chance you get to register icons.
 	 */
 	public void registerIcons(IconRegister par1IconRegister) {
-		/*this.iconArray = new Icon[16];
-
-		for (int i = 0; i < this.iconArray.length; ++i) {
-			this.iconArray[i] = par1IconRegister.registerIcon("cloth_" + i);
-		}*/
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -208,7 +174,7 @@ public class BlockRug extends Block {
 	 * Returns the ID of the items to drop on destruction.
 	 */
 	public int idDropped(int par1, Random par2Random, int par3) {
-		return ModularRugs.rugItem.itemID;
+		return BedCraftBeyond.rugItem.itemID;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -216,7 +182,7 @@ public class BlockRug extends Block {
 	 * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
 	 */
 	public int idPicked(World par1World, int par2, int par3, int par4) {
-		return ModularRugs.rugItem.itemID;
+		return BedCraftBeyond.rugItem.itemID;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -225,9 +191,6 @@ public class BlockRug extends Block {
 	 */
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
 			List par3List) {
-		for (int var4 = 0; var4 < 16; ++var4) {
-			// par3List.add(new ItemStack(par1, 1, var4));
-		}
 	}
 
 	/**
@@ -261,6 +224,6 @@ public class BlockRug extends Block {
 	 * The type of render function that is called for this block
 	 */
 	public int getRenderType() {
-		return ModularRugs.rugRI;
+		return BedCraftBeyond.rugRI;
 	}
 }

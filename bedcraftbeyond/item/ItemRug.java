@@ -1,9 +1,9 @@
-package zornco.modularrugs.item;
+package zornco.bedcraftbeyond.item;
 
 import java.util.List;
 
-import zornco.modularrugs.ModularRugs;
-import zornco.modularrugs.blocks.BlockRug;
+import zornco.bedcraftbeyond.BedCraftBeyond;
+import zornco.bedcraftbeyond.blocks.BlockRug;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -33,7 +33,6 @@ public class ItemRug extends Item {
 		this.blockID = par2;
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setCreativeTab(ModularRugs.modularRugsTab);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -55,7 +54,7 @@ public class ItemRug extends Item {
 
 		for (int i = 0; i < rugIconNames.length; ++i)
 		{
-			this.rugIconList[i] = par1IconRegister.registerIcon("modular_rugs:"+rugIconNames[i]);
+			this.rugIconList[i] = par1IconRegister.registerIcon("bedcraftbeyond:"+rugIconNames[i]);
 		}
 	}
 	public String getTextureFile()
