@@ -30,26 +30,14 @@ public class ItemColoredBed extends Item
 	public static final int[] woodColors = new int[] {0xaf8f58, 0x745733, 0xd0c084, 0xac7c58};
 	public static final String[] woodType = new String[] {"Oak", "Spruce", "Birch", "Jungle"};
 	public static final String[] colorNames = new String[] {"Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White"};
-
-	public int woodTex;
-	public int pillowCol;
-	public int sheetCol;
+	
 	@SideOnly(Side.CLIENT)
-	private Icon[] bedIcon;
+	protected Icon[] bedIcon;
+	
 	public ItemColoredBed(int par1)
 	{
 		super(par1);
 		this.setHasSubtypes(true);
-	}
-
-	public ItemColoredBed(int par1, int woodTex, int pillowCol, int sheetCol)
-	{
-		this(par1);
-		this.setHasSubtypes(true);
-		System.out.println("ItemColoredBed Sheet:"+sheetCol+" Pillow:"+pillowCol+" Wood:"+woodTex);
-		this.woodTex = woodTex;
-		this.pillowCol = pillowCol;
-		this.sheetCol = sheetCol;
 	}
 
 	@Override
@@ -58,41 +46,19 @@ public class ItemColoredBed extends Item
 		return requiresMultipleRenderPasses() ? 3 : 1;
 	}
 
-	/*public String getItemNameIS(ItemStack par1ItemStack)
-    {
-        int var2 = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
-        return super.getItemName() + "." + ItemDye.dyeColorNames[var2];
-    }*/
-
 	@Override
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
 	{
-		//System.out.println(par1);
-		//color = par1;
 		switch (par2)
 		{
 		case 0:
 			return ItemDye.dyeColors[this.getColorFromInt(par1ItemStack.getItemDamage(), 2)];
-
 		case 1:
 			return ItemDye.dyeColors[this.getColorFromInt(par1ItemStack.getItemDamage(), 1)];
 		case 2:
 			return this.woodColors[this.getColorFromInt(par1ItemStack.getItemDamage(), 0)];
-
 		}
-
 		return 0xFF00FF;
-	}
-
-
-	public static int getIntFromColors(int color1, int color2, int color3)
-	{
-		return ((color1 & 0xF) << 8) + ((color2 & 0xF) << 4) + (color3 & 0xF);
-	}
-
-	public static int getIntFromColors(int[] colors)
-	{
-		return ((colors[0] & 0xF) << 8) + ((colors[1] & 0xF) << 4) + (colors[2] & 0xF);
 	}
 
 	public static int getColorFromInt(int meta, int color)
@@ -109,42 +75,7 @@ public class ItemColoredBed extends Item
 		return 0;
 	}
 
-	public static int[] getColorsFromMeta(int meta)
-	{
-		int[] rGB = new int[3];
-		rGB[0] = (meta >> 8 & 0xF);
-		rGB[1] = (meta >> 4 & 0xF);
-		rGB[2] = (meta & 0xF);
-
-		return rGB;
-	}
-
-
-	/*
-	 * determines what iconindex to use on a multiRenderPass item
-	 */
-	/*public int func_46057_a(int par1, int par2)
-	 {
-		 return par2 == 0 ? 0 : (
-				 par2 == 1 ? 4 :  8 
-				 );
-	 }*/
-	/*public String getItemDisplayName(ItemStack par1ItemStack)
-	 {
-
-		 String var2 = ("" + StatCollector.translateToLocal(this.getItemName() + ".name")).trim();
-		 String var3 = dyeColorNames[par1ItemStack.getItemDamage()];
-
-
-		 var2 = var2 + " " + StatCollector.translateToLocal("entity." + var3 + ".name");
-
-
-		 return var2;
-	 }*/
-
-
 	@SideOnly(Side.CLIENT)
-
 	/**
 	 * Gets an icon index based on an item's damage value and the given render pass
 	 */
@@ -165,8 +96,8 @@ public class ItemColoredBed extends Item
 	{
 		return true;
 	}
+	
 	@SideOnly(Side.CLIENT)
-
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
 	 */
@@ -189,6 +120,7 @@ public class ItemColoredBed extends Item
 		par3List.add(this.woodType[getColorFromInt(par1ItemStack.getItemDamage(), 0)]+" Frame");
 
 	}
+	
 	/**
 	 * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
 	 * True if something happen and false if it don't. This is for ITEMS, not BLOCKS !
@@ -246,13 +178,13 @@ public class ItemColoredBed extends Item
 		        	if (tile != null)
 		        	{
 		        		tile.setColorCombo(par1ItemStack.getItemDamage());
-		        	    BedCraftBeyond.logger.info(tile.colorCombo+"");
+		        	    //BedCraftBeyond.logger.info(tile.colorCombo+"");
 		        	}
 		        	TileColoredBed tile2 = (TileColoredBed)par3World.getBlockTileEntity(par4 + b0, par5, par6 + b1);
 		        	if (tile2 != null)
 		        	{
 		        		tile2.setColorCombo(par1ItemStack.getItemDamage());
-		        	    BedCraftBeyond.logger.info(tile2.colorCombo+"");
+		        	    //BedCraftBeyond.logger.info(tile2.colorCombo+"");
 		        	}
 					--par1ItemStack.stackSize;
 					return true;

@@ -1,7 +1,9 @@
 package zornco.bedcraftbeyond.blocks;
 
-import zornco.bedcraftbeyond.BedCraftBeyond;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
@@ -9,18 +11,22 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TileColoredBed extends TileEntity {
 	public int colorCombo;
+	private boolean firstRun = true;
+	public TileColoredBed() {
+		super();
+	}
 	@Override
-	public void writeToNBT(NBTTagCompound par1)
+	public void writeToNBT(NBTTagCompound nbttagcompound)
 	{
-	   super.writeToNBT(par1);
-	   par1.setInteger("colorCombo", colorCombo);
+		super.writeToNBT(nbttagcompound);
+		nbttagcompound.setInteger("colorCombo", colorCombo);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound par1)
+	public void readFromNBT(NBTTagCompound nbttagcompound)
 	{
-	   super.readFromNBT(par1);
-	   this.colorCombo = par1.getInteger("colorCombo");
+		super.readFromNBT(nbttagcompound);
+		this.colorCombo = nbttagcompound.getInteger("colorCombo");
 	}
 	public void setColorCombo(int combo)
 	{
@@ -29,7 +35,8 @@ public class TileColoredBed extends TileEntity {
 
 	@Override
 	public void updateEntity() {
-		if (worldObj.isRemote == false && worldObj.getWorldTime() % 20 == 0) {
+		if (!worldObj.isRemote && (worldObj.getWorldTime() % 20 == 0 || firstRun )) {
+			firstRun = false;
 			updateClients();
 		}
 	}

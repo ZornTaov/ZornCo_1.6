@@ -1,5 +1,6 @@
 package zornco.bedcraftbeyond.blocks;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumStatus;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Direction;
@@ -39,51 +41,87 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 	private static Icon[][] bedSideIcons;
 	@SideOnly(Side.CLIENT)
 	private static Icon[][] bedTopIcons;
-	public int woodTex;
-	public int pillowCol;
-	public int sheetCol;
+	
+	private int colorCombo = 241;
 
 	public BlockColoredBed(int par1)
 	{
 		// was 134
 		super(par1);
 	}
-	public BlockColoredBed(int par1, int woodTex, int pillowCol, int sheetCol)
-	{
-		this(par1);
-		System.out.println("BlockColoredBed Sheet:"+sheetCol+" Pillow:"+pillowCol+" Wood:"+woodTex);
-		this.woodTex = woodTex;
-		this.pillowCol = pillowCol;
-		this.sheetCol = sheetCol;
-	}
 	@Override
 	public boolean isBed(World world, int x, int y, int z, EntityLivingBase player)
     {
-        return blockID == BedCraftBeyond.bedBlock.blockID;
+        return Block.blocksList[blockID] instanceof BlockColoredBed;
     }
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-    {
-    	super.onBlockActivated( par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
-    	/*if (par1World.isRemote)
-        {
-            return true;
-        }
-        else
-        {*/
-        	TileColoredBed tile = (TileColoredBed)par1World.getBlockTileEntity(par2, par3, par4);
-        	if (tile != null)
-        	{
-        	    BedCraftBeyond.logger.info(tile.colorCombo+"");
-        	}
-        	return true;
-        //}
-    }
-	public int damageDropped(int par1)
+    public int damageDropped(int par1)
 	{
-		System.out.println("damageDropped:"+par1);
 		return par1;
 	}
+    @Override 
+    public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
+    {
 
+    	TileColoredBed tile = (TileColoredBed)world.getBlockTileEntity(x, y, z);
+    	if (tile != null)
+    	{
+    		colorCombo = tile.colorCombo;
+    	}
+        return world.setBlockToAir(x, y, z);
+    }
+    @Override
+    /**
+     * This returns a complete list of items dropped from this block.
+     *
+     * @param world The current world
+     * @param x X Position
+     * @param y Y Position
+     * @param z Z Position
+     * @param metadata Current metadata
+     * @param fortune Breakers fortune level
+     * @return A ArrayList containing all items this block drops
+     */
+    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+        int count = quantityDropped(metadata, fortune, world.rand);
+        int combo = 241;
+        for(int i = 0; i < count; i++)
+        {
+            int id = idDropped(metadata, world.rand, fortune);
+            if (id > 0)
+            {
+                ret.add(new ItemStack(id, 1, colorCombo));
+            }
+        }
+        return ret;
+    }
+    /**
+     * Sets whether or not the bed is occupied.
+     */
+    public static void setBedOccupied(World par0World, int par1, int par2, int par3, boolean par4)
+    {
+        int l = par0World.getBlockMetadata(par1, par2, par3);
+
+        if (par4)
+        {
+            l |= 4;
+        }
+        else
+        {
+            l &= -5;
+        }
+
+        par0World.setBlockMetadataWithNotify(par1, par2, par3, l, 4);
+    }
+	@Override
+	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+		boolean flag = super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+		
+			par1World.markBlockForUpdate(par2, par3, par4);
+		return flag;
+	}
 	public static int getColorFromInt(int meta, int color)
 	{
 		switch (color)
@@ -105,26 +143,17 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 	 */
 	public Icon getIcon(int par1, int par2)
 	{
-		//if (par1 == 0)
-		// {
 		return Block.planks.getIcon(par1, 0);
-		//}
-		/*else
-        {
-            int k = getDirection(par2);
-            int l = Direction.bedDirection[k][par1];
-            int i1 = isBlockHeadOfBed(par2) ? 1 : 0;
-            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedTopIcons[i1] : this.bedSideIcons[i1]) : this.field_94472_b[i1];
-        }*/
 	}
 
 	public static int getColorFromTile(IBlockAccess par1World, int par2, int par3, int par4) {
+
 		TileColoredBed tile = (TileColoredBed)par1World.getBlockTileEntity(par2, par3, par4);
     	if (tile != null)
     	{
     	    return tile.colorCombo;
     	}
-    	return 0;
+    	return 241;
 	}
 	
 	public static int getColorFromTilePerPass(IBlockAccess par1World, int par2, int par3, int par4, int pass)
@@ -180,31 +209,6 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_side_1"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_side_1")},
 				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_side_2"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_side_2")}};
 	}
-	/*
-	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
-	 */
-	/*public int getBlockTextureFromSideAndMetadata(int par1, int par2)
-    {
-        if (par1 == 0)
-        {
-        	//Todo change to use the wood color value
-            return 3;
-        }
-        else
-        {
-            int var3 = getDirection(par2);
-            int var4 = Direction.bedDirection[var3][par1];
-            return isBlockFootOfBed(par2) ? (
-            			var4 == 2 ? this.blockIndexInTexture + 2 + 16 : ( // x + 2, y + 1
-            					var4 != 5 && var4 != 4 ? this.blockIndexInTexture + 1 : this.blockIndexInTexture + 1 + 16
-            				)
-            			) : (
-            				var4 == 3 ? this.blockIndexInTexture - 1 + 16 : (
-            					var4 != 5 && var4 != 4 ? this.blockIndexInTexture : this.blockIndexInTexture + 16
-            			)
-            		);
-        }
-    }*/
 
 	/**
 	 * The type of render function that is called for this block
@@ -219,34 +223,9 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 	 */
 	public int idDropped(int par1, Random par2Random, int par3)
 	{
-		return isBlockHeadOfBed(par1) ? 0 : BedCraftBeyond.bedBlock.blockID;
+		return isBlockHeadOfBed(par1) ? 0 : BedCraftBeyond.bedItem.itemID;
 	}
 
-	/*
-    public void onBlockRemoval(World par1World, int par2, int par3, int par4)
-    {
-
-
-		float var8 = par1World.rand.nextFloat() * 0.8F + 0.1F;
-		float var9 = par1World.rand.nextFloat() * 0.8F + 0.1F;
-		float var10 = par1World.rand.nextFloat() * 0.8F + 0.1F;
-
-		int var11 = par1World.rand.nextInt(21) + 10;
-
-		EntityItem var12 = new EntityItem(par1World,
-				(double) ((float) par2 + var8), (double) ((float) par3 + var9),
-				(double) ((float) par4 + var10), new ItemStack(mod_RainbowBed.itemRBed,
-						var11, par1World.getItemDamage()));
-
-		float var13 = 0.05F;
-		var12.motionX = (double) ((float) par1World.rand.nextGaussian() * var13);
-		var12.motionY = (double) ((float) par1World.rand.nextGaussian() * var13 + 0.2F);
-		var12.motionZ = (double) ((float) par1World.rand.nextGaussian() * var13);
-		par1World.spawnEntityInWorld(var12);
-
-        super.onBlockRemoval(par1World, par2, par3, par4);
-    }
-	 */
 	@SideOnly(Side.CLIENT)
 
 	/**
