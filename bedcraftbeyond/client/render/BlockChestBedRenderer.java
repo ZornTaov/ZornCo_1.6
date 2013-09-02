@@ -22,8 +22,9 @@ public class BlockChestBedRenderer implements
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
-			Block block, int modelId, RenderBlocks renderer) {
+			Block block1, int modelId, RenderBlocks renderer) {
 		Tessellator tessellator = Tessellator.instance;
+		BlockColoredChestBed block = (BlockColoredChestBed)block1; 
 		int i1 = block.getBedDirection(world, x, y, z);
 		boolean flag = block.isBedFoot(world, x, y, z);
 		float f = 0.5F;
@@ -35,7 +36,7 @@ public class BlockChestBedRenderer implements
 		int j1 = block.getMixedBrightnessForBlock(world, x, y, z);
 		tessellator.setBrightness(j1);
 		tessellator.setColorOpaque_F(f, f, f);
-		Icon icon = BlockColoredBed.getIcon(0, world.getBlockMetadata(x, y, z), 0, world, x, y, z);
+		Icon icon = block.getIcon(0, world.getBlockMetadata(x, y, z), 0, world, x, y, z);
 		if (renderer.hasOverrideBlockTexture()) icon = renderer.overrideBlockTexture; //BugFix Proper breaking texture on underside
 		double d0 = (double)icon.getMinU();
 		double d1 = (double)icon.getMaxU();
@@ -56,7 +57,7 @@ public class BlockChestBedRenderer implements
 		tessellator.setColorOpaque_F(f1, f1, f1);
 		for (int i = 0; i < 3; i++) {
 			tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
-			icon = BlockColoredChestBed.getIcon(1, world.getBlockMetadata(x, y, z), i, world, x, y, z);
+			icon = block.getIcon(1, world.getBlockMetadata(x, y, z), i, world, x, y, z);
 			if (renderer.hasOverrideBlockTexture()) icon = renderer.overrideBlockTexture; //BugFix Proper breaking texture on underside
 			d0 = (double)icon.getMinU();
 			d1 = (double)icon.getMaxU();
@@ -138,7 +139,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 2;
-				renderer.renderFaceZNeg(block, (double)x, (double)y, (double)z, BlockColoredBed.getIcon(2, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceZNeg(block, (double)x, (double)y, (double)z, block.getIcon(2, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 		if (k1 != 3 && (renderer.renderAllFaces || block.shouldSideBeRendered(renderer.blockAccess, x, y, z + 1, 3)))
@@ -148,7 +149,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 3;
-				renderer.renderFaceZPos(block, (double)x, (double)y, (double)z, BlockColoredBed.getIcon(3, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceZPos(block, (double)x, (double)y, (double)z, block.getIcon(3, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 
@@ -159,7 +160,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 4;
-				renderer.renderFaceXNeg(block, (double)x, (double)y, (double)z, BlockColoredBed.getIcon(4, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceXNeg(block, (double)x, (double)y, (double)z, block.getIcon(4, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 
@@ -170,7 +171,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 5;
-				renderer.renderFaceXPos(block, (double)x, (double)y, (double)z, BlockColoredBed.getIcon(5, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceXPos(block, (double)x, (double)y, (double)z, block.getIcon(5, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 

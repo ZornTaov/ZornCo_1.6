@@ -8,12 +8,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import zornco.bedcraftbeyond.BedCraftBeyond;
 import zornco.bedcraftbeyond.item.ItemScissors;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class BlockColoredChestBed extends BlockColoredBed {
@@ -122,7 +124,27 @@ public class BlockColoredChestBed extends BlockColoredBed {
             }
         }
     }
-
+    /**
+	 * The type of render function that is called for this block
+	 */
+	public int getRenderType()
+	{
+		return BedCraftBeyond.chestBedRI;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	/**
+	 * When this method is called, your block should register all the icons it needs with the given IconRegister. This
+	 * is the only chance you get to register icons.
+	 */
+	public void registerIcons(IconRegister par1IconRegister)
+	{
+		super.registerIcons(par1IconRegister);
+		this.bedEndIcons[2][0] = par1IconRegister.registerIcon("bedcraftbeyond:chest_bed_feet_end_2");
+		this.bedEndIcons[2][1] = par1IconRegister.registerIcon("bedcraftbeyond:chest_bed_head_end_2");
+		this.bedSideIcons[2][0] = par1IconRegister.registerIcon("bedcraftbeyond:chest_bed_feet_side_2");
+		this.bedSideIcons[2][1] = par1IconRegister.registerIcon("bedcraftbeyond:chest_bed_head_side_2");
+	}
     /**
      * Called when the block receives a BlockEvent - see World.addBlockEvent. By default, passes it on to the tile
      * entity at this location. Args: world, x, y, z, blockID, EventID, event parameter

@@ -8,6 +8,7 @@ import zornco.bedcraftbeyond.blocks.TileColoredChestBed;
 import zornco.bedcraftbeyond.client.render.BlockBedRenderer;
 import zornco.bedcraftbeyond.client.render.BlockChestBedRenderer;
 import zornco.bedcraftbeyond.client.render.BlockRugRenderer;
+import zornco.bedcraftbeyond.client.render.BlockStoneBedRenderer;
 import zornco.bedcraftbeyond.core.CommonProxy;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -20,10 +21,12 @@ public class ClientProxy extends CommonProxy {
 		BedCraftBeyond.rugRI = RenderingRegistry.getNextAvailableRenderId();
 		BedCraftBeyond.bedRI = RenderingRegistry.getNextAvailableRenderId();
 		BedCraftBeyond.chestBedRI = RenderingRegistry.getNextAvailableRenderId();
+		BedCraftBeyond.stoneBedRI = RenderingRegistry.getNextAvailableRenderId();
 
 		RenderingRegistry.registerBlockHandler(new BlockRugRenderer());
 		RenderingRegistry.registerBlockHandler(new BlockBedRenderer());
 		RenderingRegistry.registerBlockHandler(new BlockChestBedRenderer());
+		RenderingRegistry.registerBlockHandler(new BlockStoneBedRenderer());
 
 	}
 	@Override

@@ -1,7 +1,6 @@
 package zornco.bedcraftbeyond.blocks;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,19 +8,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EnumStatus;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
@@ -36,11 +29,11 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 	/** Maps the foot-of-bed block to the head-of-bed block. */
 	public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
 	@SideOnly(Side.CLIENT)
-	private static Icon[][] bedEndIcons;
+	protected Icon[][] bedEndIcons;
 	@SideOnly(Side.CLIENT)
-	private static Icon[][] bedSideIcons;
+	protected Icon[][] bedSideIcons;
 	@SideOnly(Side.CLIENT)
-	private static Icon[][] bedTopIcons;
+	protected Icon[][] bedTopIcons;
 	
 	private int colorCombo = 241;
 
@@ -54,7 +47,8 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
     {
         return Block.blocksList[blockID] instanceof BlockColoredBed;
     }
-    public int damageDropped(int par1)
+    @Override
+	public int damageDropped(int par1)
 	{
 		return par1;
 	}
@@ -136,6 +130,7 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 		return 0;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -176,7 +171,7 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 	/**
 	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
-	public static Icon getIcon(int side, int meta, int pass, IBlockAccess par1World, int par2, int par3, int par4)
+	public Icon getIcon(int side, int meta, int pass, IBlockAccess par1World, int par2, int par3, int par4)
 	{
 		if (side == 0)
 		{
@@ -191,6 +186,7 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -213,6 +209,7 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 	/**
 	 * The type of render function that is called for this block
 	 */
+	@Override
 	public int getRenderType()
 	{
 		return BedCraftBeyond.bedRI;
@@ -221,11 +218,13 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
 	/**
 	 * Returns the ID of the items to drop on destruction.
 	 */
+	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return isBlockHeadOfBed(par1) ? 0 : BedCraftBeyond.bedItem.itemID;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -239,7 +238,8 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
     /**
      * Get the block's damage value (for use with pick block).
      */
-    public int getDamageValue(World par1World, int i, int j, int k)
+    @Override
+	public int getDamageValue(World par1World, int i, int j, int k)
     {
     	TileColoredBed tile = (TileColoredBed)par1World.getBlockTileEntity(i, j, k);
     	if (tile != null)
@@ -257,7 +257,8 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider
     /**
      * ejects contained items into the world, and notifies neighbours of an update, as appropriate
      */
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+    @Override
+	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
         par1World.removeBlockTileEntity(par2, par3, par4);

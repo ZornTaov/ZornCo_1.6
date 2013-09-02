@@ -17,14 +17,16 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import zornco.bedcraftbeyond.blocks.BlockColoredBed;
 import zornco.bedcraftbeyond.blocks.BlockColoredChestBed;
 import zornco.bedcraftbeyond.blocks.BlockRug;
-import zornco.bedcraftbeyond.blocks.TileColoredChestBed;
+import zornco.bedcraftbeyond.blocks.BlockStoneBed;
 import zornco.bedcraftbeyond.blocks.TileColoredBed;
+import zornco.bedcraftbeyond.blocks.TileColoredChestBed;
 import zornco.bedcraftbeyond.client.TabBedCraftBeyond;
 import zornco.bedcraftbeyond.core.CommonProxy;
 import zornco.bedcraftbeyond.item.ItemColoredBed;
 import zornco.bedcraftbeyond.item.ItemColoredChestBed;
 import zornco.bedcraftbeyond.item.ItemRug;
 import zornco.bedcraftbeyond.item.ItemScissors;
+import zornco.bedcraftbeyond.item.ItemStoneBed;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -57,28 +59,30 @@ public class BedCraftBeyond {
 	public static Item rugItem;
 	public static Item bedItem;
 	public static Item chestBedItem;
+	public static Item stoneBedItem;
 	public static Item scissors;
 
 	public static Block rugBlock;
 	public static Block bedBlock;
 	public static Block chestBedBlock;
+	public static Block stoneBedBlock;
 
 	//ID's
 	public static int rugRI = -1;
 	public static int bedRI = -1;
 	public static int chestBedRI = -1;
+	public static int stoneBedRI = -1;
 
 	private int rugItemID;
 	private int scissorsID;
 	private int bedItemID;
 	private int chestBedItemID;
+	private int stoneBedItemID;
 
 	private int rugBlockID;
 	private int bedBlockID;
 	private int chestBedBlockID;
-
-
-
+	private int stoneBedBlockID;
 
 	public void loadConfig(FMLPreInitializationEvent event) {
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -88,6 +92,7 @@ public class BedCraftBeyond {
 		rugBlockID = config.get(config.CATEGORY_BLOCK,"Rug Block", blockID++).getInt();
 		bedBlockID = config.get(config.CATEGORY_BLOCK,"Bed Block", blockID++).getInt();
 		chestBedBlockID = config.get(config.CATEGORY_BLOCK,"Chest Bed Block", blockID++).getInt();
+		stoneBedBlockID = config.get(config.CATEGORY_BLOCK,"Stone Bed Block", blockID++).getInt();
 
 		//Items
 		int itemID = 26000;
@@ -95,6 +100,7 @@ public class BedCraftBeyond {
 		scissorsID = config.getItem(config.CATEGORY_ITEM,"Scissors", itemID++).getInt();
 		bedItemID = config.getItem(config.CATEGORY_ITEM,"Bed Item", itemID++).getInt();
 		chestBedItemID = config.getItem(config.CATEGORY_ITEM,"Chest Bed Item", itemID++).getInt();
+		stoneBedItemID = config.getItem(config.CATEGORY_ITEM,"Stone Bed Item", itemID++).getInt();
 
 		config.save();
 	}
@@ -114,12 +120,14 @@ public class BedCraftBeyond {
 		rugBlock = new BlockRug(rugBlockID).setHardness(0.8F).setStepSound(new StepSound("cloth", 1.0F, 1.0F)).setUnlocalizedName("rug");
 		bedBlock = new BlockColoredBed(bedBlockID).setHardness(1.0f).setStepSound(new StepSound("cloth", 1.0F, 1.0F)).setUnlocalizedName("Cbed");
 		chestBedBlock = new BlockColoredChestBed(chestBedBlockID).setHardness(1.0f).setStepSound(new StepSound("cloth", 1.0F, 1.0F)).setUnlocalizedName("CCbed");
+		stoneBedBlock = new BlockStoneBed(stoneBedBlockID).setHardness(1.0f).setStepSound(new StepSound("cloth", 1.0F, 1.0F)).setUnlocalizedName("Sbed");
 		
 		/** Items **/
 		rugItem = new ItemRug(rugItemID, rugBlockID).setUnlocalizedName("rug").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 		scissors = new ItemScissors(scissorsID).setUnlocalizedName("scissors").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 		bedItem = new ItemColoredBed(bedItemID).setMaxStackSize(1).setUnlocalizedName("Cbed").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 		chestBedItem = new ItemColoredChestBed(chestBedItemID).setMaxStackSize(1).setUnlocalizedName("CCbed").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
+		stoneBedItem = new ItemStoneBed(stoneBedItemID).setMaxStackSize(1).setUnlocalizedName("Sbed").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 
 		GameRegistry.registerItem(rugItem, "rugitem");
 		GameRegistry.registerBlock(rugBlock, "rugblock");
@@ -127,6 +135,8 @@ public class BedCraftBeyond {
 		GameRegistry.registerBlock(bedBlock, "bedBlock");
 		GameRegistry.registerItem(chestBedItem, "chestBedItem");
 		GameRegistry.registerBlock(chestBedBlock, "chestBedBlock");
+		GameRegistry.registerItem(stoneBedItem, "stoneBedItem");
+		GameRegistry.registerBlock(stoneBedBlock, "stoneBedBlock");
 		//GameRegistry.registerTileEntity(TileRug.class, "rug");
 
 		/** Names **/
@@ -142,6 +152,8 @@ public class BedCraftBeyond {
 		LanguageRegistry.instance().addStringLocalization("tile.Cbed.name", "en_US", "Colored Bed");
 		LanguageRegistry.instance().addStringLocalization("item.CCbed.name", "en_US", "Colored Chest Bed");
 		LanguageRegistry.instance().addStringLocalization("tile.CCbed.name", "en_US", "Colored Chest Bed");
+		LanguageRegistry.instance().addStringLocalization("item.Sbed.name", "en_US", "Stone Bed");
+		LanguageRegistry.instance().addStringLocalization("tile.Sbed.name", "en_US", "Stone Bed");
 
 
 

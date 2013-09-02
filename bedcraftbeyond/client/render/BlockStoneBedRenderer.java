@@ -1,23 +1,16 @@
 package zornco.bedcraftbeyond.client.render;
 
+import zornco.bedcraftbeyond.BedCraftBeyond;
+import zornco.bedcraftbeyond.blocks.BlockColoredBed;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockHalfSlab;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
-
-import org.lwjgl.opengl.GL11;
-
-import zornco.bedcraftbeyond.BedCraftBeyond;
-import zornco.bedcraftbeyond.blocks.BlockColoredBed;
-import zornco.bedcraftbeyond.blocks.BlockRug;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
-public class BlockBedRenderer implements ISimpleBlockRenderingHandler {
+public class BlockStoneBedRenderer implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID,
@@ -191,6 +184,7 @@ public class BlockBedRenderer implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return BedCraftBeyond.bedRI;
+		return BedCraftBeyond.stoneBedRI;
 	}
+
 }
