@@ -186,7 +186,8 @@ public class ItemColoredBed extends Item
 		        		tile2.setColorCombo(par1ItemStack.getItemDamage());
 		        	    //BedCraftBeyond.logger.info(tile2.colorCombo+"");
 		        	}
-					--par1ItemStack.stackSize;
+		        	if(!par2EntityPlayer.capabilities.isCreativeMode)
+		        		--par1ItemStack.stackSize;
 					return true;
 				}
 				else

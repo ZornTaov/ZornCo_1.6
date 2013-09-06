@@ -94,7 +94,8 @@ public class ItemColoredChestBed extends ItemColoredBed {
 		        		tile2.setOwnerName(par2EntityPlayer.getEntityName());
 		        	    //BedCraftBeyond.logger.info(tile2.colorCombo+"");
 		        	}
-					--par1ItemStack.stackSize;
+		        	if(!par2EntityPlayer.capabilities.isCreativeMode)
+		        		--par1ItemStack.stackSize;
 					return true;
 				}
 				else

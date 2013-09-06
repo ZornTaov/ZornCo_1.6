@@ -6,6 +6,7 @@ import zornco.bedcraftbeyond.BedCraftBeyond;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
@@ -27,45 +28,18 @@ public class BlockStoneBed extends BlockColoredBed {
 
 	@Override
 	public int getRenderType() {
-		return BedCraftBeyond.stoneBedRI;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Icon getIcon(int side, int meta, int pass, IBlockAccess par1World, int par2, int par3, int par4) 
-	{
-		if (side == 0)
-		{
-			return Block.planks.getIcon(side, getColorFromInt(getColorFromTile(par1World, par2, par3, par4), 0));
-		}
-		else
-		{
-			int k = getDirection(meta);
-			int l = Direction.bedDirection[k][side];
-			int i1 = isBlockHeadOfBed(meta) ? 1 : 0;
-			return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? bedTopIcons[pass][i1] : bedSideIcons[pass][i1]) : bedEndIcons[pass][i1];
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) 
-	{
-		this.bedTopIcons = new Icon[][] {{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_top_0"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_top_0")},
-				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_top_1"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_top_1")},
-				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_top_2"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_top_2")}};
-		this.bedEndIcons = new Icon[][] {{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_end_0"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_end_0")},
-				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_end_1"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_end_1")},
-				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_end_2"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_end_2")}};
-		this.bedSideIcons = new Icon[][] {{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_side_0"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_side_0")},
-				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_side_1"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_side_1")},
-				{par1IconRegister.registerIcon("bedcraftbeyond:bed_feet_side_2"), par1IconRegister.registerIcon("bedcraftbeyond:bed_head_side_2")}};
+		return -1;
 	}
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) 
 	{
 		return BedCraftBeyond.stoneBedItem.itemID;
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world) {
+		return new TileStoneBed();
 	}
 
 	@Override

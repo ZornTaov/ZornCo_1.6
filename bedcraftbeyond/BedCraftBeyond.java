@@ -20,6 +20,7 @@ import zornco.bedcraftbeyond.blocks.BlockRug;
 import zornco.bedcraftbeyond.blocks.BlockStoneBed;
 import zornco.bedcraftbeyond.blocks.TileColoredBed;
 import zornco.bedcraftbeyond.blocks.TileColoredChestBed;
+import zornco.bedcraftbeyond.blocks.TileStoneBed;
 import zornco.bedcraftbeyond.client.TabBedCraftBeyond;
 import zornco.bedcraftbeyond.core.CommonProxy;
 import zornco.bedcraftbeyond.item.ItemColoredBed;
@@ -213,13 +214,9 @@ public class BedCraftBeyond {
 						"fff",
 						'b', new ItemStack(Block.cloth, 1, i),
 						'p', new ItemStack(Block.cloth, 1, j),
-						'f', new ItemStack(Block.planks, 1, k)});
-				}
-			}
-		}
-		for (int i = 0; i < 16; i++) {
-			for (int j = 0; j < 16; j++) {
-				for (int k = 0; k < 4; k++) {
+						'f', new ItemStack(Block.planks, 1, k)
+						}
+					);
 					GameRegistry.addRecipe(new ItemStack(BedCraftBeyond.chestBedItem, 1, getFreqFromColours(k, BlockColored.getDyeFromBlock(j), BlockColored.getDyeFromBlock(i))), new Object[]{
 						"bbp",
 						"fcf",
@@ -232,11 +229,18 @@ public class BedCraftBeyond {
 				}
 			}
 		}
+		GameRegistry.addRecipe(new ItemStack(BedCraftBeyond.stoneBedItem, 1, 0), new Object[]{
+			"SSS",
+			"sss",
+			'S', new ItemStack(Block.stone, 1),
+			's', new ItemStack(Block.stoneSingleSlab, 1, 0)
+		});
 		/** Registers **/
 		proxy.registerRenderInformation();
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		GameRegistry.registerTileEntity(TileColoredBed.class, "Cbed");
 		GameRegistry.registerTileEntity(TileColoredChestBed.class, "CCbed");
+		GameRegistry.registerTileEntity(TileStoneBed.class, "Sbed");
 	}
 
 	@EventHandler
