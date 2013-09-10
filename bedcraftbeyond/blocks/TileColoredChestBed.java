@@ -72,7 +72,7 @@ public class TileColoredChestBed extends TileColoredBed implements IInventory {
 	        {
 	            this.numUsingPlayers = 0;
 	            float var1 = 5.0F;
-	            List var2 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)this.xCoord - var1), (double)((float)this.yCoord - var1), (double)((float)this.zCoord - var1), (double)((float)(this.xCoord + 1) + var1), (double)((float)(this.yCoord + 1) + var1), (double)((float)(this.zCoord + 1) + var1)));
+	            List var2 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB(this.xCoord - var1, this.yCoord - var1, this.zCoord - var1, this.xCoord + 1 + var1, this.yCoord + 1 + var1, this.zCoord + 1 + var1));
 	            Iterator var3 = var2.iterator();
 
 	            while (var3.hasNext())
@@ -100,9 +100,9 @@ public class TileColoredChestBed extends TileColoredBed implements IInventory {
 	        float f = 0.1F;
 	        if (numUsingPlayers > 0 && lidAngle == 0.0F)
 	        {
-	            double d = (double) xCoord + 0.5D;
-	            double d1 = (double) zCoord + 0.5D;
-	            worldObj.playSoundEffect(d, (double) yCoord + 0.5D, d1, "random.chestopen", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
+	            double d = xCoord + 0.5D;
+	            double d1 = zCoord + 0.5D;
+	            worldObj.playSoundEffect(d, yCoord + 0.5D, d1, "random.chestopen", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
 	        }
 	        if (numUsingPlayers == 0 && lidAngle > 0.0F || numUsingPlayers > 0 && lidAngle < 1.0F)
 	        {
@@ -122,9 +122,9 @@ public class TileColoredChestBed extends TileColoredBed implements IInventory {
 	            float f2 = 0.5F;
 	            if (lidAngle < f2 && f1 >= f2)
 	            {
-	                double d2 = (double) xCoord + 0.5D;
-	                double d3 = (double) zCoord + 0.5D;
-	                worldObj.playSoundEffect(d2, (double) yCoord + 0.5D, d3, "random.chestclosed", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
+	                double d2 = xCoord + 0.5D;
+	                double d3 = zCoord + 0.5D;
+	                worldObj.playSoundEffect(d2, yCoord + 0.5D, d3, "random.chestclosed", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
 	            }
 	            if (lidAngle < 0.0F)
 	            {
@@ -132,6 +132,7 @@ public class TileColoredChestBed extends TileColoredBed implements IInventory {
 	            }
 	        }
 	}
+	@Override
 	public boolean receiveClientEvent(int par1, int par2)
     {
         if (par1 == 1)
@@ -229,7 +230,7 @@ public class TileColoredChestBed extends TileColoredBed implements IInventory {
 	    }
 	    if (entityplayer.username != ownerName && ownerName != "")
 	    	return false;
-	    return entityplayer.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64D;
+	    return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
 	
 	}
 	@Override

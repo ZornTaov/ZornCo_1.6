@@ -1,7 +1,6 @@
 package zornco.bedcraftbeyond.item;
 
 import zornco.bedcraftbeyond.BedCraftBeyond;
-import zornco.bedcraftbeyond.blocks.BlockColoredBed;
 import zornco.bedcraftbeyond.blocks.TileColoredBed;
 import zornco.bedcraftbeyond.blocks.TileColoredChestBed;
 import cpw.mods.fml.relauncher.Side;
@@ -11,8 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemScissors extends Item {

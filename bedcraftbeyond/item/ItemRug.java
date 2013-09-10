@@ -2,7 +2,6 @@ package zornco.bedcraftbeyond.item;
 
 import java.util.List;
 
-import zornco.bedcraftbeyond.BedCraftBeyond;
 import zornco.bedcraftbeyond.blocks.BlockRug;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,7 +11,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
@@ -35,6 +33,7 @@ public class ItemRug extends Item {
 		this.setHasSubtypes(true);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -47,6 +46,7 @@ public class ItemRug extends Item {
 		return this.rugIconList[j];
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
@@ -64,16 +64,19 @@ public class ItemRug extends Item {
 	/**
 	 * Returns the metadata of the block which this Item (ItemBlock) can place
 	 */
+	@Override
 	public int getMetadata(int par1)
 	{
 		return par1;
 	}
 
+	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack)
 	{
-		return super.getUnlocalizedName() + "." + this.rugColorNames[BlockRug.getBlockFromDye(par1ItemStack.getItemDamage())];
+		return super.getUnlocalizedName() + "." + ItemRug.rugColorNames[BlockRug.getBlockFromDye(par1ItemStack.getItemDamage())];
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -98,6 +101,7 @@ public class ItemRug extends Item {
 	 * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
 	 * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
 	 */
+	@Override
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
 		int var11 = par3World.getBlockId(par4, par5, par6);
@@ -160,7 +164,7 @@ public class ItemRug extends Item {
 
 			if (placeBlockAt(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10, var14))
 			{
-				par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
+				par3World.playSoundEffect(par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
 				if(!par2EntityPlayer.capabilities.isCreativeMode)
 	        		--par1ItemStack.stackSize;
 			}
@@ -222,11 +226,13 @@ public class ItemRug extends Item {
 
 		return par1World.canPlaceEntityOnSide(this.getBlockID(), par2, par3, par4, false, par5, (Entity)null, par7ItemStack);
 	}
+	@Override
 	public String getUnlocalizedName()
 	{
 		return Block.blocksList[this.blockID].getUnlocalizedName();
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**

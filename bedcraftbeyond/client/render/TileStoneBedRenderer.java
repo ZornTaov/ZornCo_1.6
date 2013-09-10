@@ -3,20 +3,14 @@ package zornco.bedcraftbeyond.client.render;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import zornco.bedcraftbeyond.BedCraftBeyond;
-import zornco.bedcraftbeyond.blocks.BlockColoredBed;
-import zornco.bedcraftbeyond.blocks.BlockStoneBed;
 import zornco.bedcraftbeyond.blocks.TileStoneBed;
 
 public class TileStoneBedRenderer extends TileEntitySpecialRenderer {
@@ -38,7 +32,7 @@ public class TileStoneBedRenderer extends TileEntitySpecialRenderer {
 		int l1 = l % 65536;
 		int l2 = l / 65536;
 		tessellator.setColorOpaque_F(f, f, f);
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)l1, (float)l2);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, l1, l2);
 
 		/*This will rotate your model corresponding to player direction that was when you placed the block. If you want this to work,
         	add these lines to onBlockPlacedBy method in your block class.
@@ -66,7 +60,7 @@ public class TileStoneBedRenderer extends TileEntitySpecialRenderer {
 		//This line actually rotates the renderer.
 		GL11.glRotatef(dir * (-90F), 0F, 1F, 0F);
 		//GL11.glTranslatef(-0.5F, 0, -0.5F);
-		this.func_110628_a(stoneBedTexture);
+		this.bindTexture(stoneBedTexture);
 		/*
          		Place your rendering code here.
 		 */

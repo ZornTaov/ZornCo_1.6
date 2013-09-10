@@ -4,24 +4,17 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.MapData;
 import zornco.bedcraftbeyond.BedCraftBeyond;
 import zornco.bedcraftbeyond.blocks.BlockColoredBed;
-import zornco.bedcraftbeyond.blocks.BlockRug;
 import zornco.bedcraftbeyond.blocks.TileColoredBed;
 
 public class ItemColoredBed extends Item
@@ -52,11 +45,11 @@ public class ItemColoredBed extends Item
 		switch (par2)
 		{
 		case 0:
-			return ItemDye.dyeColors[this.getColorFromInt(par1ItemStack.getItemDamage(), 2)];
+			return ItemDye.dyeColors[ItemColoredBed.getColorFromInt(par1ItemStack.getItemDamage(), 2)];
 		case 1:
-			return ItemDye.dyeColors[this.getColorFromInt(par1ItemStack.getItemDamage(), 1)];
+			return ItemDye.dyeColors[ItemColoredBed.getColorFromInt(par1ItemStack.getItemDamage(), 1)];
 		case 2:
-			return this.woodColors[this.getColorFromInt(par1ItemStack.getItemDamage(), 0)];
+			return ItemColoredBed.woodColors[ItemColoredBed.getColorFromInt(par1ItemStack.getItemDamage(), 0)];
 		}
 		return 0xFF00FF;
 	}
@@ -75,6 +68,7 @@ public class ItemColoredBed extends Item
 		return 0;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * Gets an icon index based on an item's damage value and the given render pass
@@ -84,6 +78,7 @@ public class ItemColoredBed extends Item
 		return this.bedIcon[par2];
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
@@ -92,11 +87,13 @@ public class ItemColoredBed extends Item
 			this.bedIcon[i] = par1IconRegister.registerIcon("bedcraftbeyond:bed_"+i);
 		}
 	}
+	@Override
 	public boolean requiresMultipleRenderPasses()
 	{
 		return true;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
@@ -109,15 +106,16 @@ public class ItemColoredBed extends Item
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
-		par3List.add(this.colorNames[getColorFromInt(par1ItemStack.getItemDamage(), 2)]+" Blanket");
-		par3List.add(this.colorNames[getColorFromInt(par1ItemStack.getItemDamage(), 1)]+" Sheet");
-		par3List.add(this.woodType[getColorFromInt(par1ItemStack.getItemDamage(), 0)]+" Frame");
+		par3List.add(ItemColoredBed.colorNames[getColorFromInt(par1ItemStack.getItemDamage(), 2)]+" Blanket");
+		par3List.add(ItemColoredBed.colorNames[getColorFromInt(par1ItemStack.getItemDamage(), 1)]+" Sheet");
+		par3List.add(ItemColoredBed.woodType[getColorFromInt(par1ItemStack.getItemDamage(), 0)]+" Frame");
 
 	}
 	
@@ -125,6 +123,7 @@ public class ItemColoredBed extends Item
 	 * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
 	 * True if something happen and false if it don't. This is for ITEMS, not BLOCKS !
 	 */
+	@Override
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
 		if (par3World.isRemote)
@@ -139,7 +138,7 @@ public class ItemColoredBed extends Item
 		{
 			++par5;
 			BlockColoredBed blockbed = (BlockColoredBed)BedCraftBeyond.bedBlock;
-			int i1 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+			int i1 = MathHelper.floor_double(par2EntityPlayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 			byte b0 = 0;
 			byte b1 = 0;
 

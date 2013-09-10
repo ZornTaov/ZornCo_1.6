@@ -170,7 +170,7 @@ public class GuiSlotFriendFoe  {
 		Tessellator tess = Tessellator.instance;
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
-		mc.renderEngine.func_110577_a(new ResourceLocation("textures/gui/options_background.png"));
+		mc.renderEngine.bindTexture(new ResourceLocation("textures/gui/options_background.png"));
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float texture = 32.0F;
 		tess.startDrawingQuads();

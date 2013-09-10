@@ -15,7 +15,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class BlockColoredChestBed extends BlockColoredBed {
@@ -66,10 +65,12 @@ public class BlockColoredChestBed extends BlockColoredBed {
 	/**
 	 * Returns the ID of the items to drop on destruction.
 	 */
+	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return isBlockHeadOfBed(par1) ? 0 : BedCraftBeyond.chestBedItem.itemID;
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -110,7 +111,7 @@ public class BlockColoredChestBed extends BlockColoredBed {
                     i1 = itemstack.stackSize;
                 }
                 itemstack.stackSize -= i1;
-                EntityItem entityitem = new EntityItem(world, (float) xCoord + f, (float) yCoord + (newSize > 0 ? 1 : 0) + f1, (float) zCoord + f2,
+                EntityItem entityitem = new EntityItem(world, xCoord + f, (float) yCoord + (newSize > 0 ? 1 : 0) + f1, zCoord + f2,
                         new ItemStack(itemstack.itemID, i1, itemstack.getItemDamage()));
                 float f3 = 0.05F;
                 entityitem.motionX = (float) random.nextGaussian() * f3;
@@ -127,11 +128,13 @@ public class BlockColoredChestBed extends BlockColoredBed {
     /**
 	 * The type of render function that is called for this block
 	 */
+	@Override
 	public int getRenderType()
 	{
 		return BedCraftBeyond.chestBedRI;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * When this method is called, your block should register all the icons it needs with the given IconRegister. This
@@ -149,7 +152,8 @@ public class BlockColoredChestBed extends BlockColoredBed {
      * Called when the block receives a BlockEvent - see World.addBlockEvent. By default, passes it on to the tile
      * entity at this location. Args: world, x, y, z, blockID, EventID, event parameter
      */
-    public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
+    @Override
+	public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
         super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
         TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);

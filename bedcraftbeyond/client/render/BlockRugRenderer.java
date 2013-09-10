@@ -3,16 +3,12 @@ package zornco.bedcraftbeyond.client.render;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHalfSlab;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 
-import org.lwjgl.opengl.GL11;
-
 import zornco.bedcraftbeyond.BedCraftBeyond;
-import zornco.bedcraftbeyond.blocks.BlockRug;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 class RugStruct {

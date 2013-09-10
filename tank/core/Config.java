@@ -1,6 +1,5 @@
 package zornco.tank.core;
 
-import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.Configuration;
 import zornco.tank.Tank;
 import zornco.tank.crafting.RecipeHandler;
@@ -26,10 +25,10 @@ public class Config {
 
 		//Items
 		int itemID = 20250;
-		tankItemID = config.getItem(config.CATEGORY_ITEM,"Tank", itemID++).getInt();
+		tankItemID = config.getItem(Configuration.CATEGORY_ITEM,"Tank", itemID++).getInt();
 
 		for (int i = 0; i < Tank.bullettypes; i++) {
-			bulletItemID[i] = config.getItem(config.CATEGORY_ITEM,TankBulletItem.bulletNames[i], itemID++).getInt();
+			bulletItemID[i] = config.getItem(Configuration.CATEGORY_ITEM,TankBulletItem.bulletNames[i], itemID++).getInt();
 		}
 		
 		config.save();
@@ -43,7 +42,6 @@ public class Config {
 	}
 
 	public void addBlocks() {
-		// TODO Auto-generated method stub
 		
 	}
 

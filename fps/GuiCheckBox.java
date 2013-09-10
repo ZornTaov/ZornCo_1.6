@@ -19,7 +19,7 @@ public class GuiCheckBox extends GuiButton {
 
     public void drawButton(Minecraft par1Minecraft, int par2, int par3)
     {
-        par1Minecraft.renderEngine.func_110577_a(new ResourceLocation("fps:gui/checkbox.png"));
+        par1Minecraft.renderEngine.bindTexture(new ResourceLocation("fps:gui/checkbox.png"));
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float texUPixel = 0.03125F; // 1 / width of png
 		float texVPixel = 0.0625F; // 1 / height of png

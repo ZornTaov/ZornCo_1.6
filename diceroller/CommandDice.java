@@ -10,9 +10,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntityCommandBlock;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.MathHelper;
 
@@ -36,10 +34,12 @@ public class CommandDice extends CommandBase {
 	/**
 	 * Returns true if the given command sender is allowed to use this command.
 	 */
+	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender) {
 		return true;
 	}
 
+	@Override
 	public String getCommandUsage(ICommandSender par1ICommandSender) {
 		return "/roll <amount> [player] [min=#,max=#]";
 	}
@@ -59,7 +59,7 @@ public class CommandDice extends CommandBase {
 			{
 				if (containsUsername(getAllUsernames(), args[1]) || args[1].startsWith("@"))
 				{
-					roller = func_82359_c(sender, args[1]);
+					roller = getPlayer(sender, args[1]);
 					checker = args.length >= 3 ? args[2] : "";
 					silent = args.length >= 4 ? args[3].equalsIgnoreCase("silent")||args[3].equalsIgnoreCase("s") : false;
 				}
@@ -76,12 +76,12 @@ public class CommandDice extends CommandBase {
 				}
 				name = roller.getCommandSenderName() + "'s ";
 			}
-			String parsedOutput = DiceRoller.instance.equ.parse(args[0]);
-			boolean checkedBool = this.parseMinMax(checker, parsedOutput);
+			String parsedOutput = Parser.parse(args[0]);
+			boolean checkedBool = CommandDice.parseMinMax(checker, parsedOutput);
 			String output = name
 					+ "Roll Was: " + args[0] + " and got ";
 			if(!silent)
-				MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatMessageComponent.func_111066_d(output + parsedOutput));
+				MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatMessageComponent.createFromText(output + parsedOutput));
 			else System.out.println(parsedOutput);
 			if(!checkedBool)
 				throw new CommandException("worked, but min,max is for command blocks", new Object[0]);
@@ -110,12 +110,12 @@ public class CommandDice extends CommandBase {
 				double point = Double.parseDouble(parsed);
 				if (var1.containsKey("min"))
 				{
-					min = MathHelper.parseDoubleWithDefault( DiceRoller.instance.equ.parse((String)var1.get("min")), min);
+					min = MathHelper.parseDoubleWithDefault( Parser.parse((String)var1.get("min")), min);
 				}
 
 				if (var1.containsKey("max"))
 				{
-					max = MathHelper.parseDoubleWithDefault( DiceRoller.instance.equ.parse((String)var1.get("max")), max);
+					max = MathHelper.parseDoubleWithDefault( Parser.parse((String)var1.get("max")), max);
 				}
 				boolean result = point>=min?point<=max:false;
 				return result;
@@ -136,6 +136,7 @@ public class CommandDice extends CommandBase {
 	/**
 	 * Adds the strings available in this command to the given list of tab completion options.
 	 */
+	@Override
 	public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
 		return par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.getAllUsernames()) : null;

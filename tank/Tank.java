@@ -2,10 +2,8 @@ package zornco.tank;
 
 import java.util.logging.Logger;
 
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.event.EventBus;
 import zornco.tank.client.TabTank;
 import zornco.tank.core.CommonProxy;
 import zornco.tank.core.Config;
@@ -18,7 +16,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid="Tank", name="Tank", version="0.0.1")
 @NetworkMod(/*packetHandler = PacketHandler.class, */channels={"Tank"}, clientSideRequired=true, serverSideRequired=false)
@@ -55,7 +52,7 @@ public class Tank {
 		config.addItems();
 		config.addBlocks();
 		config.addNames();
-		config.recipes.registerRecipes();
+		Config.recipes.registerRecipes();
 		proxy.registerRenderInformation();
 		//events = new EventBus();
 		//NetworkRegistry.instance().registerGuiHandler(this, proxy);

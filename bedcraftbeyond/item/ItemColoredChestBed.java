@@ -1,9 +1,7 @@
 package zornco.bedcraftbeyond.item;
 
 import zornco.bedcraftbeyond.BedCraftBeyond;
-import zornco.bedcraftbeyond.blocks.BlockColoredBed;
 import zornco.bedcraftbeyond.blocks.BlockColoredChestBed;
-import zornco.bedcraftbeyond.blocks.TileColoredBed;
 import zornco.bedcraftbeyond.blocks.TileColoredChestBed;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +17,7 @@ public class ItemColoredChestBed extends ItemColoredBed {
 	public ItemColoredChestBed(int par1) {
 		super(par1);
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
@@ -31,6 +30,7 @@ public class ItemColoredChestBed extends ItemColoredBed {
 	 * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
 	 * True if something happen and false if it don't. This is for ITEMS, not BLOCKS !
 	 */
+	@Override
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
 		if (par3World.isRemote)
@@ -45,7 +45,7 @@ public class ItemColoredChestBed extends ItemColoredBed {
 		{
 			++par5;
 			BlockColoredChestBed blockbed = (BlockColoredChestBed)BedCraftBeyond.chestBedBlock;
-			int i1 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+			int i1 = MathHelper.floor_double(par2EntityPlayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 			byte b0 = 0;
 			byte b1 = 0;
 

@@ -11,7 +11,8 @@ public class TabBedCraftBeyond extends CreativeTabs {
 	{
 		super(label);
 	}
-
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getTabIconItemIndex()
 	{

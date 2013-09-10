@@ -38,7 +38,7 @@ public class TankBulletRender extends Render
 		int type = entitytankbullet.getBulletType();
 		if(type >=0 && type <=3 || type == 20)
 		{
-	        this.func_110777_b(entitytankbullet);
+	        this.bindEntityTexture(entitytankbullet);
 		}
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)d, (float)d1, (float)d2);
@@ -65,7 +65,7 @@ public class TankBulletRender extends Render
 		
 		float f10 = 0.05625F;
 		GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
-		float f11 = (float)entitytankbullet.tankBulletShake - f1;
+		float f11 = entitytankbullet.tankBulletShake - f1;
 		if(f11 > 0.0F)
 		{
 			float f12 = -MathHelper.sin(f11 * 3F) * f11;
@@ -104,14 +104,14 @@ public class TankBulletRender extends Render
 		GL11.glPopMatrix();
 	}
 
+	@Override
 	public void doRender(Entity entity, double d, double d1, double d2, 
 			float f, float f1)
 	{
 		renderArrow((TankBulletEntity)entity, d, d1, d2, f, f1);
 	}
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
-		// TODO Auto-generated method stub
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return bulletTex;
 	}
 }

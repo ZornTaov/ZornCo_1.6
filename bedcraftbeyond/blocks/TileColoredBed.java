@@ -1,9 +1,6 @@
 package zornco.bedcraftbeyond.blocks;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
@@ -40,6 +37,7 @@ public class TileColoredBed extends TileEntity {
 			updateClients();
 		}
 	}
+	@Override
 	public final Packet132TileEntityData getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
@@ -47,9 +45,10 @@ public class TileColoredBed extends TileEntity {
 				this.zCoord, 1, nbt);
 	}
 
+	@Override
 	public final void onDataPacket(INetworkManager net,
 			Packet132TileEntityData packet) {
-		NBTTagCompound nbt = packet.customParam1;
+		NBTTagCompound nbt = packet.data;
 		if (nbt != null) {
 			this.readFromNBT(nbt);
 		}

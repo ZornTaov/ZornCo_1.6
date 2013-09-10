@@ -5,7 +5,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import zornco.bedcraftbeyond.BedCraftBeyond;
 import zornco.bedcraftbeyond.blocks.TileColoredChestBed;
-import zornco.bedcraftbeyond.blocks.TileStoneBed;
 import zornco.bedcraftbeyond.client.render.BlockBedRenderer;
 import zornco.bedcraftbeyond.client.render.BlockChestBedRenderer;
 import zornco.bedcraftbeyond.client.render.BlockRugRenderer;

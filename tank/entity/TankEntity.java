@@ -7,7 +7,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -16,7 +15,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import zornco.tank.Tank;
-import zornco.tank.item.TankBulletItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -54,7 +52,7 @@ public class TankEntity extends Entity {
 	public TankEntity(World par1World, double par2, double par4, double par6)
 	{
 		this(par1World);
-		this.setPosition(par2, par4 + (double)this.yOffset, par6);
+		this.setPosition(par2, par4 + this.yOffset, par6);
 		this.motionX = 0.0D;
 		this.motionY = 0.0D;
 		this.motionZ = 0.0D;
@@ -67,11 +65,13 @@ public class TankEntity extends Entity {
 	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
 	 * prevent them from trampling crops
 	 */
+	@Override
 	protected boolean canTriggerWalking()
 	{
 		return false;
 	}
 
+	@Override
 	protected void entityInit()
 	{
 		this.dataWatcher.addObject(17, new Integer(0));
@@ -86,6 +86,7 @@ public class TankEntity extends Entity {
 	 * Returns a boundingBox used to collide the entity with other entities and blocks. This enables the entity to be
 	 * pushable on contact, like tanks or minecarts.
 	 */
+	@Override
 	public AxisAlignedBB getCollisionBox(Entity par1Entity)
 	{
 		return par1Entity.boundingBox;
@@ -94,6 +95,7 @@ public class TankEntity extends Entity {
 	/**
 	 * returns the bounding box for this entity
 	 */
+	@Override
 	public AxisAlignedBB getBoundingBox()
 	{
 		return this.boundingBox;
@@ -102,6 +104,7 @@ public class TankEntity extends Entity {
 	/**
 	 * Returns true if this entity should push and be pushed by other entities when colliding.
 	 */
+	@Override
 	public boolean canBePushed()
 	{
 		return true;
@@ -110,14 +113,16 @@ public class TankEntity extends Entity {
 	/**
 	 * Returns the Y offset from the entity's position for any entity riding this one.
 	 */
+	@Override
 	public double getMountedYOffset()
 	{
-		return (double)this.height * 0.0D - 0.30000001192092896D;
+		return this.height * 0.0D - 0.30000001192092896D;
 	}
 
 	/**
 	 * Called when the entity is attacked.
 	 */
+	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if (this.isEntityInvulnerable())
@@ -156,6 +161,7 @@ public class TankEntity extends Entity {
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -171,11 +177,13 @@ public class TankEntity extends Entity {
 	/**
 	 * Returns true if other Entities should be prevented from moving through this Entity.
 	 */
+	@Override
 	public boolean canBeCollidedWith()
 	{
 		return !this.isDead;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -206,13 +214,14 @@ public class TankEntity extends Entity {
 		this.tankX = par1;
 		this.tankY = par3;
 		this.tankZ = par5;
-		this.tankYaw = (double)par7;
-		this.tankPitch = (double)par8;
+		this.tankYaw = par7;
+		this.tankPitch = par8;
 		this.motionX = this.velocityX;
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -228,6 +237,7 @@ public class TankEntity extends Entity {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
+	@Override
 	public void onUpdate()
 	{
 		super.onUpdate();
@@ -251,13 +261,13 @@ public class TankEntity extends Entity {
 
 		for (int i = 0; i < b0; ++i)
 		{
-			double d1 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i + 0) / (double)b0 - 0.125D;
-			double d2 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i + 1) / (double)b0 - 0.125D;
+			double d1 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 0) / b0 - 0.125D;
+			double d2 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 1) / b0 - 0.125D;
 			AxisAlignedBB axisalignedbb = AxisAlignedBB.getAABBPool().getAABB(this.boundingBox.minX, d1, this.boundingBox.minZ, this.boundingBox.maxX, d2, this.boundingBox.maxZ);
 
 			if (this.worldObj.isAABBInMaterial(axisalignedbb, Material.water))
 			{
-				d0 += 1.0D / (double)b0;
+				d0 += 1.0D / b0;
 			}
 		}
 
@@ -267,18 +277,18 @@ public class TankEntity extends Entity {
 
 		if (d3 > 0.26249999999999996D && !this.isDead)
 		{
-			d4 = Math.cos((double)this.rotationYaw * Math.PI / 180.0D);
-			d5 = Math.sin((double)this.rotationYaw * Math.PI / 180.0D);
+			d4 = Math.cos(this.rotationYaw * Math.PI / 180.0D);
+			d5 = Math.sin(this.rotationYaw * Math.PI / 180.0D);
 
 
 			int j1 = MathHelper.floor_double(this.posX);
-			int i1 = MathHelper.floor_double(this.posY - 0.20000000298023224D - (double)this.yOffset);
+			int i1 = MathHelper.floor_double(this.posY - 0.20000000298023224D - this.yOffset);
 			int k1 = MathHelper.floor_double(this.posZ);
 			int l = this.worldObj.getBlockId(j1, i1, k1);
-			for (int j = 0; (double)j < 1.0D + d3 * 60.0D; ++j)
+			for (int j = 0; j < 1.0D + d3 * 60.0D; ++j)
 			{
-				double d6 = (double)(this.rand.nextFloat() * 2.0F - 1.0F);
-				double d7 = (double)(this.rand.nextInt(2) * 2 - 1) * 0.7D;
+				double d6 = this.rand.nextFloat() * 2.0F - 1.0F;
+				double d7 = (this.rand.nextInt(2) * 2 - 1) * 0.7D;
 				double d8;
 				double d9;
 				if (l != 0)
@@ -306,12 +316,12 @@ public class TankEntity extends Entity {
 		{
 			if (this.tankPosRotationIncrements > 0)
 			{
-				d4 = this.posX + (this.tankX - this.posX) / (double)this.tankPosRotationIncrements;
-				d5 = this.posY + (this.tankY - this.posY) / (double)this.tankPosRotationIncrements;
-				d11 = this.posZ + (this.tankZ - this.posZ) / (double)this.tankPosRotationIncrements;
-				d10 = MathHelper.wrapAngleTo180_double(this.tankYaw - (double)this.rotationYaw);
-				this.rotationYaw = (float)((double)this.rotationYaw + d10 / (double)this.tankPosRotationIncrements);
-				this.rotationPitch = (float)((double)this.rotationPitch + (this.tankPitch - (double)this.rotationPitch) / (double)this.tankPosRotationIncrements);
+				d4 = this.posX + (this.tankX - this.posX) / this.tankPosRotationIncrements;
+				d5 = this.posY + (this.tankY - this.posY) / this.tankPosRotationIncrements;
+				d11 = this.posZ + (this.tankZ - this.posZ) / this.tankPosRotationIncrements;
+				d10 = MathHelper.wrapAngleTo180_double(this.tankYaw - this.rotationYaw);
+				this.rotationYaw = (float)(this.rotationYaw + d10 / this.tankPosRotationIncrements);
+				this.rotationPitch = (float)(this.rotationPitch + (this.tankPitch - this.rotationPitch) / this.tankPosRotationIncrements);
 				--this.tankPosRotationIncrements;
 				this.setPosition(d4, d5, d11);
 				this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -412,8 +422,8 @@ public class TankEntity extends Entity {
                     riderForward *= f3;
                     float f4 = MathHelper.sin(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
                     float f5 = MathHelper.cos(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
-                    this.motionX += (double)(riderStrafing * f5 - riderForward * f4);
-                    this.motionZ += (double)(riderForward * f5 + riderStrafing * f4);
+                    this.motionX += riderStrafing * f5 - riderForward * f4;
+                    this.motionZ += riderForward * f5 + riderStrafing * f4;
                 }
 				/*d4 = (double)((EntityLivingBase)this.riddenByEntity).moveForward;
 
@@ -492,16 +502,16 @@ public class TankEntity extends Entity {
 			}
 
 			this.rotationPitch = 0.0F;
-			d5 = (double)this.rotationYaw;
+			d5 = this.rotationYaw;
 			d11 = this.prevPosX - this.posX;
 			d10 = this.prevPosZ - this.posZ;
 
 			if (d11 * d11 + d10 * d10 > 0.001D)
 			{
-				d5 = (double)((float)(Math.atan2(d10, d11) * 180.0D / Math.PI));
+				d5 = ((float)(Math.atan2(d10, d11) * 180.0D / Math.PI));
 			}
 
-			double d12 = MathHelper.wrapAngleTo180_double(d5 - (double)this.rotationYaw);
+			double d12 = MathHelper.wrapAngleTo180_double(d5 - this.rotationYaw);
 
 			if (d12 > 10.0D)
 			{
@@ -513,7 +523,7 @@ public class TankEntity extends Entity {
 				d12 = -10.0D;
 			}
 
-			this.rotationYaw = (float)((double)this.rotationYaw + d12);
+			this.rotationYaw = (float)(this.rotationYaw + d12);
 			this.setRotation(this.rotationYaw, this.rotationPitch);
 
 			if (!this.worldObj.isRemote)
@@ -536,8 +546,8 @@ public class TankEntity extends Entity {
 
 				for (l = 0; l < 4; ++l)
 				{
-					int i1 = MathHelper.floor_double(this.posX + ((double)(l % 2) - 0.5D) * 0.8D);
-					int j1 = MathHelper.floor_double(this.posZ + ((double)(l / 2) - 0.5D) * 0.8D);
+					int i1 = MathHelper.floor_double(this.posX + (l % 2 - 0.5D) * 0.8D);
+					int j1 = MathHelper.floor_double(this.posZ + (l / 2 - 0.5D) * 0.8D);
 
 					for (int k1 = -1; k1 < 1; ++k1)
 					{
@@ -570,12 +580,13 @@ public class TankEntity extends Entity {
 			setShootTimer(getShootTimer()-1);
 	}
 
+	@Override
 	public void updateRiderPosition()
 	{
 		if (this.riddenByEntity != null)
 		{
-			double d0 = Math.cos((double)this.rotationYaw * Math.PI / 180.0D) * 0.7D;
-			double d1 = Math.sin((double)this.rotationYaw * Math.PI / 180.0D) * 0.7D;
+			double d0 = Math.cos(this.rotationYaw * Math.PI / 180.0D) * 0.7D;
+			double d1 = Math.sin(this.rotationYaw * Math.PI / 180.0D) * 0.7D;
 			this.riddenByEntity.setPosition(this.posX + d0, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ + d1);
 		}
 	}
@@ -583,20 +594,24 @@ public class TankEntity extends Entity {
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
+	@Override
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
+	@Override
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public float getShadowSize()
 	{
 		return 0.0F;
 	}
 
-	public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+	@Override
+	public boolean interactFirst(EntityPlayer par1EntityPlayer)
 	{
 		if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != par1EntityPlayer)
 		{
@@ -653,7 +668,7 @@ public class TankEntity extends Entity {
 			f2 = MathHelper.sin(-this.rotationYaw * 0.017453292F - (float)Math.PI);
 			f3 = -MathHelper.cos(-this.rotationPitch * 0.017453292F);
 			f4 = MathHelper.sin(-this.rotationPitch * 0.017453292F);
-			return this.worldObj.getWorldVec3Pool().getVecFromPool((double)(f2 * f3), (double)f4, (double)(f1 * f3));
+			return this.worldObj.getWorldVec3Pool().getVecFromPool(f2 * f3, f4, f1 * f3);
 		}
 		else
 		{
@@ -663,7 +678,7 @@ public class TankEntity extends Entity {
 			f4 = MathHelper.sin(-f2 * 0.017453292F - (float)Math.PI);
 			float f5 = -MathHelper.cos(-f1 * 0.017453292F);
 			float f6 = MathHelper.sin(-f1 * 0.017453292F);
-			return this.worldObj.getWorldVec3Pool().getVecFromPool((double)(f4 * f5), (double)f6, (double)(f3 * f5));
+			return this.worldObj.getWorldVec3Pool().getVecFromPool(f4 * f5, f6, f3 * f5);
 		}
 	}
 	 /**
@@ -679,7 +694,7 @@ public class TankEntity extends Entity {
 	  */
 	 public float getDamageTaken()
 	 {
-		 return this.dataWatcher.func_111145_d(19);
+		 return this.dataWatcher.getWatchableObjectFloat(19);
 	 }
 
 	 /**
@@ -732,7 +747,7 @@ public class TankEntity extends Entity {
 	  */
 	 public float getSpeed()
 	 {
-		 return this.dataWatcher.func_111145_d(25);
+		 return this.dataWatcher.getWatchableObjectFloat(25);
 	 }
 	 /**
 	  * Sets the next Bullet Type to shoot.

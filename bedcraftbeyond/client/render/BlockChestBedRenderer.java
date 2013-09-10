@@ -38,15 +38,15 @@ public class BlockChestBedRenderer implements
 		tessellator.setColorOpaque_F(f, f, f);
 		Icon icon = block.getIcon(0, world.getBlockMetadata(x, y, z), 0, world, x, y, z);
 		if (renderer.hasOverrideBlockTexture()) icon = renderer.overrideBlockTexture; //BugFix Proper breaking texture on underside
-		double d0 = (double)icon.getMinU();
-		double d1 = (double)icon.getMaxU();
-		double d2 = (double)icon.getMinV();
-		double d3 = (double)icon.getMaxV();
-		double d4 = (double)x + renderer.renderMinX;
-		double d5 = (double)x + renderer.renderMaxX;
-		double d6 = (double)y + renderer.renderMinY;
-		double d7 = (double)z + renderer.renderMinZ;
-		double d8 = (double)z + renderer.renderMaxZ;
+		double d0 = icon.getMinU();
+		double d1 = icon.getMaxU();
+		double d2 = icon.getMinV();
+		double d3 = icon.getMaxV();
+		double d4 = x + renderer.renderMinX;
+		double d5 = x + renderer.renderMaxX;
+		double d6 = y + renderer.renderMinY;
+		double d7 = z + renderer.renderMinZ;
+		double d8 = z + renderer.renderMaxZ;
 		tessellator.addVertexWithUV(d4, d6, d8, d0, d3);
 		tessellator.addVertexWithUV(d4, d6, d7, d0, d2);
 		tessellator.addVertexWithUV(d5, d6, d7, d1, d2);
@@ -59,10 +59,10 @@ public class BlockChestBedRenderer implements
 			tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 			icon = block.getIcon(1, world.getBlockMetadata(x, y, z), i, world, x, y, z);
 			if (renderer.hasOverrideBlockTexture()) icon = renderer.overrideBlockTexture; //BugFix Proper breaking texture on underside
-			d0 = (double)icon.getMinU();
-			d1 = (double)icon.getMaxU();
-			d2 = (double)icon.getMinV();
-			d3 = (double)icon.getMaxV();
+			d0 = icon.getMinU();
+			d1 = icon.getMaxU();
+			d2 = icon.getMinV();
+			d3 = icon.getMaxV();
 			d4 = d0;
 			d5 = d1;
 			d6 = d2;
@@ -98,11 +98,11 @@ public class BlockChestBedRenderer implements
 				d11 = d2;
 			}
 
-			double d12 = (double)x + renderer.renderMinX;
-			double d13 = (double)x + renderer.renderMaxX;
-			double d14 = (double)y + renderer.renderMaxY;
-			double d15 = (double)z + renderer.renderMinZ;
-			double d16 = (double)z + renderer.renderMaxZ;
+			double d12 = x + renderer.renderMinX;
+			double d13 = x + renderer.renderMaxX;
+			double d14 = y + renderer.renderMaxY;
+			double d15 = z + renderer.renderMinZ;
+			double d16 = z + renderer.renderMaxZ;
 			tessellator.addVertexWithUV(d13, d14, d16, d8, d10);
 			tessellator.addVertexWithUV(d13, d14, d15, d4, d6);
 			tessellator.addVertexWithUV(d12, d14, d15, d5, d7);
@@ -139,7 +139,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 2;
-				renderer.renderFaceZNeg(block, (double)x, (double)y, (double)z, block.getIcon(2, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceZNeg(block, x, y, z, block.getIcon(2, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 		if (k1 != 3 && (renderer.renderAllFaces || block.shouldSideBeRendered(renderer.blockAccess, x, y, z + 1, 3)))
@@ -149,7 +149,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 3;
-				renderer.renderFaceZPos(block, (double)x, (double)y, (double)z, block.getIcon(3, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceZPos(block, x, y, z, block.getIcon(3, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 
@@ -160,7 +160,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 4;
-				renderer.renderFaceXNeg(block, (double)x, (double)y, (double)z, block.getIcon(4, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceXNeg(block, x, y, z, block.getIcon(4, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 
@@ -171,7 +171,7 @@ public class BlockChestBedRenderer implements
 			for (int i = 0; i < 3; i++) {
 				tessellator.setColorOpaque_I(BlockColoredBed.getColorFromTilePerPass(world, x, y, z, i));
 				renderer.flipTexture = b0 == 5;
-				renderer.renderFaceXPos(block, (double)x, (double)y, (double)z, block.getIcon(5, world.getBlockMetadata(x, y, z), i, world, x, y, z));
+				renderer.renderFaceXPos(block, x, y, z, block.getIcon(5, world.getBlockMetadata(x, y, z), i, world, x, y, z));
 			}
 		}
 

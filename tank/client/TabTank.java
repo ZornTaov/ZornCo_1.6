@@ -12,6 +12,7 @@ public class TabTank extends CreativeTabs {
 		super(label);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getTabIconItemIndex()
 	{

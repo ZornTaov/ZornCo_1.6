@@ -1,34 +1,22 @@
 package zornco.bedcraftbeyond.blocks;
 
 import static net.minecraftforge.common.ForgeDirection.DOWN;
-import static net.minecraftforge.common.ForgeDirection.EAST;
-import static net.minecraftforge.common.ForgeDirection.NORTH;
-import static net.minecraftforge.common.ForgeDirection.SOUTH;
-import static net.minecraftforge.common.ForgeDirection.UP;
-import static net.minecraftforge.common.ForgeDirection.WEST;
-
 import java.util.List;
 import java.util.Random;
 
 import zornco.bedcraftbeyond.BedCraftBeyond;
-import zornco.bedcraftbeyond.client.TabBedCraftBeyond;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockHalfSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 
 public class BlockRug extends Block {
 
@@ -43,6 +31,7 @@ public class BlockRug extends Block {
 	 * checks to see if you can place this block can be placed on that side of a
 	 * block: BlockLever overrides
 	 */
+	@Override
 	public boolean canPlaceBlockOnSide(World par1World, int x, int y, int z,
 			int par5) {
 		return par1World.doesBlockHaveSolidTopSurface(x, y - 1, z)
@@ -54,6 +43,7 @@ public class BlockRug extends Block {
 	 * Checks to see if its valid to put this block at the specified
 	 * coordinates. Args: world, x, y, z
 	 */
+	@Override
 	public boolean canPlaceBlockAt(World par1World, int x, int y, int z) {
 		return par1World.doesBlockHaveSolidTopSurface(x, y - 1, z)
 				|| this.isBlockValid(par1World.getBlockId(x, y - 1, z));
@@ -69,6 +59,7 @@ public class BlockRug extends Block {
 	 * neighbor changed (coordinates passed are their own) Args: x, y, z,
 	 * neighbor blockID
 	 */
+	@Override
 	public void onNeighborBlockChange(World par1World, int x, int y, int z,
 			int par5) {
 
@@ -90,12 +81,14 @@ public class BlockRug extends Block {
 	 * Returns a bounding box from the pool of bounding boxes (this means this
 	 * box can change after the pool has been cleared to be reused)
 	 */
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x,
 			int y, int z) {
 		return null;
 
 	}
 
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y,
 			int z) {
 		float var9 = 0F;
@@ -122,6 +115,7 @@ public class BlockRug extends Block {
 		return (var5 == BedCraftBeyond.rugBlock.blockID)&& !par1IBlockAccess.isAirBlock(par2, par3, par4) ? true : false;
 
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 
     /**
@@ -131,6 +125,7 @@ public class BlockRug extends Block {
     {
         return Block.cloth.getIcon(par1, par2);
     }
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -152,6 +147,7 @@ public class BlockRug extends Block {
 	 * Determines the damage on the item the block drops. Used in cloth and
 	 * wood.
 	 */
+	@Override
 	public int damageDropped(int par1) {
 		return par1;
 	}
@@ -173,10 +169,12 @@ public class BlockRug extends Block {
 	/**
 	 * Returns the ID of the items to drop on destruction.
 	 */
+	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
 		return BedCraftBeyond.rugItem.itemID;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
@@ -185,6 +183,7 @@ public class BlockRug extends Block {
 		return BedCraftBeyond.rugItem.itemID;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
@@ -197,6 +196,7 @@ public class BlockRug extends Block {
 	 * If this block doesn't render as an ordinary block it will return False
 	 * (examples: signs, buttons, stairs, etc)
 	 */
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
@@ -206,10 +206,12 @@ public class BlockRug extends Block {
 	 * or not to render the shared face of two adjacent blocks and also whether
 	 * the player can attach torches, redstone wire, etc to this block.
 	 */
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
@@ -223,6 +225,7 @@ public class BlockRug extends Block {
 	/**
 	 * The type of render function that is called for this block
 	 */
+	@Override
 	public int getRenderType() {
 		return BedCraftBeyond.rugRI;
 	}

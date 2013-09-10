@@ -6,8 +6,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
-
 import org.lwjgl.opengl.GL11;
 
 import zornco.tank.entity.TankEntity;
@@ -148,7 +146,7 @@ public class TankRender extends Render {
 		
         GL11.glTranslatef((float)d, (float)d1, (float)d2);
         GL11.glRotatef(180.0F - f, 0.0F, 1.0F, 0.0F);
-        float f2 = (float)tankentity.getTimeSinceHit() - f1;
+        float f2 = tankentity.getTimeSinceHit() - f1;
         float f3 = tankentity.getDamageTaken() - f1;
 
         if (f3 < 0.0F)
@@ -158,13 +156,13 @@ public class TankRender extends Render {
 
         if (f2 > 0.0F)
         {
-            GL11.glRotatef(MathHelper.sin(f2) * f2 * f3 / 10.0F * (float)tankentity.getForwardDirection(), 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(MathHelper.sin(f2) * f2 * f3 / 10.0F * tankentity.getForwardDirection(), 1.0F, 0.0F, 0.0F);
         }
 
         float f4 = 0.75F;
         GL11.glScalef(f4, f4, f4);
         GL11.glScalef(1.0F / f4, 1.0F / f4, 1.0F / f4);
-        this.func_110777_b(tankentity);
+        this.bindEntityTexture(tankentity);
         GL11.glScalef(-1.0F, -1.0F, 1.0F);
         this.tankModel.render(tankentity, 0.0F, 0.0F, -0.1F, 1F, 1F, 0.0625F);
         GL11.glPopMatrix();
@@ -180,7 +178,7 @@ public class TankRender extends Render {
         return tankCamo;
     }
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return func_110781_a((TankEntity)entity);
 	}
 }

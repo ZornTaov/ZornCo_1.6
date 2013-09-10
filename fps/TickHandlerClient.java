@@ -122,7 +122,7 @@ public class TickHandlerClient implements ITickHandler {
 							;
 
 						// draw arrow
-						Minecraft.getMinecraft().renderEngine.func_110577_a(new ResourceLocation("fps:gui/ArrowIconWhite.png"));
+						Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("fps:gui/ArrowIconWhite.png"));
 						int arrowColor = FPS.instance.neutralArrowColor;
 						if(FPS.instance.friendList.containsKey(multiPlayer.username))
 							arrowColor = FPS.instance.friendArrowColor;
@@ -133,15 +133,15 @@ public class TickHandlerClient implements ITickHandler {
 								7, angleTrunc, arrowColor, Minecraft.getMinecraft());
 
 						// draw faceplate
-						ResourceLocation resourcelocation = AbstractClientPlayer.field_110314_b;
+						ResourceLocation resourcelocation = AbstractClientPlayer.locationStevePng;
 
 		                if (multiPlayer.username != null && multiPlayer.username.length() > 0)
 		                {
-		                    resourcelocation = AbstractClientPlayer.func_110305_h(multiPlayer.username);
-		                    AbstractClientPlayer.func_110304_a(resourcelocation, multiPlayer.username);
+		                    resourcelocation = AbstractClientPlayer.getLocationSkull(multiPlayer.username);
+		                    AbstractClientPlayer.getDownloadImageSkin(resourcelocation, multiPlayer.username);
 		                }
 
-		                Minecraft.getMinecraft().renderEngine.func_110577_a(resourcelocation);
+		                Minecraft.getMinecraft().renderEngine.bindTexture(resourcelocation);
 						FPS.instance.proxy.drawTexturedHeadModalRect(
 								14, (lineCount * 10) + 20, 
 								8, 8,

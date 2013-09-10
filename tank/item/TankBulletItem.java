@@ -39,6 +39,7 @@ public class TankBulletItem extends Item
 		this.setHasSubtypes(true);
 		this.setCreativeTab(Tank.tanksTab);
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**
@@ -49,6 +50,7 @@ public class TankBulletItem extends Item
 		int j = MathHelper.clamp_int(par1, 0, 3);
 		return this.bulletIconList[j];
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
@@ -60,6 +62,7 @@ public class TankBulletItem extends Item
 		}
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 
 	/**

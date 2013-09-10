@@ -40,6 +40,7 @@ public class ItemStoneBed extends Item {
 			return stoneBedIcon[par1];
 		return stoneBedIcon[0];
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)

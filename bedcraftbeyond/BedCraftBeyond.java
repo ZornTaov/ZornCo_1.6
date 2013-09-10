@@ -90,18 +90,18 @@ public class BedCraftBeyond {
 
 		//Blocks
 		int blockID = 2600;
-		rugBlockID = config.get(config.CATEGORY_BLOCK,"Rug Block", blockID++).getInt();
-		bedBlockID = config.get(config.CATEGORY_BLOCK,"Bed Block", blockID++).getInt();
-		chestBedBlockID = config.get(config.CATEGORY_BLOCK,"Chest Bed Block", blockID++).getInt();
-		stoneBedBlockID = config.get(config.CATEGORY_BLOCK,"Stone Bed Block", blockID++).getInt();
+		rugBlockID = config.get(Configuration.CATEGORY_BLOCK,"Rug Block", blockID++).getInt();
+		bedBlockID = config.get(Configuration.CATEGORY_BLOCK,"Bed Block", blockID++).getInt();
+		chestBedBlockID = config.get(Configuration.CATEGORY_BLOCK,"Chest Bed Block", blockID++).getInt();
+		stoneBedBlockID = config.get(Configuration.CATEGORY_BLOCK,"Stone Bed Block", blockID++).getInt();
 
 		//Items
 		int itemID = 26000;
-		rugItemID = config.getItem(config.CATEGORY_ITEM,"Rug Item", itemID++).getInt();
-		scissorsID = config.getItem(config.CATEGORY_ITEM,"Scissors", itemID++).getInt();
-		bedItemID = config.getItem(config.CATEGORY_ITEM,"Bed Item", itemID++).getInt();
-		chestBedItemID = config.getItem(config.CATEGORY_ITEM,"Chest Bed Item", itemID++).getInt();
-		stoneBedItemID = config.getItem(config.CATEGORY_ITEM,"Stone Bed Item", itemID++).getInt();
+		rugItemID = config.getItem(Configuration.CATEGORY_ITEM,"Rug Item", itemID++).getInt();
+		scissorsID = config.getItem(Configuration.CATEGORY_ITEM,"Scissors", itemID++).getInt();
+		bedItemID = config.getItem(Configuration.CATEGORY_ITEM,"Bed Item", itemID++).getInt();
+		chestBedItemID = config.getItem(Configuration.CATEGORY_ITEM,"Chest Bed Item", itemID++).getInt();
+		stoneBedItemID = config.getItem(Configuration.CATEGORY_ITEM,"Stone Bed Item", itemID++).getInt();
 
 		config.save();
 	}
