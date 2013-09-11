@@ -49,11 +49,12 @@ public class Config {
 
 	public void addNames() {
 		/** Names **/
-		LanguageRegistry.addName(Tank.tankItem, "Tank");
+		LanguageRegistry.instance().addStringLocalization("item.Tank.name", "en_US", "Tank");
 		for (int i = 0; i < Tank.bullettypes; i++) {
-			LanguageRegistry.addName(Tank.tankBullet[i], TankBulletItem.bulletNames[i]);
+
+			LanguageRegistry.instance().addStringLocalization("item.Round"+i+".name", "en_US", TankBulletItem.bulletNames[i]);
 		}
-		LanguageRegistry.instance().addStringLocalization( "itemGroup.Tank", "Tanks" );
+		LanguageRegistry.instance().addStringLocalization( "itemGroup.Tanks", "Tanks" );
 		
 	}
 
@@ -65,7 +66,7 @@ public class Config {
         
 		entityID = EntityRegistry.findGlobalUniqueEntityId();
 		//EntityRegistry.registerGlobalEntityID(TankBulletEntity.class, "tankBullet", entityID);
-		EntityRegistry.registerModEntity(TankBulletEntity.class, "tankBullet", 1, Tank.instance, 40, 100, true);
+		EntityRegistry.registerModEntity(TankBulletEntity.class, "tankBullet", 1, Tank.instance, 150, 100, true);
 		//EntityList.addMapping(TankBulletEntity.class, "tankBullet", entityID);
 
 	}

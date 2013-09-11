@@ -31,7 +31,7 @@ public class TankItem extends Item
 	public TankItem(int i)
     {
         super(i);
-        this.maxStackSize = 1;
+        this.maxStackSize = 16;
         this.setCreativeTab(Tank.tanksTab);
     }
 
@@ -136,10 +136,5 @@ public class TankItem extends Item
 	{
 			this.tankIcon = par1IconRegister.registerIcon("tank:"+tankName );
 		
-	}
-
-	public String getUnlocalizedName(ItemStack par1ItemStack)
-	{
-		return super.getUnlocalizedName() + "." + this.tankName;
 	}
 }

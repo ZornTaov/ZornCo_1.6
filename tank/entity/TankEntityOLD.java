@@ -317,7 +317,7 @@ public class TankEntityOLD extends Entity {
 			// System.out.println(muzzZ + " = " + posZ + " = " +
 			// currentPos.zCoord);
 			arrow.setPosition(muzzX, muzzY, muzzZ);
-			arrow.setTankBulletHeading(currentEndPos.xCoord,
+			arrow.setThrowableHeading(currentEndPos.xCoord,
 					-currentEndPos.yCoord, currentEndPos.zCoord, 5F, 0);
 			// System.out.println(rotationYaw + " + " +
 			// riddenByEntity.rotationYaw + " + " +
@@ -346,7 +346,7 @@ public class TankEntityOLD extends Entity {
 			// System.out.println(muzzZ + " = " + posZ + " = " +
 			// currentPos.zCoord);
 			arrow.setPosition(muzzX, muzzY, muzzZ);
-			arrow.setTankBulletHeading(currentEndPos.xCoord,
+			arrow.setThrowableHeading(currentEndPos.xCoord,
 					-currentEndPos.yCoord, currentEndPos.zCoord, 5F, 0);
 			// System.out.println(rotationYaw + " + " +
 			// riddenByEntity.rotationYaw + " + " +

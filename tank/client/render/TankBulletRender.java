@@ -12,7 +12,9 @@ import zornco.tank.entity.TankBulletEntity;
 
 public class TankBulletRender extends Render
 { 
-
+	private static final ResourceLocation bulletTex = new ResourceLocation("tank:textures/entity/tank/TankBullet.png");
+	private float UVs[] = new float[9];
+	
 	public TankBulletRender()
 	{
 	}
@@ -33,38 +35,37 @@ public class TankBulletRender extends Render
 	public void renderArrow(TankBulletEntity entitytankbullet, double d, double d1, double d2, 
 			float f, float f1)
 	{
-		if(entitytankbullet.type >=0 && entitytankbullet.type <=3 || entitytankbullet.type == 20)
+		int type = entitytankbullet.getBulletType();
+		if(type >=0 && type <=3 || type == 20)
 		{
-			//loadTexture("/item/entityTankBullet.png");
+	        this.func_110777_b(entitytankbullet);
 		}
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)d, (float)d1, (float)d2);
 		GL11.glRotatef((entitytankbullet.prevRotationYaw + (entitytankbullet.rotationYaw - entitytankbullet.prevRotationYaw) * f1) - 90F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(entitytankbullet.prevRotationPitch + (entitytankbullet.rotationPitch - entitytankbullet.prevRotationPitch) * f1, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.instance;
-		if(entitytankbullet.type == 0)
+		switch(type)
 		{
+		case 0:
 			bulletTypeSetup(0, 16, 0, 10, 0, 10, 10, 20, 4);
-		}
-		if(entitytankbullet.type == 1)
-		{
+			break;
+		case 1:
 			bulletTypeSetup(0, 16, 20, 25, 0, 5, 25, 30, 2);
-		}
-		if(entitytankbullet.type == 2)
-		{
+			break;
+		case 2:
 			bulletTypeSetup(16, 32, 0, 10, 16, 26, 10, 20, 4);
-		}
-		if(entitytankbullet.type == 3)
-		{
+			break;
+		case 3:
 			bulletTypeSetup(16, 32, 20, 25, 16, 21, 25, 30, 2);
-		}
-		if(entitytankbullet.type == 20)
-		{
+			break;
+		default:
 			bulletTypeSetup(0, 16, 30, 31, 0, 1, 31, 32, 1);
 		}
+		
 		float f10 = 0.05625F;
 		GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
-		float f11 = (float)entitytankbullet.TankBulletShake - f1;
+		float f11 = (float)entitytankbullet.tankBulletShake - f1;
 		if(f11 > 0.0F)
 		{
 			float f12 = -MathHelper.sin(f11 * 3F) * f11;
@@ -108,10 +109,9 @@ public class TankBulletRender extends Render
 	{
 		renderArrow((TankBulletEntity)entity, d, d1, d2, f, f1);
 	}
-	private float UVs[] = new float[9];
 	@Override
 	protected ResourceLocation func_110775_a(Entity entity) {
 		// TODO Auto-generated method stub
-		return null;
+		return bulletTex;
 	}
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 import org.lwjgl.opengl.GL11;
 
@@ -13,12 +14,12 @@ import zornco.tank.entity.TankEntity;
 
 public class TankRender extends Render {
 
-	private static final ResourceLocation tankCamo = new ResourceLocation("tank:textures/entity/tank/camo.png");
+	private static final ResourceLocation tankCamo = new ResourceLocation("tank:textures/entity/tank/TankModel7.png");
 	public ModelBase tankModel;
 
 	public TankRender() {
 		shadowSize = 2F;
-		tankModel = new TankModel();
+		tankModel = new TankModel2();
 	}
 
 	public void renderTank(TankEntity tankentity, double d, double d1,
@@ -144,6 +145,7 @@ public class TankRender extends Render {
 		}
 		GL11.glPopMatrix();*/
 		GL11.glPushMatrix();
+		
         GL11.glTranslatef((float)d, (float)d1, (float)d2);
         GL11.glRotatef(180.0F - f, 0.0F, 1.0F, 0.0F);
         float f2 = (float)tankentity.getTimeSinceHit() - f1;

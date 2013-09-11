@@ -17,7 +17,6 @@ public class TankModel extends ModelBase {
 	public Bone turret;*/
 	// public Bone smokeStackA;
 	// public Bone smokeStackB;
-	public TankEntity tankCS;
 	public ModelRenderer[] sideModels = new ModelRenderer[boxes];
 	
 	public TankModel() {
@@ -213,8 +212,8 @@ public class TankModel extends ModelBase {
 	@Override
 	public void render(Entity par1Entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		
-			tankCS = (TankEntity)par1Entity;
-		setRotationAngles(f, f1, f2, f3, f4, f5);
+		TankEntity tankCS = (TankEntity)par1Entity;
+		setRotationAngles(f, f1, f2, f3, f4, f5, par1Entity);
 		/*Origin.prepareDraw();
 		Origin.setAnglesToModels();*/
 		for (int i = 0; i < boxes; ++i) {// if(i <= 11 && i >= 14)
@@ -222,7 +221,7 @@ public class TankModel extends ModelBase {
 		}
 		for(int i = 5; i < 11; i++) 
 		{ 
-			sideModels[i].rotateAngleZ -= (((TankEntity)par1Entity).getSpeed()/Math.PI); 
+			sideModels[i].rotateAngleZ -= (tankCS.getSpeed()/Math.PI); 
 		}
 		// sideModels[1].render(f5*2F);
 		/*
@@ -231,10 +230,11 @@ public class TankModel extends ModelBase {
 		 */
 	}
 
+	@Override
 	public void setRotationAngles(float f, float f1, float f2, float f3,
-			float f4, float f5) {
+			float f4, float f5, Entity par7Entity) {
 
-		double d11 = tankCS.getSpeed(); //where tankSpeed = Math.sqrt(motionX * motionX + motionZ * motionZ);
+		//double d11 = tankCS.getSpeed(); //where tankSpeed = Math.sqrt(motionX * motionX + motionZ * motionZ);
 		//System.out.println((newStringBuilder("tankspeed "))
 		//.append(d11).append(" motionX ").append(motionX)
 		//.append(" motionZ ").append(motionZ).toString()); 

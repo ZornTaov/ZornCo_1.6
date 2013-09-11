@@ -59,11 +59,7 @@ public class TankBulletItem extends Item
 			this.bulletIconList[i] = par1IconRegister.registerIcon("tank:"+bulletNames[i]);
 		}
 	}
-
-	public String getUnlocalizedName(ItemStack par1ItemStack)
-	{
-		return super.getUnlocalizedName() + "." + this.bulletNames[bulletType];
-	}
+	
 	@SideOnly(Side.CLIENT)
 
 	/**
