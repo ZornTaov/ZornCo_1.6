@@ -3,7 +3,7 @@ package zornco.tank.entity;
 import java.util.List;
 
 import zornco.tank.Tank;
-import zornco.tank.item.TankBulletItem;
+import zornco.tank.item.ItemTankBullet;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -21,7 +21,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TankBulletEntity extends Entity implements IProjectile
+public class EntityTankBullet extends Entity implements IProjectile
 {
 
 	private int xTile = -1;
@@ -49,29 +49,29 @@ public class TankBulletEntity extends Entity implements IProjectile
 	private float[] explosionRadius = {4, 2, 8, 6};
 	private boolean[] fire = {false, false, true, true};
 
-	public TankBulletEntity(World par1World, int type)
+	public EntityTankBullet(World par1World, int type)
 	{
 		this(par1World);
 		setBulletType( type);
 	}
-	public TankBulletEntity(World par1World)
+	public EntityTankBullet(World par1World)
 	{
 		super(par1World);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public TankBulletEntity(World par1World, double par2, double par4, double par6, ItemStack par2ItemStack)
+	public EntityTankBullet(World par1World, double par2, double par4, double par6, ItemStack par2ItemStack)
 	{
 		super(par1World);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 		this.setPosition(par2, par4, par6);
 		this.yOffset = 0.0F;
-		setBulletType(((TankBulletItem)par2ItemStack.getItem()).bulletType);
+		setBulletType(((ItemTankBullet)par2ItemStack.getItem()).bulletType);
 	}
 
-	public TankBulletEntity(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase, float par4, float par5)
+	public EntityTankBullet(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase, float par4, float par5)
 	{
 		super(par1World);
 		this.renderDistanceWeight = 10.0D;
@@ -101,7 +101,7 @@ public class TankBulletEntity extends Entity implements IProjectile
 		}
 	}
 
-	public TankBulletEntity(World par1World, EntityLivingBase par2EntityLivingBase, float par3)
+	public EntityTankBullet(World par1World, EntityLivingBase par2EntityLivingBase, float par3)
 	{
 		super(par1World);
 		this.renderDistanceWeight = 10.0D;

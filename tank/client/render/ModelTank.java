@@ -1,11 +1,11 @@
 package zornco.tank.client.render;
 
-import zornco.tank.entity.TankEntity;
+import zornco.tank.entity.EntityTankBase;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class TankModel extends ModelBase {
+public class ModelTank extends ModelBase {
 
 	//public Angle3D muzzleAngle;
 	//public Vec3 muzzlePos;
@@ -19,7 +19,7 @@ public class TankModel extends ModelBase {
 	// public Bone smokeStackB;
 	public ModelRenderer[] sideModels = new ModelRenderer[boxes];
 	
-	public TankModel() {
+	public ModelTank() {
 		// Origin
 		/*Origin = new Bone(0, 0, 0, 0);
 		Origin.setOffset(3.0F, -7F, 0.0F);
@@ -212,7 +212,7 @@ public class TankModel extends ModelBase {
 	@Override
 	public void render(Entity par1Entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		
-		TankEntity tankCS = (TankEntity)par1Entity;
+		EntityTankBase tankCS = (EntityTankBase)par1Entity;
 		setRotationAngles(f, f1, f2, f3, f4, f5, par1Entity);
 		/*Origin.prepareDraw();
 		Origin.setAnglesToModels();*/

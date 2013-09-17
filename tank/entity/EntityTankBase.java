@@ -19,7 +19,7 @@ import zornco.tank.Tank;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TankEntity extends Entity {
+public class EntityTankBase extends Entity {
 	private boolean field_70279_a;
 	private double speedMultiplier;
 	private int tankPosRotationIncrements;
@@ -39,7 +39,7 @@ public class TankEntity extends Entity {
 	private int shootimer = 1;
 	private int bulletType = -1;
 
-	public TankEntity(World par1World)
+	public EntityTankBase(World par1World)
 	{
 		super(par1World);
 		this.field_70279_a = true;
@@ -50,7 +50,7 @@ public class TankEntity extends Entity {
 		this.stepHeight = 1F;
 	}
 
-	public TankEntity(World par1World, double par2, double par4, double par6)
+	public EntityTankBase(World par1World, double par2, double par4, double par6)
 	{
 		this(par1World);
 		this.setPosition(par2, par4 + this.yOffset, par6);
@@ -379,7 +379,7 @@ public class TankEntity extends Entity {
 
 					//Vec3 vec32 = tankPos.addVector(riderLook.xCoord * 3, riderLook.yCoord * 3, riderLook.zCoord * 3);
 					if(riderLook.yCoord < -0.3)Tank.logger.info(riderLook.toString());
-					TankBulletEntity arrow = new TankBulletEntity(this.worldObj, getBulletType());
+					EntityTankBullet arrow = new EntityTankBullet(this.worldObj, getBulletType());
 					arrow.setPosition(turretOrigin.xCoord, turretOrigin.yCoord, turretOrigin.zCoord);
 					arrow.setThrowableHeading(riderLook.xCoord, riderLook.yCoord, riderLook.zCoord, 5F, 0);
 					//arrow.setThrowableHeading(0, 0, 0, 5F, 0);
@@ -530,7 +530,7 @@ public class TankEntity extends Entity {
 					{
 						Entity entity = (Entity)list.get(l);
 
-						if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof TankEntity)
+						if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityTankBase)
 						{
 							entity.applyEntityCollision(this);
 						}

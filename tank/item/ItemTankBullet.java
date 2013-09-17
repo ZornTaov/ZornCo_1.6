@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 // Decompiler options: packimports(3) braces deadcode 
 
 
-public class TankBulletItem extends Item
+public class ItemTankBullet extends Item
 {
 	@SideOnly(Side.CLIENT)
 	private Icon[] bulletIconList;
@@ -26,7 +26,7 @@ public class TankBulletItem extends Item
 	
 	public static String[] bulletNames = {"a", "b", "c", "d"};
 	
-	public TankBulletItem(int i, int type) 
+	public ItemTankBullet(int i, int type) 
 	{
 		super(i);
 		bulletType = type;

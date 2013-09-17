@@ -8,14 +8,14 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import zornco.tank.entity.TankBulletEntity;
+import zornco.tank.entity.EntityTankBullet;
 
-public class TankBulletRender extends Render
+public class RenderTankBullet extends Render
 { 
 	private static final ResourceLocation bulletTex = new ResourceLocation("tank:textures/entity/tank/TankBullet.png");
 	private float UVs[] = new float[9];
 	
-	public TankBulletRender()
+	public RenderTankBullet()
 	{
 	}
 
@@ -32,7 +32,7 @@ public class TankBulletRender extends Render
 		UVs[8] = diameter;
 	}
 
-	public void renderArrow(TankBulletEntity entitytankbullet, double d, double d1, double d2, 
+	public void renderArrow(EntityTankBullet entitytankbullet, double d, double d1, double d2, 
 			float f, float f1)
 	{
 		int type = entitytankbullet.getBulletType();
@@ -108,7 +108,7 @@ public class TankBulletRender extends Render
 	public void doRender(Entity entity, double d, double d1, double d2, 
 			float f, float f1)
 	{
-		renderArrow((TankBulletEntity)entity, d, d1, d2, f, f1);
+		renderArrow((EntityTankBullet)entity, d, d1, d2, f, f1);
 	}
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {

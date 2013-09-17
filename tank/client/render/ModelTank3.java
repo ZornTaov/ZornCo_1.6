@@ -8,11 +8,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
-public class TankModel3 extends ModelBase {
+public class ModelTank3 extends ModelBase {
 
 	private IModelCustom modelTank;
     
-    public TankModel3()
+    public ModelTank3()
     {
         modelTank = AdvancedModelLoader.loadModel("/assets/tank/models/Tank.obj");
     }

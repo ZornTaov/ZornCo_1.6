@@ -1,10 +1,10 @@
 package zornco.tank.client;
 
-import zornco.tank.client.render.TankBulletRender;
-import zornco.tank.client.render.TankRender;
+import zornco.tank.client.render.RenderTankBullet;
+import zornco.tank.client.render.RenderTank;
 import zornco.tank.core.CommonProxy;
-import zornco.tank.entity.TankBulletEntity;
-import zornco.tank.entity.TankEntity;
+import zornco.tank.entity.EntityTankBullet;
+import zornco.tank.entity.EntityTankBase;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
@@ -20,7 +20,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerRenderInformation() {
-		RenderingRegistry.registerEntityRenderingHandler(TankEntity.class, new TankRender());
-		RenderingRegistry.registerEntityRenderingHandler(TankBulletEntity.class, new TankBulletRender()); 
+		RenderingRegistry.registerEntityRenderingHandler(EntityTankBase.class, new RenderTank());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTankBullet.class, new RenderTankBullet()); 
 	}
 }

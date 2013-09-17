@@ -8,19 +8,19 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import zornco.tank.entity.TankEntity;
+import zornco.tank.entity.EntityTankBase;
 
-public class TankRender extends Render {
+public class RenderTank extends Render {
 
 	private static final ResourceLocation tankCamo = new ResourceLocation("tank:textures/entity/tank/Blank.png");
 	public ModelBase tankModel;
 
-	public TankRender() {
+	public RenderTank() {
 		shadowSize = 2F;
-		tankModel = new TankModel3();
+		tankModel = new ModelTank3();
 	}
 
-	public void renderTank(TankEntity tankentity, double d, double d1,
+	public void renderTank(EntityTankBase tankentity, double d, double d1,
 			double d2, float f, float f1) {
 		/*GL11.glPushMatrix();
 		float f5 = 0;
@@ -173,14 +173,14 @@ public class TankRender extends Render {
 	@Override
 	public void doRender(Entity entity, double d, double d1, double d2,
 			float f, float f1) {
-		renderTank((TankEntity) entity, d, d1, d2, f, f1);
+		renderTank((EntityTankBase) entity, d, d1, d2, f, f1);
 	}
-	protected ResourceLocation func_110781_a(TankEntity par1EntityBoat)
+	protected ResourceLocation func_110781_a(EntityTankBase par1EntityBoat)
 	{
 		return tankCamo;
 	}
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return func_110781_a((TankEntity)entity);
+		return func_110781_a((EntityTankBase)entity);
 	}
 }

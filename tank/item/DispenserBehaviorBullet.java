@@ -1,6 +1,6 @@
 package zornco.tank.item;
 
-import zornco.tank.entity.TankBulletEntity;
+import zornco.tank.entity.EntityTankBullet;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -25,7 +25,7 @@ public final class DispenserBehaviorBullet extends BehaviorDefaultDispenseItem
         double d1 = (double)((float)par1IBlockSource.getYInt() + 0.2F);
         double d2 = par1IBlockSource.getZ() + (double)enumfacing.getFrontOffsetZ();
         IPosition iposition = BlockDispenser.getIPositionFromBlockSource(par1IBlockSource);
-        TankBulletEntity entityfireworkrocket = new TankBulletEntity(par1IBlockSource.getWorld(), iposition.getX(), iposition.getY(), iposition.getZ(), par2ItemStack);
+        EntityTankBullet entityfireworkrocket = new EntityTankBullet(par1IBlockSource.getWorld(), iposition.getX(), iposition.getY(), iposition.getZ(), par2ItemStack);
         entityfireworkrocket.setThrowableHeading((double)enumfacing.getFrontOffsetX(), (double)((float)enumfacing.getFrontOffsetY() + 0.01F), (double)enumfacing.getFrontOffsetZ(), this.func_82500_b(), this.func_82498_a());
 
         par1IBlockSource.getWorld().spawnEntityInWorld(entityfireworkrocket);

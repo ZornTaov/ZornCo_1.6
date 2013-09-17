@@ -18,16 +18,16 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import zornco.tank.Tank;
-import zornco.tank.entity.TankEntity;
+import zornco.tank.entity.EntityTankBase;
 
  
-public class TankItem extends Item
+public class ItemTank extends Item
 {
 
     private Icon tankIcon;
 	private String tankName = "tank";
 
-	public TankItem(int i)
+	public ItemTank(int i)
     {
         super(i);
         this.maxStackSize = 16;
@@ -99,7 +99,7 @@ public class TankItem extends Item
                         --j;
                     }
 
-                    TankEntity entitytank = new TankEntity(world, i + 0.5F, j + 1.0F, k + 0.5F);
+                    EntityTankBase entitytank = new EntityTankBase(world, i + 0.5F, j + 1.0F, k + 0.5F);
                     entitytank.rotationYaw = ((MathHelper.floor_double(entityplayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) - 1) * 90;
 
                     if (!world.getCollidingBoundingBoxes(entitytank, entitytank.boundingBox.expand(-0.1D, -0.1D, -0.1D)).isEmpty())

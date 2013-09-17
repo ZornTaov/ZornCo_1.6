@@ -1,12 +1,12 @@
 package zornco.tank.client.render;
 
-import zornco.tank.entity.TankEntity;
+import zornco.tank.entity.EntityTankBase;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class TankModel2 extends ModelBase
+public class ModelTank2 extends ModelBase
 {
 	//fields
 	ModelRenderer base;
@@ -48,7 +48,7 @@ public class TankModel2 extends ModelBase
 	ModelRenderer frontWindow;
 	ModelRenderer leftWindow;
 
-	public TankModel2()
+	public ModelTank2()
 	{
 
 		base = new ModelRenderer(this, 24, 0).setTextureSize(128, 64);
@@ -340,12 +340,12 @@ public class TankModel2 extends ModelBase
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		if(entity.riddenByEntity != null)
 		{
-			setRotation(wheelLB, 0, (float)Math.PI, ((TankEntity) entity).getSpeed());
-			setRotation(wheelLM, 0, (float)Math.PI, ((TankEntity) entity).getSpeed());
-			setRotation(wheelLF, 0, (float)Math.PI, ((TankEntity) entity).getSpeed());
-			setRotation(wheelRB, 0, 0, ((TankEntity) entity).getSpeed());
-			setRotation(wheelRM, 0, 0, ((TankEntity) entity).getSpeed());
-			setRotation(wheelRF, 0, 0, ((TankEntity) entity).getSpeed());
+			setRotation(wheelLB, 0, (float)Math.PI, ((EntityTankBase) entity).getSpeed());
+			setRotation(wheelLM, 0, (float)Math.PI, ((EntityTankBase) entity).getSpeed());
+			setRotation(wheelLF, 0, (float)Math.PI, ((EntityTankBase) entity).getSpeed());
+			setRotation(wheelRB, 0, 0, ((EntityTankBase) entity).getSpeed());
+			setRotation(wheelRM, 0, 0, ((EntityTankBase) entity).getSpeed());
+			setRotation(wheelRF, 0, 0, ((EntityTankBase) entity).getSpeed());
 			setRotation(muzzle, 0, MathHelper.clamp_float(MathHelper.wrapAngleTo180_float((entity.riddenByEntity.rotationYaw - entity.rotationYaw - 90)), -100, 100) * (float)Math.PI / 180.0F, MathHelper.clamp_float(MathHelper.wrapAngleTo180_float((-entity.riddenByEntity.rotationPitch)), -10, 45) * (float)Math.PI / 180.0F);
 			setRotation(turretB,   0, MathHelper.clamp_float(MathHelper.wrapAngleTo180_float((entity.riddenByEntity.rotationYaw - entity.rotationYaw - 90)), -100, 100) * (float)Math.PI / 180.0F, 0);
 			setRotation(turretL,   0, MathHelper.clamp_float(MathHelper.wrapAngleTo180_float((entity.riddenByEntity.rotationYaw - entity.rotationYaw - 90)), -100, 100) * (float)Math.PI / 180.0F, 0);

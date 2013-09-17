@@ -16,7 +16,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TankEntityOLD extends Entity {
+public class EntityTankOLD extends Entity {
 	public EntityPlayer rider;
 	public int bulletType;
 	// public Angle3D currentAngle;
@@ -40,7 +40,7 @@ public class TankEntityOLD extends Entity {
 	private double velocityY;
 	private double velocityZ;
 
-	public TankEntityOLD(World world) {
+	public EntityTankOLD(World world) {
 		super(world);
 		tankCurrentDamage = 0;
 		tankTimeSinceHit = 0;
@@ -52,7 +52,7 @@ public class TankEntityOLD extends Entity {
 		// MAX_HEALTH = 200;
 	}
 
-	public TankEntityOLD(World world, double d, double d1, double d2) {
+	public EntityTankOLD(World world, double d, double d1, double d2) {
 		this(world);
 		setPosition(d, d1 + yOffset, d2);
 		motionX = 0.0D;
@@ -298,7 +298,7 @@ public class TankEntityOLD extends Entity {
 			for (int j1 = 0; j1 < list.size(); j1++) {
 				Entity entity = (Entity) list.get(j1);
 				if (entity != riddenByEntity && entity.canBePushed()
-						&& (entity instanceof TankEntityOLD)) {
+						&& (entity instanceof EntityTankOLD)) {
 					entity.applyEntityCollision(this);
 				}
 			}
@@ -311,7 +311,7 @@ public class TankEntityOLD extends Entity {
 		wheelRotation -= tankSpeed * Math.PI;
 
 		if (tankCanShootMachineGun == 3) {
-			TankBulletEntity arrow = new TankBulletEntity(worldObj, 20);
+			EntityTankBullet arrow = new EntityTankBullet(worldObj, 20);
 			/*
 			 * currentPos.rotateAroundY(-currentAngle.angleY * 2 - (float)
 			 * Math.toRadians(rotationYaw)); currentEndPos.rotateAroundY((float)
@@ -340,7 +340,7 @@ public class TankEntityOLD extends Entity {
 
 		if (tankCanShoot == 120
 				|| (rider != null && rider.capabilities.isCreativeMode && tankCanShoot == 3)) {
-			TankBulletEntity arrow = new TankBulletEntity(worldObj, bulletType);
+			EntityTankBullet arrow = new EntityTankBullet(worldObj, bulletType);
 			/*
 			 * currentPos.rotateAroundY(-currentAngle.angleY * 2 - (float)
 			 * Math.toRadians(rotationYaw)); currentEndPos.rotateAroundY((float)
