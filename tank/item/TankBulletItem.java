@@ -22,7 +22,7 @@ public class TankBulletItem extends Item
 	@SideOnly(Side.CLIENT)
 	private Icon[] bulletIconList;
 
-	int bulletType;
+	public int bulletType;
 	
 	public static String[] bulletNames = {"a", "b", "c", "d"};
 	

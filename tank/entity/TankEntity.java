@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.WatchableObject;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,9 +45,9 @@ public class TankEntity extends Entity {
 		this.field_70279_a = true;
 		this.speedMultiplier = 0.07D;
 		this.preventEntitySpawning = true;
-		setSize(2.5F, 1.75F);
-		this.yOffset = this.height / 2.0F;
-        this.stepHeight = 1F;
+		setSize(2.5F, 3F);
+		this.yOffset = 0.3F;
+		this.stepHeight = 1F;
 	}
 
 	public TankEntity(World par1World, double par2, double par4, double par6)
@@ -74,6 +75,7 @@ public class TankEntity extends Entity {
 	@Override
 	protected void entityInit()
 	{
+		this.dataWatcher.addObject(6, Float.valueOf(1.0F));
 		this.dataWatcher.addObject(17, new Integer(0));
 		this.dataWatcher.addObject(18, new Integer(1));
 		this.dataWatcher.addObject(19, new Float(0.0F));
@@ -116,7 +118,7 @@ public class TankEntity extends Entity {
 	@Override
 	public double getMountedYOffset()
 	{
-		return this.height * 0.0D - 0.30000001192092896D;
+		return this.height * 0.0D + 0.6D;
 	}
 
 	/**
@@ -287,24 +289,15 @@ public class TankEntity extends Entity {
 			int l = this.worldObj.getBlockId(j1, i1, k1);
 			for (int j = 0; j < 1.0D + d3 * 60.0D; ++j)
 			{
-				double d6 = this.rand.nextFloat() * 2.0F - 1.0F;
-				double d7 = (this.rand.nextInt(2) * 2 - 1) * 0.7D;
+				double d6 = this.rand.nextFloat() * 1.0F - 1.0F;
+				double d7 = (this.rand.nextInt(2) * 2 - 1) * 1.2D;
 				double d8;
 				double d9;
 				if (l != 0)
 				{
-					if (this.rand.nextBoolean())
-					{
-						d8 = this.posX - d4 * d6 * 0.8D + d5 * d7;
-						d9 = this.posZ - d5 * d6 * 0.8D - d4 * d7;
-						this.worldObj.spawnParticle("tilecrack_" + l + "_" + this.worldObj.getBlockMetadata(j1, i1, k1), d8, this.posY - 0.125D, d9, this.motionX, this.motionY, this.motionZ);
-					}
-					else
-					{
-						d8 = this.posX + d4 + d5 * d6 * 0.7D;
-						d9 = this.posZ + d5 - d4 * d6 * 0.7D;
-						this.worldObj.spawnParticle("tilecrack_" + l + "_" + this.worldObj.getBlockMetadata(j1, i1, k1), d8, this.posY - 0.125D, d9, this.motionX, this.motionY, this.motionZ);
-					}
+					d8 = this.posX - d4 * d6 * 1.2D + d5 * d7;
+					d9 = this.posZ - d5 * d6 * 1.2D - d4 * d7;
+					this.worldObj.spawnParticle("tilecrack_" + l + "_" + this.worldObj.getBlockMetadata(j1, i1, k1), d8, this.posY - 0.8D, d9, this.motionX, this.motionY, this.motionZ);
 				}
 			}
 		}
@@ -367,13 +360,13 @@ public class TankEntity extends Entity {
 			{
 				if(getShootTimer() == 30)
 				{
-					//Tank.logger.info(riddenByEntity.rotationYaw+" "+this.rotationYaw);
-					
+					Tank.logger.info(riddenByEntity.rotationYaw+" "+this.rotationYaw);
+
 					Vec3 tankPos = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
 					Vec3 tankLook = this.getLookVec();
-					Vec3 riderLook = riddenByEntity.getLookVec();
+					Vec3 riderLook = getPlayerLook();
 					tankLook.rotateAroundY(-90 * (float)Math.PI / 180.0F);
-					
+
 					Vec3 tankOriginLook = tankLook; 
 					tankOriginLook.yCoord = 0;
 					tankOriginLook.normalize();
@@ -383,48 +376,48 @@ public class TankEntity extends Entity {
 					//Vec3 bulletLook = tankOriginLook.addVector(0, riderLook.yCoord, 0);
 					//bulletLook.rotateAroundY(this.rotationYaw-riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
 					//Vec3 bulletOrigin = turretOrigin.addVector(bulletLook.xCoord , bulletLook.yCoord , bulletLook.zCoord );
-					
+
 					//Vec3 vec32 = tankPos.addVector(riderLook.xCoord * 3, riderLook.yCoord * 3, riderLook.zCoord * 3);
 					if(riderLook.yCoord < -0.3)Tank.logger.info(riderLook.toString());
 					TankBulletEntity arrow = new TankBulletEntity(this.worldObj, getBulletType());
 					arrow.setPosition(turretOrigin.xCoord, turretOrigin.yCoord, turretOrigin.zCoord);
 					arrow.setThrowableHeading(riderLook.xCoord, riderLook.yCoord, riderLook.zCoord, 5F, 0);
 					//arrow.setThrowableHeading(0, 0, 0, 5F, 0);
-
 					if (!worldObj.isRemote) {
+						worldObj.playSoundAtEntity(this, "fireworks.blast", 1.0F, 0.25F);
 						worldObj.spawnEntityInWorld(arrow);
-						}
+					}
 					//shootimer = 20;
 				}
 
 				double riderStrafing = ((EntityLivingBase)this.riddenByEntity).moveStrafing * 0.5F;
-            	double riderForward = ((EntityLivingBase)this.riddenByEntity).moveForward;
-            	if (riderForward <= 0.0F)
-                {
-            		riderForward *= 0.25F;
-                }
+				double riderForward = ((EntityLivingBase)this.riddenByEntity).moveForward;
+				if (riderForward <= 0.0F)
+				{
+					riderForward *= 0.25F;
+				}
 
-            	double f3 = riderStrafing * riderStrafing + riderForward * riderForward;
-            	float friction = 0.546F;
-            	float friction2 = 0.16277136F/ (friction * friction * friction);
-            	float speed = 0.1F * friction2;
-                if (f3 >= 1.0E-4F)
-                {
-                    f3 = MathHelper.sqrt_double(f3);
+				double f3 = riderStrafing * riderStrafing + riderForward * riderForward;
+				float friction = 0.546F;
+				float friction2 = 0.16277136F/ (friction * friction * friction);
+				float speed = 0.1F * friction2;
+				if (f3 >= 1.0E-4F)
+				{
+					f3 = MathHelper.sqrt_double(f3);
 
-                    if (f3 < 1.0F)
-                    {
-                        f3 = 1.0F;
-                    }
+					if (f3 < 1.0F)
+					{
+						f3 = 1.0F;
+					}
 
-                    f3 = speed / f3;
-                    riderStrafing *= f3;
-                    riderForward *= f3;
-                    float f4 = MathHelper.sin(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
-                    float f5 = MathHelper.cos(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
-                    this.motionX += riderStrafing * f5 - riderForward * f4;
-                    this.motionZ += riderForward * f5 + riderStrafing * f4;
-                }
+					f3 = speed / f3;
+					riderStrafing *= f3;
+					riderForward *= f3;
+					float f4 = MathHelper.sin(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
+					float f5 = MathHelper.cos(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
+					this.motionX += riderStrafing * f5 - riderForward * f4;
+					this.motionZ += riderForward * f5 + riderStrafing * f4;
+				}
 				/*d4 = (double)((EntityLivingBase)this.riddenByEntity).moveForward;
 
 				if (d4 > 0.0D)
@@ -476,7 +469,7 @@ public class TankEntity extends Entity {
 
 			if (this.isCollidedHorizontally && onGround)
 			{
-                //this.motionY = 0.42D;
+				//this.motionY = 0.42D;
 				this.posY += stepHeight;
 				if (!this.worldObj.isRemote && !this.isDead)
 				{
@@ -513,14 +506,14 @@ public class TankEntity extends Entity {
 
 			double d12 = MathHelper.wrapAngleTo180_double(d5 - this.rotationYaw);
 
-			if (d12 > 10.0D)
+			if (d12 > 5.0D)
 			{
-				d12 = 10.0D;
+				d12 = 5.0D;
 			}
 
-			if (d12 < -10.0D)
+			if (d12 < -5.0D)
 			{
-				d12 = -10.0D;
+				d12 = -5.0D;
 			}
 
 			this.rotationYaw = (float)(this.rotationYaw + d12);
@@ -585,8 +578,8 @@ public class TankEntity extends Entity {
 	{
 		if (this.riddenByEntity != null)
 		{
-			double d0 = Math.cos(this.rotationYaw * Math.PI / 180.0D) * 0.7D;
-			double d1 = Math.sin(this.rotationYaw * Math.PI / 180.0D) * 0.7D;
+			double d0 = Math.cos(this.rotationYaw * Math.PI / 180.0D) * 0.0D;
+			double d1 = Math.sin(this.rotationYaw * Math.PI / 180.0D) * 0.0D;
 			this.riddenByEntity.setPosition(this.posX + d0, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ + d1);
 		}
 	}
@@ -629,12 +622,12 @@ public class TankEntity extends Entity {
 							par1EntityPlayer.inventory.setInventorySlotContents(
 									par1EntityPlayer.inventory.currentItem, null);
 						}
-						Tank.logger.info(riddenByEntity.rotationPitch +"");
-						if(MathHelper.wrapAngleTo180_double(riddenByEntity.rotationYaw - this.rotationYaw) > -10 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationYaw - this.rotationYaw) < 190 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationPitch - this.rotationPitch) < 10 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationPitch - this.rotationPitch) > -45 )
-						{
+						//Tank.logger.info(riddenByEntity.rotationPitch +"");
+						//if(MathHelper.wrapAngleTo180_double(riddenByEntity.rotationYaw - this.rotationYaw) > 45 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationYaw - this.rotationYaw) < 135 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationPitch - this.rotationPitch) < 25 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationPitch - this.rotationPitch) > -65 )
+						//{
 							setBulletType(i);
 							setShootTimer(30);
-						}
+						//}
 						wrongItem = false;
 					}
 				}
@@ -655,7 +648,7 @@ public class TankEntity extends Entity {
 	/**
 	 * interpolated look vector
 	 */
-	 public Vec3 getLook(float par1)
+	public Vec3 getLook(float par1)
 	{
 		float f1;
 		float f2;
@@ -681,102 +674,131 @@ public class TankEntity extends Entity {
 			return this.worldObj.getWorldVec3Pool().getVecFromPool(f4 * f5, f6, f3 * f5);
 		}
 	}
-	 /**
-	  * Sets the damage taken from the last hit.
-	  */
-	 public void setDamageTaken(float par1)
-	 {
-		 this.dataWatcher.updateObject(19, Float.valueOf(par1));
-	 }
 
-	 /**
-	  * Gets the damage taken from the last hit.
-	  */
-	 public float getDamageTaken()
-	 {
-		 return this.dataWatcher.getWatchableObjectFloat(19);
-	 }
 
-	 /**
-	  * Sets the time to count down from since the last time entity was hit.
-	  */
-	 public void setTimeSinceHit(int par1)
-	 {
-		 this.dataWatcher.updateObject(17, Integer.valueOf(par1));
-	 }
+	/**
+	 * interpolated look vector
+	 */
+	 public Vec3 getPlayerLook()
+	{
+		float f1;
+		float f2;
+		float f3;
+		float f4;
+		float pitch, yaw;
+		if (this.riddenByEntity == null)
+		{
+			pitch = this.rotationPitch;
+			yaw = this.rotationYaw;
+		}
+		else
+		{
+			pitch = MathHelper.clamp_float(MathHelper.wrapAngleTo180_float(this.riddenByEntity.rotationPitch), -65.0F, 25.0F);
+			yaw = MathHelper.clamp_float(this.riddenByEntity.rotationYaw, this.rotationYaw + 45, this.rotationYaw + 135);
+		}
+		Tank.logger.info(this.rotationYaw + " " + this.rotationPitch + " " + this.riddenByEntity.rotationYaw + " " + this.riddenByEntity.rotationPitch + " " + yaw + " " + pitch);
+		f1 = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+		f2 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+		f3 = -MathHelper.cos(-pitch * 0.017453292F);
+		f4 = MathHelper.sin(-pitch * 0.017453292F);
+		return this.worldObj.getWorldVec3Pool().getVecFromPool(f2 * f3, f4, f1 * f3);
+	}
+	/**
+	 * Sets the damage taken from the last hit.
+	 */
+	public void setDamageTaken(float par1)
+	{
+		this.dataWatcher.updateObject(19, Float.valueOf(par1));
+	}
 
-	 /**
-	  * Gets the time since the last hit.
-	  */
-	 public int getTimeSinceHit()
-	 {
-		 return this.dataWatcher.getWatchableObjectInt(17);
-	 }
+	/**
+	 * Gets the damage taken from the last hit.
+	 */
+	public float getDamageTaken()
+	{
+		return this.dataWatcher.getWatchableObjectFloat(19);
+	}
 
-	 /**
-	  * Sets the forward direction of the entity.
-	  */
-	 public void setForwardDirection(int par1)
-	 {
-		 this.dataWatcher.updateObject(18, Integer.valueOf(par1));
-	 }
+	/**
+	 * Sets the time to count down from since the last time entity was hit.
+	 */
+	public void setTimeSinceHit(int par1)
+	{
+		this.dataWatcher.updateObject(17, Integer.valueOf(par1));
+	}
 
-	 /**
-	  * Gets the forward direction of the entity.
-	  */
-	 public int getForwardDirection()
-	 {
-		 return this.dataWatcher.getWatchableObjectInt(18);
-	 }
+	/**
+	 * Gets the time since the last hit.
+	 */
+	public int getTimeSinceHit()
+	{
+		return this.dataWatcher.getWatchableObjectInt(17);
+	}
 
-	 @SideOnly(Side.CLIENT)
-	 public void func_70270_d(boolean par1)
-	 {
-		 this.field_70279_a = par1;
-	 }
-	 /**
-	  * Sets the damage taken from the last hit.
-	  */
-	 public void setSpeed(float par1)
-	 {
-		 this.dataWatcher.updateObject(25, Float.valueOf(par1));
-	 }
+	/**
+	 * Sets the forward direction of the entity.
+	 */
+	public void setForwardDirection(int par1)
+	{
+		this.dataWatcher.updateObject(18, Integer.valueOf(par1));
+	}
 
-	 /**
-	  * Gets the damage taken from the last hit.
-	  */
-	 public float getSpeed()
-	 {
-		 return this.dataWatcher.getWatchableObjectFloat(25);
-	 }
-	 /**
-	  * Sets the next Bullet Type to shoot.
-	  */
-	 public void setBulletType(int par1)
-	 {
-		 this.dataWatcher.updateObject(26, Integer.valueOf(par1));
-	 }
+	/**
+	 * Gets the forward direction of the entity.
+	 */
+	public int getForwardDirection()
+	{
+		return this.dataWatcher.getWatchableObjectInt(18);
+	}
 
-	 /**
-	  * Gets the next Bullet Type to shoot.
-	  */
-	 public int getBulletType()
-	 {
-		 return this.dataWatcher.getWatchableObjectInt(26);
-	 }
-	 /**
-	  * Sets the Shoot Timer.
-	  */
-	 public void setShootTimer(int par1)
-	 {
-		 this.dataWatcher.updateObject(27, Integer.valueOf(par1));
-	 }
+	@SideOnly(Side.CLIENT)
+	public void func_70270_d(boolean par1)
+	{
+		this.field_70279_a = par1;
+	}
+	/**
+	 * Sets the damage taken from the last hit.
+	 */
+	public void setSpeed(float par1)
+	{
+		this.dataWatcher.updateObject(25, Float.valueOf(par1));
+	}
 
-	 /**
-	  * Gets the Shoot Timer count.
-	  */
-	 public int getShootTimer()
-	 {
-		 return this.dataWatcher.getWatchableObjectInt(27);
-	 }
+	/**
+	 * Gets the damage taken from the last hit.
+	 */
+	public float getSpeed()
+	{
+		return this.dataWatcher.getWatchableObjectFloat(25);
+	}
+	/**
+	 * Sets the next Bullet Type to shoot.
+	 */
+	public void setBulletType(int par1)
+	{
+		this.dataWatcher.updateObject(26, Integer.valueOf(par1));
+	}
+
+	/**
+	 * Gets the next Bullet Type to shoot.
+	 */
+	public int getBulletType()
+	{
+		return this.dataWatcher.getWatchableObjectInt(26);
+	}
+	/**
+	 * Sets the Shoot Timer.
+	 */
+	public void setShootTimer(int par1)
+	{
+		this.dataWatcher.updateObject(27, Integer.valueOf(par1));
+	}
+
+	/**
+	 * Gets the Shoot Timer count.
+	 */
+	public int getShootTimer()
+	{
+		return this.dataWatcher.getWatchableObjectInt(27);
+	}
 }

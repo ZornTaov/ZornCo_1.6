@@ -12,12 +12,12 @@ import zornco.tank.entity.TankEntity;
 
 public class TankRender extends Render {
 
-	private static final ResourceLocation tankCamo = new ResourceLocation("tank:textures/entity/tank/TankModel7.png");
+	private static final ResourceLocation tankCamo = new ResourceLocation("tank:textures/entity/tank/Blank.png");
 	public ModelBase tankModel;
 
 	public TankRender() {
 		shadowSize = 2F;
-		tankModel = new TankModel2();
+		tankModel = new TankModel3();
 	}
 
 	public void renderTank(TankEntity tankentity, double d, double d1,
@@ -28,10 +28,10 @@ public class TankRender extends Render {
 		if (tankentity.riddenByEntity != null) {
 			f5 = tankentity.riddenByEntity.prevRotationYaw
 					+ (tankentity.riddenByEntity.rotationYaw - tankentity.riddenByEntity.prevRotationYaw)
-					* f1 - tankentity.prevRotationYaw - 90;
+		 * f1 - tankentity.prevRotationYaw - 90;
 			f6 = tankentity.riddenByEntity.prevRotationPitch
 					+ (tankentity.riddenByEntity.rotationPitch - tankentity.riddenByEntity.prevRotationPitch)
-					* f1;
+		 * f1;
 			for (int i = 5; i < 11; i++) {
 				tankModel.sideModels[i].rotateAngleZ = tankentity.wheelRotation;
 			}
@@ -61,7 +61,7 @@ public class TankRender extends Render {
 		// (double)f1 + 1.6200000000000001D) - (double)tankentity.yOffset;
 		// d2 = tankentity.prevPosZ + (tankentity.posZ - tankentity.prevPosZ) *
 		// (double)f1;
-		
+
 		 * Vec3 vec3d = Vec3.createVector(d, d1, d2); float f10 =
 		 * MathHelper.cos(-f9 * 0.01745329F - 3.141593F); float f11 =
 		 * MathHelper.sin(-f9 * 0.01745329F - 3.141593F); float f12 =
@@ -114,7 +114,7 @@ public class TankRender extends Render {
 		}
 		if (f2 > 0.0F) {
 			GL11.glRotatef(((MathHelper.sin(f2) * f2 * f3) / 10F)
-					* (float) tankentity.tankRockDirection, 1.0F, 0.0F, 0.0F);
+		 * (float) tankentity.tankRockDirection, 1.0F, 0.0F, 0.0F);
 		}
 
 		tankModel.tankCS = tankentity;
@@ -143,29 +143,31 @@ public class TankRender extends Render {
 		}
 		GL11.glPopMatrix();*/
 		GL11.glPushMatrix();
-		
-        GL11.glTranslatef((float)d, (float)d1, (float)d2);
-        GL11.glRotatef(180.0F - f, 0.0F, 1.0F, 0.0F);
-        float f2 = tankentity.getTimeSinceHit() - f1;
-        float f3 = tankentity.getDamageTaken() - f1;
 
-        if (f3 < 0.0F)
-        {
-            f3 = 0.0F;
-        }
+		GL11.glTranslatef((float)d, (float)d1, (float)d2);
+		//GL11.glRotatef(-45, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(-0, 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(180.0F - f, 0.0F, 1.0F, 0.0F);
+		float f2 = tankentity.getTimeSinceHit() - f1;
+		float f3 = tankentity.getDamageTaken() - f1;
 
-        if (f2 > 0.0F)
-        {
-            GL11.glRotatef(MathHelper.sin(f2) * f2 * f3 / 10.0F * tankentity.getForwardDirection(), 1.0F, 0.0F, 0.0F);
-        }
+		if (f3 < 0.0F)
+		{
+			f3 = 0.0F;
+		}
 
-        float f4 = 0.75F;
-        GL11.glScalef(f4, f4, f4);
-        GL11.glScalef(1.0F / f4, 1.0F / f4, 1.0F / f4);
-        this.bindEntityTexture(tankentity);
-        GL11.glScalef(-1.0F, -1.0F, 1.0F);
-        this.tankModel.render(tankentity, 0.0F, 0.0F, -0.1F, 1F, 1F, 0.0625F);
-        GL11.glPopMatrix();
+		if (f2 > 0.0F)
+		{
+			GL11.glRotatef(MathHelper.sin(f2) * f2 * f3 / 10.0F * tankentity.getForwardDirection(), 0.0F, 1.0F, 0.0F);
+		}
+
+		float f4 = 0.75F;
+		GL11.glScalef(f4, f4, f4);
+		GL11.glScalef(1.0F / f4, 1.0F / f4, 1.0F / f4);
+		this.bindEntityTexture(tankentity);
+		//GL11.glScalef(-1.0F, -1.0F, 1.0F);
+		this.tankModel.render(tankentity, 0.0F, 0.0F, -0.1F, 1F, 1F, 0.0625F);
+		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -174,9 +176,9 @@ public class TankRender extends Render {
 		renderTank((TankEntity) entity, d, d1, d2, f, f1);
 	}
 	protected ResourceLocation func_110781_a(TankEntity par1EntityBoat)
-    {
-        return tankCamo;
-    }
+	{
+		return tankCamo;
+	}
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		return func_110781_a((TankEntity)entity);
