@@ -100,7 +100,7 @@ public class ItemTank extends Item
                     }
 
                     EntityTankBase entitytank = new EntityTankBase(world, i + 0.5F, j + 1.0F, k + 0.5F);
-                    entitytank.rotationYaw = ((MathHelper.floor_double(entityplayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) - 1) * 90;
+                    entitytank.rotationYaw = ((MathHelper.floor_double(entityplayer.rotationYaw * 4.0F / 360.0F + 0.5) & 3 ) ) * 90;
 
                     if (!world.getCollidingBoundingBoxes(entitytank, entitytank.boundingBox.expand(-0.1D, -0.1D, -0.1D)).isEmpty())
                     {

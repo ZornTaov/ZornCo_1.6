@@ -147,7 +147,7 @@ public class RenderTank extends Render {
 		GL11.glTranslatef((float)d, (float)d1, (float)d2);
 		//GL11.glRotatef(-45, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(-0, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(180.0F - f, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(-90.0F - f, 0.0F, 1.0F, 0.0F);
 		float f2 = tankentity.getTimeSinceHit() - f1;
 		float f3 = tankentity.getDamageTaken() - f1;
 

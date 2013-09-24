@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.WatchableObject;
+import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -45,8 +46,8 @@ public class EntityTankBase extends Entity {
 		this.field_70279_a = true;
 		this.speedMultiplier = 0.07D;
 		this.preventEntitySpawning = true;
-		setSize(2.5F, 3F);
-		this.yOffset = 0.3F;
+		setSize(2.5F, 2F);
+		this.yOffset = 0.0F;
 		this.stepHeight = 1F;
 	}
 
@@ -75,13 +76,14 @@ public class EntityTankBase extends Entity {
 	@Override
 	protected void entityInit()
 	{
-		this.dataWatcher.addObject(6, Float.valueOf(1.0F));
+		this.dataWatcher.addObject(6, Float.valueOf(1.0F));//Health
 		this.dataWatcher.addObject(17, new Integer(0));
 		this.dataWatcher.addObject(18, new Integer(1));
 		this.dataWatcher.addObject(19, new Float(0.0F));
 		this.dataWatcher.addObject(25, new Float(0.0F));
 		this.dataWatcher.addObject(26, new Integer(0));
 		this.dataWatcher.addObject(27, new Integer(0));
+		this.dataWatcher.addObject(28, new Float(0.0F));//rotationYaw
 	}
 
 	/**
@@ -194,33 +196,24 @@ public class EntityTankBase extends Entity {
 	 */
 	public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
 	{
-		if (this.field_70279_a)
-		{
-			this.tankPosRotationIncrements = par9 + 5;
-		}
-		else
-		{
-			double d3 = par1 - this.posX;
-			double d4 = par3 - this.posY;
-			double d5 = par5 - this.posZ;
-			double d6 = d3 * d3 + d4 * d4 + d5 * d5;
-
-			if (d6 <= 1.0D)
-			{
-				return;
-			}
-
-			this.tankPosRotationIncrements = 3;
-		}
-
-		this.tankX = par1;
+		/*this.tankX = par1;
 		this.tankY = par3;
 		this.tankZ = par5;
 		this.tankYaw = par7;
 		this.tankPitch = par8;
+		this.tankPosRotationIncrements = par9;
 		this.motionX = this.velocityX;
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
+		this.moveEntity(motionX, motionY, motionZ);*/
+		setPosition(par1, par3, par5);
+	}
+
+	@Override
+	public void setPositionAndRotation(double par1, double par3, double par5,
+			float par7, float par8) {
+		super.setPositionAndRotation(par1, par3, par5, par7, par8);
+		//this.moveEntity(motionX, motionY, motionZ);
 	}
 
 	@Override
@@ -235,7 +228,7 @@ public class EntityTankBase extends Entity {
 		this.velocityY = this.motionY = par3;
 		this.velocityZ = this.motionZ = par5;
 	}
-
+	int count = 0;
 	/**
 	 * Called to update the entity's position/logic.
 	 */
@@ -244,7 +237,12 @@ public class EntityTankBase extends Entity {
 	{
 		super.onUpdate();
 		//this.setDead();
-
+		if (count-- < 0)
+		{
+			//Tank.logger.info(this.worldObj.isRemote + " " + this.serverPosX/32.0 + " " + ((int)(this.posX*32))/32.0 + " " + this.serverPosZ/32.0 + " " + this.posZ );
+			//Tank.logger.info(this.rotationYaw + " " + (riddenByEntity != null? riddenByEntity.rotationYaw : 0));
+			count = 50;
+		}
 		if (this.getTimeSinceHit() > 0)
 		{
 			this.setTimeSinceHit(this.getTimeSinceHit() - 1);
@@ -254,40 +252,146 @@ public class EntityTankBase extends Entity {
 		{
 			this.setDamageTaken(this.getDamageTaken() - 1.0F);
 		}
-
-		this.prevPosX = this.posX;
-		this.prevPosY = this.posY;
-		this.prevPosZ = this.posZ;
-		byte b0 = 5;
-		double d0 = 0.0D;
-
-		for (int i = 0; i < b0; ++i)
+		if (this.tankPosRotationIncrements > 0)
 		{
-			double d1 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 0) / b0 - 0.125D;
-			double d2 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 1) / b0 - 0.125D;
-			AxisAlignedBB axisalignedbb = AxisAlignedBB.getAABBPool().getAABB(this.boundingBox.minX, d1, this.boundingBox.minZ, this.boundingBox.maxX, d2, this.boundingBox.maxZ);
+			double d0 = this.posX + (this.tankX - this.posX) / (double)this.tankPosRotationIncrements;
+			double d1 = this.posY + (this.tankY - this.posY) / (double)this.tankPosRotationIncrements;
+			double d2 = this.posZ + (this.tankZ - this.posZ) / (double)this.tankPosRotationIncrements;
+			double d3 = MathHelper.wrapAngleTo180_double(this.tankYaw - (double)this.rotationYaw);
+			this.rotationYaw = (float)((double)this.rotationYaw + d3 / (double)this.tankPosRotationIncrements);
+			this.rotationPitch = (float)((double)this.rotationPitch + (this.tankPitch - (double)this.rotationPitch) / (double)this.tankPosRotationIncrements);
+			--this.tankPosRotationIncrements;
+			this.setPosition(d0, d1, d2);
+			this.setRotation(this.rotationYaw, this.rotationPitch);
+		}
+		else if (!this.worldObj.isRemote)
+		{
+			this.motionX *= 0.91D;
+			this.motionY *= 0.98D;
+			this.motionZ *= 0.91D;
+		}
 
-			if (this.worldObj.isAABBInMaterial(axisalignedbb, Material.water))
+		if (Math.abs(this.motionX) < 0.01D)
+		{
+			this.motionX = 0.0D;
+		}
+
+		if (Math.abs(this.motionY) < 0.01D)
+		{
+			this.motionY = 0.0D;
+		}
+
+		if (Math.abs(this.motionZ) < 0.01D)
+		{
+			this.motionZ = 0.0D;
+		}
+
+		if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer)
+		{
+			if(getShootTimer() == 30)
 			{
-				d0 += 1.0D / b0;
+				Tank.logger.info(riddenByEntity.rotationYaw+" "+this.rotationYaw);
+
+				Vec3 tankPos = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
+				Vec3 tankLook = this.getLookVec();
+				Vec3 riderLook = getPlayerLook();
+				//tankLook.rotateAroundY(-90 * (float)Math.PI / 180.0F);
+
+				Vec3 tankOriginLook = tankLook; 
+				tankOriginLook.yCoord = 0;
+				tankOriginLook.normalize();
+				Vec3 turretOrigin = tankPos.addVector(tankOriginLook.xCoord * 1.4, .75, tankOriginLook.zCoord * 1.4);
+				turretOrigin = turretOrigin.addVector(riderLook.xCoord*2, riderLook.yCoord*2, riderLook.zCoord*2);
+				//Tank.logger.info(riderLook+" "+turretOrigin);
+				//Vec3 bulletLook = tankOriginLook.addVector(0, riderLook.yCoord, 0);
+				//bulletLook.rotateAroundY(this.rotationYaw-riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
+				//Vec3 bulletOrigin = turretOrigin.addVector(bulletLook.xCoord , bulletLook.yCoord , bulletLook.zCoord );
+
+				//Vec3 vec32 = tankPos.addVector(riderLook.xCoord * 3, riderLook.yCoord * 3, riderLook.zCoord * 3);
+				if(riderLook.yCoord < -0.3)Tank.logger.info(riderLook.toString());
+				EntityTankBullet arrow = new EntityTankBullet(this.worldObj, getBulletType());
+				arrow.setPosition(turretOrigin.xCoord, turretOrigin.yCoord, turretOrigin.zCoord);
+				arrow.setThrowableHeading(riderLook.xCoord, riderLook.yCoord, riderLook.zCoord, 2F, 0);
+				//arrow.setThrowableHeading(0, 0, 0, 5F, 0);
+				if (!worldObj.isRemote) {
+					worldObj.playSoundAtEntity(this, "fireworks.blast", 1.0F, 0.25F);
+					worldObj.spawnEntityInWorld(arrow);
+				}
+				//shootimer = 20;
+			}
+
+			double riderStrafing = ((EntityLivingBase)this.riddenByEntity).moveStrafing * 0.5F;
+			double riderForward = ((EntityLivingBase)this.riddenByEntity).moveForward;
+			if (riderForward <= 0.0F)
+			{
+				riderForward *= 0.25F;
+			}
+
+			double riderSpeed = riderStrafing * riderStrafing + riderForward * riderForward;
+			float friction = 0.546F;
+			float friction2 = 0.16277136F/ (friction * friction * friction);
+			float speed = 0.1F * friction2;
+			if (riderSpeed >= 1.0E-4F)
+			{
+				riderSpeed = MathHelper.sqrt_double(riderSpeed);
+
+				if (riderSpeed < 1.0F)
+				{
+					riderSpeed = 1.0F;
+				}
+
+				riderSpeed = speed / riderSpeed;
+				riderStrafing *= riderSpeed;
+				riderForward *= riderSpeed;
+				float f4 = MathHelper.sin(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
+				float f5 = MathHelper.cos(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
+				this.motionX += riderStrafing * f5 - riderForward * f4;
+				this.motionZ += riderForward * f5 + riderStrafing * f4;
 			}
 		}
 
-		double d3 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		double d4;
-		double d5;
-
-		if (d3 > 0.26249999999999996D && !this.isDead)
+		double speed = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+		double maxSpeed = 0.35;
+		if (speed > maxSpeed )
 		{
-			d4 = Math.cos(this.rotationYaw * Math.PI / 180.0D);
-			d5 = Math.sin(this.rotationYaw * Math.PI / 180.0D);
+			double friction = maxSpeed / speed;
+			this.motionX *= friction;
+			this.motionZ *= friction;
+			speed = maxSpeed;
+		}
+		
+		if (this.isCollidedHorizontally)
+		{
+			this.motionY = 0.2D;
+		}
+
+		if (this.worldObj.isRemote && (!this.worldObj.blockExists((int)this.posX, 0, (int)this.posZ) || !this.worldObj.getChunkFromBlockCoords((int)this.posX, (int)this.posZ).isChunkLoaded))
+		{
+			if (this.posY > 0.0D)
+			{
+				this.motionY = -0.1D;
+			}
+			else
+			{
+				this.motionY = 0.0D;
+			}
+		}
+		else
+		{
+			this.motionY -= 0.08D;
+		}
+		setSpeed(getSpeed() - (float)speed);
+		if (speed > 0.26249999999999996D && !this.isDead)
+		{
+			double d4 = Math.cos(this.rotationYaw * Math.PI / 180.0D);
+			double d5 = Math.sin(this.rotationYaw * Math.PI / 180.0D);
 
 
 			int j1 = MathHelper.floor_double(this.posX);
 			int i1 = MathHelper.floor_double(this.posY - 0.20000000298023224D - this.yOffset);
 			int k1 = MathHelper.floor_double(this.posZ);
 			int l = this.worldObj.getBlockId(j1, i1, k1);
-			for (int j = 0; j < 1.0D + d3 * 60.0D; ++j)
+			for (int j = 0; j < 1.0D + speed * 60.0D; ++j)
 			{
 				double d6 = this.rand.nextFloat() * 1.0F - 1.0F;
 				double d7 = (this.rand.nextInt(2) * 2 - 1) * 1.2D;
@@ -302,272 +406,67 @@ public class EntityTankBase extends Entity {
 			}
 		}
 
-		double d10;
-		double d11;
+		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-		if (this.worldObj.isRemote && this.field_70279_a)
+		double d6 = this.prevPosX - this.posX;
+		double d7 = this.prevPosZ - this.posZ;
+
+		if (d6 * d6 + d7 * d7 > 0.001D)
 		{
-			if (this.tankPosRotationIncrements > 0)
-			{
-				d4 = this.posX + (this.tankX - this.posX) / this.tankPosRotationIncrements;
-				d5 = this.posY + (this.tankY - this.posY) / this.tankPosRotationIncrements;
-				d11 = this.posZ + (this.tankZ - this.posZ) / this.tankPosRotationIncrements;
-				d10 = MathHelper.wrapAngleTo180_double(this.tankYaw - this.rotationYaw);
-				this.rotationYaw = (float)(this.rotationYaw + d10 / this.tankPosRotationIncrements);
-				this.rotationPitch = (float)(this.rotationPitch + (this.tankPitch - this.rotationPitch) / this.tankPosRotationIncrements);
-				--this.tankPosRotationIncrements;
-				this.setPosition(d4, d5, d11);
-				this.setRotation(this.rotationYaw, this.rotationPitch);
-			}
-			else
-			{
-				d4 = this.posX + this.motionX;
-				d5 = this.posY + this.motionY;
-				d11 = this.posZ + this.motionZ;
-				this.setPosition(d4, d5, d11);
+			this.rotationYaw = MathHelper.wrapAngleTo180_float((float)(Math.atan2(d7, d6) * 180.0D / Math.PI + 90F));
+		}
+		//setYaw(rotationYaw);
+		this.setRotation(this.rotationYaw, this.rotationPitch);
 
-				/*if (!this.onGround)
+		if (!this.worldObj.isRemote)
+		{
+			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.20000000298023224D, 0.0D, 0.20000000298023224D));
+			int l;
+
+			if (list != null && !list.isEmpty())
+			{
+				for (l = 0; l < list.size(); ++l)
 				{
-					this.motionX *= 0.5D;
-					this.motionY *= 0.5D;
-					this.motionZ *= 0.5D;
-				}*/
+					Entity entity = (Entity)list.get(l);
 
+					if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityTankBase)
+					{
+						entity.applyEntityCollision(this);
+					}
+				}
+			}
 
-				this.motionX *= 0.91D;
-				this.motionY *= 0.99D;
-				this.motionZ *= 0.91D;
+			for (l = 0; l < 4; ++l)
+			{
+				int i1 = MathHelper.floor_double(this.posX + (l % 2 - 0.5D) * 0.8D);
+				int j1 = MathHelper.floor_double(this.posZ + (l / 2 - 0.5D) * 0.8D);
+
+				for (int k1 = -1; k1 < 1; ++k1)
+				{
+					int l1 = MathHelper.floor_double(this.posY) + k1;
+					int i2 = this.worldObj.getBlockId(i1, l1, j1);
+
+					if (i2 == Block.snow.blockID)
+					{
+						this.worldObj.setBlockToAir(i1, l1, j1);
+					}
+					else if (i2 == Block.waterlily.blockID)
+					{
+						this.worldObj.destroyBlock(i1, l1, j1, true);
+					}
+					else if (i2 == Block.grass.blockID || i2 == Block.tilledField.blockID)
+					{
+						this.worldObj.setBlock(i1, l1, j1, Block.dirt.blockID);
+					}
+				}
+			}
+
+			if (this.riddenByEntity != null && this.riddenByEntity.isDead)
+			{
+				this.riddenByEntity = null;
 			}
 		}
-		else
-		{
-			if (d0 < 1.0D)
-			{
-				d4 = d0 * 2.0D - 1.0D;
-				this.motionY += 0.03999999910593033D * d4;
-			}
-			else
-			{
-				if (this.motionY < 0.0D)
-				{
-					this.motionY /= 2.0D;
-				}
 
-				this.motionY += 0.007000000216066837D;
-			}
-
-			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer)
-			{
-				if(getShootTimer() == 30)
-				{
-					Tank.logger.info(riddenByEntity.rotationYaw+" "+this.rotationYaw);
-
-					Vec3 tankPos = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
-					Vec3 tankLook = this.getLookVec();
-					Vec3 riderLook = getPlayerLook();
-					tankLook.rotateAroundY(-90 * (float)Math.PI / 180.0F);
-
-					Vec3 tankOriginLook = tankLook; 
-					tankOriginLook.yCoord = 0;
-					tankOriginLook.normalize();
-					Vec3 turretOrigin = tankPos.addVector(tankOriginLook.xCoord * 1.4, .75, tankOriginLook.zCoord * 1.4);
-					turretOrigin = turretOrigin.addVector(riderLook.xCoord*2, riderLook.yCoord*2, riderLook.zCoord*2);
-					//Tank.logger.info(riderLook+" "+turretOrigin);
-					//Vec3 bulletLook = tankOriginLook.addVector(0, riderLook.yCoord, 0);
-					//bulletLook.rotateAroundY(this.rotationYaw-riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
-					//Vec3 bulletOrigin = turretOrigin.addVector(bulletLook.xCoord , bulletLook.yCoord , bulletLook.zCoord );
-
-					//Vec3 vec32 = tankPos.addVector(riderLook.xCoord * 3, riderLook.yCoord * 3, riderLook.zCoord * 3);
-					if(riderLook.yCoord < -0.3)Tank.logger.info(riderLook.toString());
-					EntityTankBullet arrow = new EntityTankBullet(this.worldObj, getBulletType());
-					arrow.setPosition(turretOrigin.xCoord, turretOrigin.yCoord, turretOrigin.zCoord);
-					arrow.setThrowableHeading(riderLook.xCoord, riderLook.yCoord, riderLook.zCoord, 5F, 0);
-					//arrow.setThrowableHeading(0, 0, 0, 5F, 0);
-					if (!worldObj.isRemote) {
-						worldObj.playSoundAtEntity(this, "fireworks.blast", 1.0F, 0.25F);
-						worldObj.spawnEntityInWorld(arrow);
-					}
-					//shootimer = 20;
-				}
-
-				double riderStrafing = ((EntityLivingBase)this.riddenByEntity).moveStrafing * 0.5F;
-				double riderForward = ((EntityLivingBase)this.riddenByEntity).moveForward;
-				if (riderForward <= 0.0F)
-				{
-					riderForward *= 0.25F;
-				}
-
-				double f3 = riderStrafing * riderStrafing + riderForward * riderForward;
-				float friction = 0.546F;
-				float friction2 = 0.16277136F/ (friction * friction * friction);
-				float speed = 0.1F * friction2;
-				if (f3 >= 1.0E-4F)
-				{
-					f3 = MathHelper.sqrt_double(f3);
-
-					if (f3 < 1.0F)
-					{
-						f3 = 1.0F;
-					}
-
-					f3 = speed / f3;
-					riderStrafing *= f3;
-					riderForward *= f3;
-					float f4 = MathHelper.sin(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
-					float f5 = MathHelper.cos(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F);
-					this.motionX += riderStrafing * f5 - riderForward * f4;
-					this.motionZ += riderForward * f5 + riderStrafing * f4;
-				}
-				/*d4 = (double)((EntityLivingBase)this.riddenByEntity).moveForward;
-
-				if (d4 > 0.0D)
-				{
-					d5 = -Math.sin((double)(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F));
-					d11 = Math.cos((double)(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F));
-					this.motionX += d5 * this.speedMultiplier * 0.05000000074505806D;
-					this.motionZ += d11 * this.speedMultiplier * 0.05000000074505806D;
-				}*/
-			}
-
-			d4 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-			if (d4 > 0.35D)
-			{
-				d5 = 0.35D / d4;
-				this.motionX *= d5;
-				this.motionZ *= d5;
-				d4 = 0.35D;
-			}
-
-			if (d4 > d3 && this.speedMultiplier < 0.35D)
-			{
-				this.speedMultiplier += (0.35D - this.speedMultiplier) / 35.0D;
-
-				if (this.speedMultiplier > 0.35D)
-				{
-					this.speedMultiplier = 0.35D;
-				}
-			}
-			else
-			{
-				this.speedMultiplier -= (this.speedMultiplier - 0.07D) / 35.0D;
-
-				if (this.speedMultiplier < 0.07D)
-				{
-					this.speedMultiplier = 0.07D;
-				}
-			}
-
-			setSpeed(getSpeed() - (float)d4);
-			/*if (!this.onGround)
-			{
-				this.motionX *= 0.5D;
-				this.motionY *= 0.5D;
-				this.motionZ *= 0.5D;
-			}*/
-
-			this.moveEntity(this.motionX, this.motionY, this.motionZ);
-
-			if (this.isCollidedHorizontally && onGround)
-			{
-				//this.motionY = 0.42D;
-				this.posY += stepHeight;
-				if (!this.worldObj.isRemote && !this.isDead)
-				{
-					//this.setDead();
-					/*int k;
-
-					for (k = 0; k < 3; ++k)
-					{
-						this.dropItemWithOffset(Block.planks.blockID, 1, 0.0F);
-					}
-
-					for (k = 0; k < 2; ++k)
-					{
-						this.dropItemWithOffset(Item.stick.itemID, 1, 0.0F);
-					}*/
-				}
-			}
-			else
-			{
-				this.motionX *= 0.91D;
-				this.motionY *= 0.99D;
-				this.motionZ *= 0.91D;
-			}
-
-			this.rotationPitch = 0.0F;
-			d5 = this.rotationYaw;
-			d11 = this.prevPosX - this.posX;
-			d10 = this.prevPosZ - this.posZ;
-
-			if (d11 * d11 + d10 * d10 > 0.001D)
-			{
-				d5 = ((float)(Math.atan2(d10, d11) * 180.0D / Math.PI));
-			}
-
-			double d12 = MathHelper.wrapAngleTo180_double(d5 - this.rotationYaw);
-
-			if (d12 > 5.0D)
-			{
-				d12 = 5.0D;
-			}
-
-			if (d12 < -5.0D)
-			{
-				d12 = -5.0D;
-			}
-
-			this.rotationYaw = (float)(this.rotationYaw + d12);
-			this.setRotation(this.rotationYaw, this.rotationPitch);
-
-			if (!this.worldObj.isRemote)
-			{
-				List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.20000000298023224D, 0.0D, 0.20000000298023224D));
-				int l;
-
-				if (list != null && !list.isEmpty())
-				{
-					for (l = 0; l < list.size(); ++l)
-					{
-						Entity entity = (Entity)list.get(l);
-
-						if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityTankBase)
-						{
-							entity.applyEntityCollision(this);
-						}
-					}
-				}
-
-				for (l = 0; l < 4; ++l)
-				{
-					int i1 = MathHelper.floor_double(this.posX + (l % 2 - 0.5D) * 0.8D);
-					int j1 = MathHelper.floor_double(this.posZ + (l / 2 - 0.5D) * 0.8D);
-
-					for (int k1 = -1; k1 < 1; ++k1)
-					{
-						int l1 = MathHelper.floor_double(this.posY) + k1;
-						int i2 = this.worldObj.getBlockId(i1, l1, j1);
-
-						if (i2 == Block.snow.blockID)
-						{
-							this.worldObj.setBlockToAir(i1, l1, j1);
-						}
-						else if (i2 == Block.waterlily.blockID)
-						{
-							this.worldObj.destroyBlock(i1, l1, j1, true);
-						}
-						else if (i2 == Block.grass.blockID || i2 == Block.tilledField.blockID)
-						{
-							this.worldObj.setBlock(i1, l1, j1, Block.dirt.blockID);
-						}
-					}
-				}
-
-				if (this.riddenByEntity != null && this.riddenByEntity.isDead)
-				{
-					this.riddenByEntity = null;
-				}
-			}
-		}
 
 		if (getShootTimer() > -1)
 			setShootTimer(getShootTimer()-1);
@@ -583,7 +482,6 @@ public class EntityTankBase extends Entity {
 			this.riddenByEntity.setPosition(this.posX + d0, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ + d1);
 		}
 	}
-
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
@@ -622,17 +520,35 @@ public class EntityTankBase extends Entity {
 							par1EntityPlayer.inventory.setInventorySlotContents(
 									par1EntityPlayer.inventory.currentItem, null);
 						}
-						//Tank.logger.info(riddenByEntity.rotationPitch +"");
+						//
 						//if(MathHelper.wrapAngleTo180_double(riddenByEntity.rotationYaw - this.rotationYaw) > 45 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationYaw - this.rotationYaw) < 135 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationPitch - this.rotationPitch) < 25 && MathHelper.wrapAngleTo180_double(riddenByEntity.rotationPitch - this.rotationPitch) > -65 )
 						//{
-							setBulletType(i);
-							setShootTimer(30);
+						setBulletType(i);
+						setShootTimer(30);
 						//}
 						wrongItem = false;
 					}
 				}
 				if (wrongItem) {
 					par1EntityPlayer.mountEntity(this);
+					if (this.ridingEntity != null && this.isDead)
+					{
+						if (!this.worldObj.isRemote)
+						{
+							this.func_70270_d(true);
+						}
+
+						if (this.ridingEntity != null)
+						{
+							this.ridingEntity.riddenByEntity = null;
+						}
+
+						this.ridingEntity = null;
+					}
+					else
+					{
+						this.func_70270_d(false);
+					}
 				}
 			}
 
@@ -676,10 +592,21 @@ public class EntityTankBase extends Entity {
 	}
 
 
+
+    /**
+     * Returns the value of the first parameter, clamped to be within the lower and upper limits given by the second and
+     * third parameters
+     */
+    public static float clamp_float(float par0, float par1, float par2)
+    {
+    	if(par1 > par2)
+    		return par0 > par1 && par0 <= 180 || par0 < par2 && par0 > -180 ? par0 : (par0 < par1 && par0 >= 0.0F? par1 : par2);
+        return par0 < par1 ? par1 : (par0 > par2 ? par2 : par0);
+    }
 	/**
 	 * interpolated look vector
 	 */
-	 public Vec3 getPlayerLook()
+	public Vec3 getPlayerLook()
 	{
 		float f1;
 		float f2;
@@ -694,14 +621,41 @@ public class EntityTankBase extends Entity {
 		else
 		{
 			pitch = MathHelper.clamp_float(MathHelper.wrapAngleTo180_float(this.riddenByEntity.rotationPitch), -65.0F, 25.0F);
-			yaw = MathHelper.clamp_float(this.riddenByEntity.rotationYaw, this.rotationYaw + 45, this.rotationYaw + 135);
+			yaw = this.clamp_float(MathHelper.wrapAngleTo180_float(this.riddenByEntity.rotationYaw), MathHelper.wrapAngleTo180_float(this.rotationYaw - 15), MathHelper.wrapAngleTo180_float(this.rotationYaw + 15));
 		}
-		Tank.logger.info(this.rotationYaw + " " + this.rotationPitch + " " + this.riddenByEntity.rotationYaw + " " + this.riddenByEntity.rotationPitch + " " + yaw + " " + pitch);
+		Tank.logger.info(riddenByEntity.rotationYaw +" "+ this.rotationYaw +" "+ yaw);
 		f1 = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
 		f2 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
 		f3 = -MathHelper.cos(-pitch * 0.017453292F);
 		f4 = MathHelper.sin(-pitch * 0.017453292F);
 		return this.worldObj.getWorldVec3Pool().getVecFromPool(f2 * f3, f4, f1 * f3);
+	}
+	@Override
+	public void applyEntityCollision(Entity par1Entity) {
+		 if (!this.worldObj.isRemote)
+	        {
+	            if (par1Entity != this.riddenByEntity)
+	            {
+	                if (par1Entity instanceof EntityLivingBase && !(par1Entity instanceof EntityPlayer) && !(par1Entity instanceof EntityIronGolem)/* && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.01D */&& this.riddenByEntity == null && par1Entity.ridingEntity == null)
+	                {
+	                    par1Entity.mountEntity(this);
+	                }
+	            }
+	        }
+		 
+		super.applyEntityCollision(par1Entity);
+	}
+
+	/**
+	 * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
+	 */
+	public void mountEntity(Entity par1Entity)
+	{
+		super.mountEntity(par1Entity);
+		if(!this.worldObj.isRemote)
+		{
+			field_70279_a = riddenByEntity != null;
+		}
 	}
 	/**
 	 * Sets the damage taken from the last hit.
@@ -800,5 +754,20 @@ public class EntityTankBase extends Entity {
 	public int getShootTimer()
 	{
 		return this.dataWatcher.getWatchableObjectInt(27);
+	}
+	/**
+	 * Sets the damage taken from the last hit.
+	 */
+	public void setYaw(float par1)
+	{
+		this.dataWatcher.updateObject(28, Float.valueOf(par1));
+	}
+
+	/**
+	 * Gets the damage taken from the last hit.
+	 */
+	public float getYaw()
+	{
+		return this.dataWatcher.getWatchableObjectFloat(28);
 	}
 }
