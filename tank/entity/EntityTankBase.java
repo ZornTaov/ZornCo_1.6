@@ -201,7 +201,6 @@ public class EntityTankBase extends Entity {
 		this.tankZ = par5;
 		this.tankYaw = par7;
 		this.tankPitch = par8;
-		this.tankPosRotationIncrements = par9;
 		this.motionX = this.velocityX;
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
@@ -360,7 +359,7 @@ public class EntityTankBase extends Entity {
 			speed = maxSpeed;
 		}
 		
-		if (this.isCollidedHorizontally)
+		if (this.isCollidedHorizontally && onGround)
 		{
 			this.motionY = 0.2D;
 		}
@@ -533,7 +532,7 @@ public class EntityTankBase extends Entity {
 					par1EntityPlayer.mountEntity(this);
 					if (this.ridingEntity != null && this.isDead)
 					{
-						if (!this.worldObj.isRemote)
+						if (this.worldObj.isRemote)
 						{
 							this.func_70270_d(true);
 						}
@@ -547,7 +546,10 @@ public class EntityTankBase extends Entity {
 					}
 					else
 					{
-						this.func_70270_d(false);
+						if (this.worldObj.isRemote)
+						{
+							this.func_70270_d(false);
+						}
 					}
 				}
 			}

@@ -28,11 +28,18 @@ public class ModelTank3 extends ModelBase {
 		GL11.glPushMatrix();
 		GL11.glColor3ub((byte)0, (byte)166, (byte)88);
     	modelTank.renderPart("Tank");
+    	GL11.glColor3f(0.5F, 0.5F, 0.5F);
+    	modelTank.renderPart("TreadLeft");
+    	modelTank.renderPart("TreadRight");
+    	GL11.glColor3f(0.5F, 0.25F, 0F);
+    	modelTank.renderPart("Chair");
+    	GL11.glColor3f(1F, 1F, 1F);
+    	modelTank.renderPart("Panel");
     	GL11.glColor3f(1F, 1F, 1F);
 		if(entity.riddenByEntity != null)
 		{
-			GL11.glTranslatef(0.915F, 0.50F, 0.0F);
-	        GL11.glRotatef(MathHelper.clamp_float(MathHelper.wrapAngleTo180_float((-entity.riddenByEntity.rotationPitch)), -25, 65), 0.0F, 0.0F, 1.0F);
+			GL11.glTranslatef(0.0F, 0.50F, 0.915F);
+	        GL11.glRotatef(-MathHelper.clamp_float(MathHelper.wrapAngleTo180_float((-entity.riddenByEntity.rotationPitch)), -25, 65), 1.0F, 0.0F, 0.0F);
 	    	modelTank.renderPart("Muzzle");
 		}
 		else

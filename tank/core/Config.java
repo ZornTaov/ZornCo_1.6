@@ -62,7 +62,7 @@ public class Config {
 		int entityID = EntityRegistry.findGlobalUniqueEntityId();
 		//EntityRegistry.registerGlobalEntityID(TankEntity.class, "Tank", entityID);
 		//EntityList.addMapping(TankEntity.class, "Tank", entityID);
-		EntityRegistry.registerModEntity(EntityTankBase.class, "Tank", 3, Tank.instance, 100, 5, true);
+		EntityRegistry.registerModEntity(EntityTankBase.class, "Tank", 3, Tank.instance, 100, 1, true);
 
 		entityID = EntityRegistry.findGlobalUniqueEntityId();
 		//EntityRegistry.registerGlobalEntityID(TankBulletEntity.class, "tankBullet", entityID);

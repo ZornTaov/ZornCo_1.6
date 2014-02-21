@@ -24,7 +24,7 @@ public class ItemScissors extends Item {
      */
 	@Override
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
-		BedCraftBeyond.logger.info(""+par4+" "+par5+" "+par6);
+		/*BedCraftBeyond.logger.info(""+par4+" "+par5+" "+par6);
 		BedCraftBeyond.logger.info(""+(par3World.getClass().toString()));
 		BedCraftBeyond.logger.info(""+par3World.getBlockId(par4, par5, par6));
 		BedCraftBeyond.logger.info(""+par3World.getBlockMetadata(par4, par5, par6));
@@ -45,7 +45,7 @@ public class ItemScissors extends Item {
 		else
 		{
 			return false;
-		}
+		}*/
 		return true;
 
 	}

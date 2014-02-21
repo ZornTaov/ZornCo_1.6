@@ -197,8 +197,8 @@ public class BedCraftBeyond {
 				"dyeWhite"
 			};
 		for(int i = 0; i < 16; i++)
-			GameRegistry.addRecipe(new ItemStack(rugItem, 4, i),
-				new Object[] { "xxx", 
+			GameRegistry.addRecipe(new ItemStack(rugItem, 12, i),
+				new Object[] { "xxx", "xxx", "xxx", 
 					Character.valueOf('x'), new ItemStack(Block.cloth, 1, i)
 				}
 			);

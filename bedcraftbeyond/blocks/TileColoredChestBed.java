@@ -228,8 +228,8 @@ public class TileColoredChestBed extends TileColoredBed implements IInventory {
 	    {
 	        return false;
 	    }
-	    if (entityplayer.username != ownerName && ownerName != "")
-	    	return false;
+	    //if (entityplayer.username != ownerName && ownerName != "")
+	    //	return false;
 	    return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
 	
 	}
