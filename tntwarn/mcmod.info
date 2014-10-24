@@ -1,0 +1,21 @@
+[
+{
+  "modid": "TNTWarn",
+  "name": "TNT Warn,
+  "description": "Find Position of where TNT and Lava are placed, and who placed it",
+  "version": "0.0.1",
+  "mcversion": "1.6.X",
+  "url": "",
+  "updateUrl": "",
+  "authors": [
+    "zorn_taov"
+  ],
+  "credits": "By zorn_taov",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

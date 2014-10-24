@@ -2,12 +2,6 @@ package zornco.bedcraftbeyond.blocks;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import zornco.bedcraftbeyond.BedCraftBeyond;
-import zornco.bedcraftbeyond.item.ItemScissors;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import zornco.bedcraftbeyond.BedCraftBeyond;
+import zornco.bedcraftbeyond.item.ItemDrawerKey;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockColoredChestBed extends BlockColoredBed {
 
@@ -30,7 +28,7 @@ public class BlockColoredChestBed extends BlockColoredBed {
 	@Override
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer player, int par6, float par7, float par8, float par9) 
 	{
-		if (player.getHeldItem() == null || (player.getHeldItem() != null && player.getHeldItem().getItem() != null && !(player.getHeldItem().getItem() instanceof ItemScissors)))
+		if (player.getHeldItem() == null || (player.getHeldItem() != null && player.getHeldItem().getItem() != null && !(player.getHeldItem().getItem() instanceof ItemDrawerKey)))
 		{
 			super.onBlockActivated( world, par2, par3, par4, player, par6, par7, par8, par9);
 			return true;

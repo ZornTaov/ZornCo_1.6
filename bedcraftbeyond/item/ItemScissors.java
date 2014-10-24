@@ -16,6 +16,7 @@ public class ItemScissors extends Item {
 
 	public ItemScissors(int par1) {
 		super(par1);
+		this.maxStackSize = 1;
 	}
 
 	/**

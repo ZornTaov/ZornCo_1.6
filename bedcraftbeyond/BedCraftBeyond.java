@@ -25,6 +25,7 @@ import zornco.bedcraftbeyond.client.TabBedCraftBeyond;
 import zornco.bedcraftbeyond.core.CommonProxy;
 import zornco.bedcraftbeyond.item.ItemColoredBed;
 import zornco.bedcraftbeyond.item.ItemColoredChestBed;
+import zornco.bedcraftbeyond.item.ItemDrawerKey;
 import zornco.bedcraftbeyond.item.ItemRug;
 import zornco.bedcraftbeyond.item.ItemScissors;
 import zornco.bedcraftbeyond.item.ItemStoneBed;
@@ -62,6 +63,7 @@ public class BedCraftBeyond {
 	public static Item chestBedItem;
 	public static Item stoneBedItem;
 	public static Item scissors;
+	public static Item drawerKey;
 
 	public static Block rugBlock;
 	public static Block bedBlock;
@@ -76,6 +78,7 @@ public class BedCraftBeyond {
 
 	private int rugItemID;
 	private int scissorsID;
+	private int drawerKeyID;
 	private int bedItemID;
 	private int chestBedItemID;
 	private int stoneBedItemID;
@@ -102,6 +105,7 @@ public class BedCraftBeyond {
 		bedItemID = config.getItem(Configuration.CATEGORY_ITEM,"Bed Item", itemID++).getInt();
 		chestBedItemID = config.getItem(Configuration.CATEGORY_ITEM,"Chest Bed Item", itemID++).getInt();
 		stoneBedItemID = config.getItem(Configuration.CATEGORY_ITEM,"Stone Bed Item", itemID++).getInt();
+		drawerKeyID = config.getItem(Configuration.CATEGORY_ITEM,"Drawer Key", itemID++).getInt();
 
 		config.save();
 	}
@@ -126,6 +130,7 @@ public class BedCraftBeyond {
 		/** Items **/
 		rugItem = new ItemRug(rugItemID, rugBlockID).setUnlocalizedName("rug").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 		scissors = new ItemScissors(scissorsID).setUnlocalizedName("scissors").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
+		drawerKey = new ItemDrawerKey(drawerKeyID).setUnlocalizedName("drawerKey").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 		bedItem = new ItemColoredBed(bedItemID).setMaxStackSize(1).setUnlocalizedName("Cbed").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 		chestBedItem = new ItemColoredChestBed(chestBedItemID).setMaxStackSize(1).setUnlocalizedName("CCbed").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
 		stoneBedItem = new ItemStoneBed(stoneBedItemID).setMaxStackSize(1).setUnlocalizedName("Sbed").setCreativeTab(BedCraftBeyond.bedCraftBeyondTab);
@@ -143,6 +148,7 @@ public class BedCraftBeyond {
 		/** Names **/
 		LanguageRegistry.instance().addStringLocalization( "itemGroup.BedCraftBeyond", "Bed Craft & Beyond" );
 		LanguageRegistry.addName(scissors, "Scissors");
+		LanguageRegistry.addName(drawerKey, "Drawer Key");
 
 		for(String a : ItemRug.rugColorNames)
 		{
@@ -169,12 +175,18 @@ public class BedCraftBeyond {
                 logger.info("Removed Vanilla Bed.");
             }
         }
-		GameRegistry.addShapelessRecipe(new ItemStack(scissors, 1, 16), // scissors
-				new Object[]{ Item.ingotIron, Item.redstone } );
-		addOreRecipe(new ItemStack(scissors, 1),
+		/*GameRegistry.addShapelessRecipe(new ItemStack(scissors, 1, 16), // scissors
+				new Object[]{ Item.ingotIron, Item.redstone } );*/
+        addOreRecipe(new ItemStack(scissors, 1),
 				new Object[] { " x ", "xxy", " y ", 
 			'x', Item.ingotIron, 
-			'x', "dyeRed"
+			'y', "dyeRed"
+				}
+			);
+        addOreRecipe(new ItemStack(drawerKey, 1),
+				new Object[] { "xy", 
+			'x', Item.ingotIron, 
+			'y', Item.ingotGold
 				}
 			);
 		String[] dyes = 
